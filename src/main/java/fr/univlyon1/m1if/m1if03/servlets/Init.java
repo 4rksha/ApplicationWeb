@@ -15,7 +15,8 @@ public class Init extends HttpServlet {
         if(pseudo != null && !pseudo.equals("")) {
             HttpSession session = request.getSession(true);
             session.setAttribute("pseudo", pseudo);
-            request.getRequestDispatcher("billet.jsp").forward(request, response);
+//            request.getRequestDispatcher("billet.jsp").forward(request, response);
+            response.sendRedirect("billet.jsp");
         } else {
             response.sendRedirect("index.html");
         }
