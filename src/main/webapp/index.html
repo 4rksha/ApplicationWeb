@@ -2,16 +2,34 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <title>Mes copains !</title>
+    <link rel="stylesheet" 
+          href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" 
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" 
+          crossorigin="anonymous">
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" 
+            integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" 
+            crossorigin="anonymous">
+    </script>
+    <title>Mes Copains</title>
 </head>
 <body>
-<h1>Bienvenue sur Mes Copains !</h1>
-<form method="post" action="Init">
-    <p>
-        Entrez votre pseudo :
-        <input type="text" name="pseudo">
-        <input type="submit" value="Connexion">
-    </p>
-</form>
+    <header>
+        <nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-dark">
+            <span class="navbar-brand">Gestionnaire de billet</span>
+        </nav>
+    </header>
+    <div class="container">
+        <br/>
+        <br/>
+        <br/>
+        <h1 class="text-left">Bienvenue sur Mes Copains !</h1>
+        <form class="form form-container" method="post" action="Init">
+            <div class="form-group">
+                <label for="pseudo">Entrer votre pseudo</label>
+                <input type="text" name="pseudo" class="form-control" id="pseudo">
+            </div>
+            <button type="submit" class="btn btn-primary">Connexion</button>
+        </form>      
+    </div>
 </body>
 </html>

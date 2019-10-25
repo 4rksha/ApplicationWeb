@@ -27,7 +27,7 @@ public class GestionBillets {
         this.billets.add(billet);
     }
 
-    public Billet getBillet(int i) {
+    public Billet getBillet(Integer i) {
         return billets.get(i);
     }
     
@@ -45,8 +45,8 @@ public class GestionBillets {
         return null;
     }
     
-    public void addCommantaireBillet(String author, String title, String text) {
-        Billet billet = this.findBillet(title);
+    public void addCommantaireBillet(String author, Integer id, String text) {
+        Billet billet = this.getBillet(id);
         if (billet != null) {
 //            Integer index = billets.indexOf(billet);
             billet.addCommentaire(author, text);

@@ -5,26 +5,21 @@
 <%! private GestionBillets gBillet = GestionBillets.getInstance();%>
 
 <% 
-    if (session.getAttribute("pseudo") == null) {
+    if (!request.isRequestedSessionIdValid()) {
         response.sendRedirect("index.html");
+    } else {
+        if (request.getMethod().equals("POST")) {
+            if (request.getParameter("contenu") != null){
+                gBillet.add(new Billet(
+                            request.getParameter("titre"),
+                            request.getParameter("contenu"),
+                            (String) session.getAttribute("pseudo")
+                        )
+                );
+            }
+        }
     }
-    if (request.getMethod().equals("POST")) {
-    if (request.getParameter("contenu") != null){
-        gBillet.add(new Billet(
-                    request.getParameter("titre"),
-                    request.getParameter("contenu"),
-                    (String) session.getAttribute("pseudo")
-                )
-        );
-    }
-    else if (request.getParameter("commentaire") != null 
-            && request.getParameter("name") != null) {
-        gBillet.addCommantaireBillet(
-                (String) session.getAttribute("pseudo"),
-                request.getParameter("name"), 
-                request.getParameter("commentaire"));
-    }
-} %>
+%>
 <!doctype html>
 <html>
 <head>
@@ -37,48 +32,49 @@
             crossorigin="anonymous">
     </script>
     <meta http-equiv="refresh" content="5;url=billet.jsp" />
-    <title>Billet</title>
+    <title>Gestionnaire de billet</title>
 </head>
 <body>
+    <header>
+        <nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-dark">
+            <span class="navbar-brand">Gestionnaire de billet</span>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+              <ul class="navbar-nav mr-auto">
+                <li class="nav-item acitve">
+                    <span class="navbar-brand">Compte: <%= session.getAttribute("pseudo")%></span>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="saisie.html">Saisir un nouveau billet</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="Deco">Se déconnecter</a> 
+                </li>
+              </ul>
+            </div>
+        </nav>
+    </header>
     <div class="container">
-        <h2 class="row">Hello <%= session.getAttribute("pseudo")%> !</h2>
+<!--        <h2 class="row">Hello <%= session.getAttribute("pseudo")%> !</h2>
         <div class="row">
             <a class="btn btn-primary" href="saisie.html" role="button">Saisir un nouveau billet</a>
             <a class="btn btn-secondary" href="Deco" role="button">Se déconnecter</a> 
-        </div>
-
+        </div>-->
+        <br/>
+        <br/>
+        <br/>
+        <h1 class="text-left">Liste des billets</h1>
+        <br/>
+        <div class="list-group">
         <%! Billet billet;%>
         <% for(int i = 0; i < gBillet.getNbBillets(); ++i) { 
                 billet = gBillet.getBillet(i); 
         %>
-        <br/>
-        <div class="card  text-left" style="max-width: 600px;">
-            <div class="card-header">
-                <c:out value="<%= billet.getTitre()%>"/>
-            </div>
-            <div class="card-body">
-                <p class="card-text"><%= billet.getContenu()%></small></p>
-                <p class="card-text"><small class="text-muted">écrit par <%= billet.getAuteur() %></small></p>
-                <ul class="list-group">
-                    <% for (int j = 0; j < billet.getCommentaires().size(); j++) {%>
-                    <li class="list-group-item row"><%= billet.getCommentaires().get(j).toString()%></li>
-                    <% } %>
-                </ul>
-            </div>
-            <div class="card-footer text-muted container">
-                <form method="post" action="commente">
-                    <div class="form-row">
-                        <div class="col-7">
-                            <input type="hidden" name="name" class="form-control mb-2 mr-sm-2" id="inlineFormInputName2" value="<%= billet.getTitre() %>" >
-                            <input type="text" name="commentaire" class="form-control mb-2 mr-sm-2" id="inlineFormInputName2" placeholder="Commentaire">
-                        </div>
-                        <div class="col">
-                            <button type="submit" class="btn btn-primary mb-2">envoyer</button>
-                        </div>
-                    </div>
-                </form>
-            </div>
-        </div>
+            <a href="detailBillet.jsp?id=<%=i%>" class="list-group-item list-group-item-action">
+              <div class="d-flex w-100 justify-content-between">
+                <h5 class="mb-1"><%= billet.getTitre()%></h5>
+              </div>
+              <small>Auteur : <%= billet.getAuteur() %></small>
+            </a>
         <%}%>
     </div>
 

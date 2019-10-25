@@ -12,7 +12,7 @@ public class Commente extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String com = request.getParameter("commentaire");
         if(com != null && !com.equals("")) {
-            request.getRequestDispatcher("billet.jsp").forward(request, response);
+            request.getRequestDispatcher("detailBillet.jsp").forward(request, response);
         } else {
             response.sendRedirect("billet.jsp");
         }
