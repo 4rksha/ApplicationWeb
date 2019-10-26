@@ -13,7 +13,7 @@ public class GestionBillets {
 
     /** static reference du singloton */
     private static GestionBillets singleton;
-    private Map<String, List<Billet>> groupes;
+    private final Map<String, List<Billet>> groupes;
     
     private GestionBillets() {
         this.groupes = new HashMap<>();
@@ -27,9 +27,16 @@ public class GestionBillets {
     }
 
     public void add(String groupe, Billet billet) {
-        if (!groupes.containsKey(groupe))
-            groupes.put(groupe, new ArrayList<Billet>());
+        if (!groupes.containsKey(groupe)) {
+            addGroup(groupe);
+        }
         groupes.get(groupe).add(billet);
+    }
+    
+    public void addGroup(String groupe) {
+        if (!groupes.containsKey(groupe)) {
+            groupes.put(groupe, new ArrayList<Billet>());
+        }
     }
 
     public Billet getBillet(String groupe, int i) {
@@ -55,21 +62,21 @@ public class GestionBillets {
     public void addCommantaireBillet(String groupe, String author, int id, String text) {
         Billet billet = this.getBillet(groupe, id);
         if (billet != null) {
-//            Integer index = billets.indexOf(billet);
             billet.addCommentaire(author, text);
-//            billets.set(index, billet);
         }
     }
     
     public int getNbBillets(String groupe) {
-        if (groupes.get(groupe) == null) 
+        if (groupes.get(groupe) == null) {
             return 0;
+        }
         return groupes.get(groupe).size();
     }
 
     public Billet getLastBillet(String groupe) {
-        if (getNbBillets(groupe)> 0)
+        if (getNbBillets(groupe)> 0) {
             return this.getBillet(groupe, getNbBillets(groupe) - 1);
+        }
         throw new IndexOutOfBoundsException("Erreur dans l'appel à la fonction getLastBillet");
     }
     

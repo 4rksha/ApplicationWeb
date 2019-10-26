@@ -19,7 +19,6 @@ public class Init extends HttpServlet {
             HttpSession session = request.getSession(true);
             session.setAttribute("pseudo", pseudo);
             session.setAttribute("groupe", groupe);
-//            request.getRequestDispatcher("billet.jsp").forward(request, response);
             response.sendRedirect("billet.jsp");
         } else {
             response.sendRedirect("index.html");
@@ -28,6 +27,13 @@ public class Init extends HttpServlet {
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
         throws ServletException, IOException {
-        response.sendRedirect("index.html");
+        HttpSession session = request.getSession(false);
+        String groupe = request.getParameter("group");
+        if (groupe != null && session != null) {
+            session.setAttribute("groupe", groupe);
+            response.sendRedirect("billet.jsp");
+        } else {
+            response.sendRedirect("index.html");
+        }
     }
 }

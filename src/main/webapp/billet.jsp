@@ -1,3 +1,4 @@
+<%@page import="java.util.Set"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html; charset=UTF-8" %>
 <%@ page import="fr.univlyon1.m1if.m1if03.classes.GestionBillets" %>
@@ -24,6 +25,7 @@
 <!doctype html>
 <html>
 <head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <link rel="stylesheet" 
           href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" 
           integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" 
@@ -42,16 +44,26 @@
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
               <ul class="navbar-nav mr-auto">
                 <li class="nav-item acitve">
-                    <span class="navbar-brand">Compte: <%= session.getAttribute("pseudo")%></span>
+                    <span class="navbar-brand"><%= session.getAttribute("pseudo")%> : <%= session.getAttribute("groupe")%></span>
                 </li>
-                <li class="nav-item acitve">
-                    <span class="navbar-brand">Groupe: <%= session.getAttribute("groupe")%></span>
-                </li>
-                <li class="nav-item acitve">
-                       <!-- TODO : Rajouter la liste des groupes avec gBillet.getGroupes()-->
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Groupes
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <%! String[] groups; %>
+                        <%
+                            if (request.isRequestedSessionIdValid()) {
+                                gBillet.addGroup((String) session.getAttribute("groupe"));
+                            }
+                            groups = gBillet.getGroupes().toArray(new String[gBillet.getGroupes().size()]);
+                            for (int i = 0; i < groups.length; ++i) {%>
+                            <a class="dropdown-item" href="Init?group=<%=groups[i]%>"><%=groups[i]%></a>
+                        <%}%>
+                    </div>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="saisie.html">Saisir un nouveau billet</a>
+                    <a class="nav-link" href="saisie.html">Nouveau billet</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="Deco">Se déconnecter</a> 
@@ -61,11 +73,6 @@
         </nav>
     </header>
     <div class="container">
-<!--        <h2 class="row">Hello <%= session.getAttribute("pseudo")%> !</h2>
-        <div class="row">
-            <a class="btn btn-primary" href="saisie.html" role="button">Saisir un nouveau billet</a>
-            <a class="btn btn-secondary" href="Deco" role="button">Se déconnecter</a> 
-        </div>-->
         <br/>
         <br/>
         <br/>
