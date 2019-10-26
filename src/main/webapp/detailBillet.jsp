@@ -9,21 +9,23 @@
     if (!request.isRequestedSessionIdValid()) {
         response.sendRedirect("index.html");
     } else {
+        String groupe = (String) session.getAttribute("groupe");
         if (request.getMethod().equals("POST")) {
             if (request.getParameter("commentaire") != null 
                     && request.getParameter("id") != null) {
                 id = new Integer(request.getParameter("id"));
                 gBillet.addCommantaireBillet(
+                        groupe,
                         (String) session.getAttribute("pseudo"),
                         id, 
                         request.getParameter("commentaire"));
-                billet = gBillet.getBillet(id);
+                billet = gBillet.getBillet(groupe, id);
             }
         }
         if (request.getMethod().equals("GET")) {
             if (request.getParameter("id") != null){
                 id = new Integer(request.getParameter("id"));
-                billet = gBillet.getBillet(id);
+                billet = gBillet.getBillet(groupe, id);
             }
             else { }
         }
@@ -52,6 +54,9 @@
               <ul class="navbar-nav mr-auto">
                 <li class="nav-item acitve">
                     <span class="navbar-brand">Compte: <%= session.getAttribute("pseudo")%></span>
+                </li>
+                <li class="nav-item acitve">
+                    <span class="navbar-brand">Groupe: <%= session.getAttribute("groupe")%></span>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="billet.jsp">Accueil</a> 

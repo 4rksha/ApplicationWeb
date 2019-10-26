@@ -10,11 +10,15 @@ import java.io.IOException;
 
 @WebServlet(name = "Init", urlPatterns = "/Init")
 public class Init extends HttpServlet {
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
         String pseudo = request.getParameter("pseudo");
-        if(pseudo != null && !pseudo.equals("")) {
+        String groupe = request.getParameter("groupe");
+        if(pseudo != null && !pseudo.equals("")
+                && groupe != null && !groupe.equals("")) {
             HttpSession session = request.getSession(true);
             session.setAttribute("pseudo", pseudo);
+            session.setAttribute("groupe", groupe);
 //            request.getRequestDispatcher("billet.jsp").forward(request, response);
             response.sendRedirect("billet.jsp");
         } else {
@@ -22,7 +26,8 @@ public class Init extends HttpServlet {
         }
     }
 
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+        throws ServletException, IOException {
         response.sendRedirect("index.html");
     }
 }

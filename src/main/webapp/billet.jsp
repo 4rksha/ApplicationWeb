@@ -10,11 +10,12 @@
     } else {
         if (request.getMethod().equals("POST")) {
             if (request.getParameter("contenu") != null){
-                gBillet.add(new Billet(
-                            request.getParameter("titre"),
-                            request.getParameter("contenu"),
-                            (String) session.getAttribute("pseudo")
-                        )
+                gBillet.add((String) session.getAttribute("groupe"), 
+                    new Billet(
+                        request.getParameter("titre"),
+                        request.getParameter("contenu"),
+                        (String) session.getAttribute("pseudo")
+                    )
                 );
             }
         }
@@ -43,6 +44,12 @@
                 <li class="nav-item acitve">
                     <span class="navbar-brand">Compte: <%= session.getAttribute("pseudo")%></span>
                 </li>
+                <li class="nav-item acitve">
+                    <span class="navbar-brand">Groupe: <%= session.getAttribute("groupe")%></span>
+                </li>
+                <li class="nav-item acitve">
+                       <!-- TODO : Rajouter la liste des groupes avec gBillet.getGroupes()-->
+                </li>
                 <li class="nav-item">
                     <a class="nav-link" href="saisie.html">Saisir un nouveau billet</a>
                 </li>
@@ -66,8 +73,9 @@
         <br/>
         <div class="list-group">
         <%! Billet billet;%>
-        <% for(int i = 0; i < gBillet.getNbBillets(); ++i) { 
-                billet = gBillet.getBillet(i); 
+        <% String groupe = (String) session.getAttribute("groupe");%>
+        <% for(int i = 0; i < gBillet.getNbBillets(groupe); ++i) { 
+                billet = gBillet.getBillet(groupe, i); 
         %>
             <a href="detailBillet.jsp?id=<%=i%>" class="list-group-item list-group-item-action">
               <div class="d-flex w-100 justify-content-between">
