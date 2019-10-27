@@ -1,17 +1,41 @@
+<%@page import="java.util.List"%>
+<%@page import="java.util.ArrayList"%>
 <%@page import="java.util.Set"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html; charset=UTF-8" %>
 <%@ page import="fr.univlyon1.m1if.m1if03.classes.GestionBillets" %>
 <%@ page import="fr.univlyon1.m1if.m1if03.classes.*" %>
-<%! private GestionBillets gBillet = GestionBillets.getInstance();%>
+<jsp:useBean scope="application" id="groupes" type="java.util.Map"/>
+<%! private GestionBillets gBillet;%>
 
 <% 
     if (!request.isRequestedSessionIdValid()) {
         response.sendRedirect("index.html");
     } else {
+        // Récupération du groupe
+        String nameGroupe = (String) session.getAttribute("groupe");
+        if (groupes.containsKey(nameGroupe)) {
+            Groupe g = (Groupe) groupes.get(nameGroupe);
+            gBillet = g.getgBillets();
+        } else {
+            String pseudo = (String) session.getAttribute("pseudo");
+            List<String> liste = new ArrayList<String>();
+            liste.add(pseudo);
+            gBillet = new GestionBillets();
+            Groupe g = new Groupe(
+                    nameGroupe,
+                    "",
+                    pseudo,
+                    liste,
+                    gBillet
+            );
+            groupes.put(nameGroupe, g);
+        }
+        
+        // Traitement de la requête
         if (request.getMethod().equals("POST")) {
             if (request.getParameter("contenu") != null){
-                gBillet.add((String) session.getAttribute("groupe"), 
+                gBillet.add(
                     new Billet(
                         request.getParameter("titre"),
                         request.getParameter("contenu"),
@@ -53,10 +77,8 @@
                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                         <%! String[] groups; %>
                         <%
-                            if (request.isRequestedSessionIdValid()) {
-                                gBillet.addGroup((String) session.getAttribute("groupe"));
-                            }
-                            groups = gBillet.getGroupes().toArray(new String[gBillet.getGroupes().size()]);
+                            System.out.println(groups);
+                            groups =(String[]) groupes.keySet().toArray(new String[groupes.keySet().size()]);
                             for (int i = 0; i < groups.length; ++i) {%>
                             <a class="dropdown-item" href="Init?group=<%=groups[i]%>"><%=groups[i]%></a>
                         <%}%>
@@ -80,9 +102,8 @@
         <br/>
         <div class="list-group">
         <%! Billet billet;%>
-        <% String groupe = (String) session.getAttribute("groupe");%>
-        <% for(int i = 0; i < gBillet.getNbBillets(groupe); ++i) { 
-                billet = gBillet.getBillet(groupe, i); 
+        <% for(int i = 0; i < gBillet.getNbBillets(); ++i) { 
+                billet = gBillet.getBillet(i); 
         %>
             <a href="detailBillet.jsp?id=<%=i%>" class="list-group-item list-group-item-action">
               <div class="d-flex w-100 justify-content-between">

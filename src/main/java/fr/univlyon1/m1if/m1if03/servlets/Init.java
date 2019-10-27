@@ -1,5 +1,6 @@
 package fr.univlyon1.m1if.m1if03.servlets;
 
+import fr.univlyon1.m1if.m1if03.classes.Groupe;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -7,9 +8,21 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.util.HashMap;
+import javax.servlet.ServletConfig;
 
 @WebServlet(name = "Init", urlPatterns = "/Init")
 public class Init extends HttpServlet {
+    
+    
+    @Override
+    public void init( ServletConfig sc) {
+        sc.getServletContext().setAttribute("groupes", new HashMap<String, Groupe>());
+    }
+    
+    /**
+     * Gère les requêtes POST sur /Init
+     */
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String pseudo = request.getParameter("pseudo");
@@ -25,6 +38,9 @@ public class Init extends HttpServlet {
         }
     }
 
+    /**
+     * Gère les requêtes GET sur /Init
+     */
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
         throws ServletException, IOException {
         HttpSession session = request.getSession(false);

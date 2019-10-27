@@ -2,32 +2,41 @@
 <%@ page contentType="text/html; charset=UTF-8" %>
 <%@ page import="fr.univlyon1.m1if.m1if03.classes.GestionBillets" %>
 <%@ page import="fr.univlyon1.m1if.m1if03.classes.*" %>
-<%! private GestionBillets gBillet = GestionBillets.getInstance();%>
+<jsp:useBean scope="application" id="groupes" type="java.util.Map"/>
+<%! private GestionBillets gBillet;%>
 <%! private Billet billet; %>
 <%! private Integer id; %>
 <% 
+    
     if (!request.isRequestedSessionIdValid()) {
         response.sendRedirect("index.html");
     } else {
-        String groupe = (String) session.getAttribute("groupe");
+        // On récupère les billets du groupe
+        String nameGroupe = (String) session.getAttribute("groupe");
+        if (groupes.containsKey(nameGroupe)) {
+            Groupe g = (Groupe) groupes.get(nameGroupe);
+            gBillet = g.getgBillets();
+        } else {
+            response.sendRedirect("index.html");
+        }
+        
+        // On réalise la requête POST
         if (request.getMethod().equals("POST")) {
             if (request.getParameter("commentaire") != null 
                     && request.getParameter("id") != null) {
                 id = new Integer(request.getParameter("id"));
                 gBillet.addCommantaireBillet(
-                        groupe,
                         (String) session.getAttribute("pseudo"),
                         id, 
                         request.getParameter("commentaire"));
-                billet = gBillet.getBillet(groupe, id);
+                billet = gBillet.getBillet(id);
             }
         }
         if (request.getMethod().equals("GET")) {
             if (request.getParameter("id") != null){
                 id = new Integer(request.getParameter("id"));
-                billet = gBillet.getBillet(groupe, id);
+                billet = gBillet.getBillet(id);
             }
-            else { }
         }
         
     }
