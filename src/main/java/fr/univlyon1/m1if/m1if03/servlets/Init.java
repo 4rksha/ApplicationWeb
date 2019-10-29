@@ -17,12 +17,13 @@ public class Init extends HttpServlet {
     
     @Override
     public void init( ServletConfig sc) {
-        sc.getServletContext().setAttribute("groupes", new HashMap<String, Groupe>());
+//        sc.getServletContext().setAttribute("groupes", new HashMap<String, Groupe>());
     }
     
     /**
      * Gère les requêtes POST sur /Init
      */
+    @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String pseudo = request.getParameter("pseudo");
@@ -32,7 +33,7 @@ public class Init extends HttpServlet {
             HttpSession session = request.getSession(true);
             session.setAttribute("pseudo", pseudo);
             session.setAttribute("groupe", groupe);
-            response.sendRedirect("billet.jsp");
+            response.sendRedirect("billets");
         } else {
             response.sendRedirect("index.html");
         }
@@ -41,13 +42,14 @@ public class Init extends HttpServlet {
     /**
      * Gère les requêtes GET sur /Init
      */
+    @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
         throws ServletException, IOException {
         HttpSession session = request.getSession(false);
-        String groupe = request.getParameter("group");
+        String groupe = request.getParameter("group"); // utilisé pour le changement de groupe
         if (groupe != null && session != null) {
             session.setAttribute("groupe", groupe);
-            response.sendRedirect("billet.jsp");
+            response.sendRedirect("billets");
         } else {
             response.sendRedirect("index.html");
         }

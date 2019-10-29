@@ -2,45 +2,8 @@
 <%@ page contentType="text/html; charset=UTF-8" %>
 <%@ page import="fr.univlyon1.m1if.m1if03.classes.GestionBillets" %>
 <%@ page import="fr.univlyon1.m1if.m1if03.classes.*" %>
-<jsp:useBean scope="application" id="groupes" type="java.util.Map"/>
-<%! private GestionBillets gBillet;%>
-<%! private Billet billet; %>
-<%! private Integer id; %>
-<% 
-    
-    if (!request.isRequestedSessionIdValid()) {
-        response.sendRedirect("index.html");
-    } else {
-        // On récupère les billets du groupe
-        String nameGroupe = (String) session.getAttribute("groupe");
-        if (groupes.containsKey(nameGroupe)) {
-            Groupe g = (Groupe) groupes.get(nameGroupe);
-            gBillet = g.getgBillets();
-        } else {
-            response.sendRedirect("index.html");
-        }
-        
-        // On réalise la requête POST
-        if (request.getMethod().equals("POST")) {
-            if (request.getParameter("commentaire") != null 
-                    && request.getParameter("id") != null) {
-                id = new Integer(request.getParameter("id"));
-                gBillet.addCommantaireBillet(
-                        (String) session.getAttribute("pseudo"),
-                        id, 
-                        request.getParameter("commentaire"));
-                billet = gBillet.getBillet(id);
-            }
-        }
-        if (request.getMethod().equals("GET")) {
-            if (request.getParameter("id") != null){
-                id = new Integer(request.getParameter("id"));
-                billet = gBillet.getBillet(id);
-            }
-        }
-        
-    }
-%>
+<jsp:useBean scope="application" id="billet" class="fr.univlyon1.m1if.m1if03.classes.Billet"/>
+
 <!doctype html>
 <html>
 <head>
@@ -53,7 +16,7 @@
             integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" 
             crossorigin="anonymous">
     </script>
-    <meta http-equiv="refresh" content="5;url=detailBillet.jsp?id=<%=id%>" />
+    <meta http-equiv="refresh" content="5;url=billet?id=<%=request.getParameter("id")%>" />
     <title><%= billet.getTitre() %></title>
 </head>
 <body>
@@ -69,7 +32,7 @@
                     <span class="navbar-brand">Groupe: <%= session.getAttribute("groupe")%></span>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="billet.jsp">Accueil</a> 
+                    <a class="nav-link" href="billets">Accueil</a> 
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="Deco">Se déconnecter</a> 
@@ -99,7 +62,7 @@
                     <form method="post" action="commente">
                         <div class="form-row">
                             <div class="col-7">
-                                <input type="hidden" name="id" class="form-control mb-2 mr-sm-2" id="inlineFormInputName2" value="<%= id %>" >
+                                <input type="hidden" name="id" class="form-control mb-2 mr-sm-2" id="inlineFormInputName2" value="<%= request.getParameter("id") %>" >
                                 <input type="text" name="commentaire" class="form-control mb-2 mr-sm-2" id="inlineFormInputName2" placeholder="Commentaire">
                             </div>
                             <div class="col">

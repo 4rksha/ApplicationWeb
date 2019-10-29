@@ -11,11 +11,13 @@ import javax.servlet.http.HttpServletResponse;
 public class Commente extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) 
             throws ServletException, IOException {
+        
         String com = request.getParameter("commentaire");
+        
         if(com != null && !com.equals("")) {
-            request.getRequestDispatcher("detailBillet.jsp").forward(request, response);
+            request.getRequestDispatcher("billet").forward(request, response);
         } else {
-            response.sendRedirect("billet.jsp");
+            response.sendRedirect("billets");
         }
     }
 }

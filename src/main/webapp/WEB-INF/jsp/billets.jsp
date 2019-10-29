@@ -5,47 +5,10 @@
 <%@ page contentType="text/html; charset=UTF-8" %>
 <%@ page import="fr.univlyon1.m1if.m1if03.classes.GestionBillets" %>
 <%@ page import="fr.univlyon1.m1if.m1if03.classes.*" %>
-<jsp:useBean scope="application" id="groupes" type="java.util.Map"/>
-<%! private GestionBillets gBillet;%>
+<jsp:useBean scope="application" id="Gbillets" class="fr.univlyon1.m1if.m1if03.classes.GestionBillets"/>
+<jsp:useBean scope="application" id="setGroup" type="java.util.Set"/>
 
-<% 
-    if (!request.isRequestedSessionIdValid()) {
-        response.sendRedirect("index.html");
-    } else {
-        // Récupération du groupe
-        String nameGroupe = (String) session.getAttribute("groupe");
-        if (groupes.containsKey(nameGroupe)) {
-            Groupe g = (Groupe) groupes.get(nameGroupe);
-            gBillet = g.getgBillets();
-        } else {
-            String pseudo = (String) session.getAttribute("pseudo");
-            List<String> liste = new ArrayList<String>();
-            liste.add(pseudo);
-            gBillet = new GestionBillets();
-            Groupe g = new Groupe(
-                    nameGroupe,
-                    "",
-                    pseudo,
-                    liste,
-                    gBillet
-            );
-            groupes.put(nameGroupe, g);
-        }
-        
-        // Traitement de la requête
-        if (request.getMethod().equals("POST")) {
-            if (request.getParameter("contenu") != null){
-                gBillet.add(
-                    new Billet(
-                        request.getParameter("titre"),
-                        request.getParameter("contenu"),
-                        (String) session.getAttribute("pseudo")
-                    )
-                );
-            }
-        }
-    }
-%>
+
 <!doctype html>
 <html>
 <head>
@@ -58,7 +21,7 @@
             integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" 
             crossorigin="anonymous">
     </script>
-    <meta http-equiv="refresh" content="5;url=billet.jsp" />
+    <meta http-equiv="refresh" content="5;url=billets" />
     <title>Gestionnaire de billet</title>
 </head>
 <body>
@@ -78,8 +41,10 @@
                         <%! String[] groups; %>
                         <%
                             System.out.println(groups);
-                            groups =(String[]) groupes.keySet().toArray(new String[groupes.keySet().size()]);
-                            for (int i = 0; i < groups.length; ++i) {%>
+                            groups = (String[]) setGroup.toArray(new String[setGroup.size()]);
+                            
+                            for (int i = 0; i < groups.length; ++i) {
+                        %>
                             <a class="dropdown-item" href="Init?group=<%=groups[i]%>"><%=groups[i]%></a>
                         <%}%>
                     </div>
@@ -102,10 +67,10 @@
         <br/>
         <div class="list-group">
         <%! Billet billet;%>
-        <% for(int i = 0; i < gBillet.getNbBillets(); ++i) { 
-                billet = gBillet.getBillet(i); 
+        <% for(int i = 0; i < Gbillets.getNbBillets(); ++i) { 
+                billet = Gbillets.getBillet(i); 
         %>
-            <a href="detailBillet.jsp?id=<%=i%>" class="list-group-item list-group-item-action">
+            <a href="billet?id=<%=i%>" class="list-group-item list-group-item-action">
               <div class="d-flex w-100 justify-content-between">
                 <h5 class="mb-1"><%= billet.getTitre()%></h5>
               </div>
