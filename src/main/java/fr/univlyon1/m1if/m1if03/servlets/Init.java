@@ -13,40 +13,15 @@ import javax.servlet.ServletConfig;
 
 @WebServlet(name = "Init", urlPatterns = "/Init")
 public class Init extends HttpServlet {
-    
-    
-    @Override
-    public void init( ServletConfig sc) {
-//        sc.getServletContext().setAttribute("groupes", new HashMap<String, Groupe>());
-    }
-    
-    /**
-     * Gère les requêtes POST sur /Init
-     */
-    @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        String pseudo = request.getParameter("pseudo");
-        String groupe = request.getParameter("groupe");
-        if(pseudo != null && !pseudo.equals("")
-                && groupe != null && !groupe.equals("")) {
-            HttpSession session = request.getSession(true);
-            session.setAttribute("pseudo", pseudo);
-            session.setAttribute("groupe", groupe);
-            response.sendRedirect("billets");
-        } else {
-            response.sendRedirect("index.html");
-        }
-    }
-
     /**
      * Gère les requêtes GET sur /Init
      */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
         throws ServletException, IOException {
+        // On réalise le changement de groupe d'un utilisateur
         HttpSession session = request.getSession(false);
-        String groupe = request.getParameter("group"); // utilisé pour le changement de groupe
+        String groupe = request.getParameter("group"); 
         if (groupe != null && session != null) {
             session.setAttribute("groupe", groupe);
             response.sendRedirect("billets");

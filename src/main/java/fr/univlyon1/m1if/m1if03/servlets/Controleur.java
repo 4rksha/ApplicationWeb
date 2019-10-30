@@ -35,9 +35,6 @@ public class Controleur extends HttpServlet {
     
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        if (request.isRequestedSessionIdValid() == false) {
-            response.sendRedirect("index.html");
-        }
         HttpSession session = request.getSession(false);
         Map<String,Groupe> modele = (HashMap<String, Groupe>) request.getServletContext().getAttribute("groupes");
         String chemin = request.getRequestURI();

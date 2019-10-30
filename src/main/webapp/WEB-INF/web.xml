@@ -18,4 +18,25 @@
         <servlet-name>commente</servlet-name>
         <url-pattern>/commente</url-pattern>
     </servlet-mapping>
+    
+    <filter>
+        <filter-name>AuthentificationFilter</filter-name>
+        <filter-class>fr.univlyon1.m1if.m1if03.servlets.AuthentificationFilter</filter-class>
+    </filter>
+
+    <filter-mapping>
+        <filter-name>AuthentificationFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+        <dispatchar>FORWARD</dispatchar>
+    </filter-mapping>
+
+    <filter>
+        <filter-name>AutorisationFilter</filter-name>
+        <filter-class>fr.univlyon1.m1if.m1if03.servlets.AutorisationFilter</filter-class>
+    </filter>
+     <filter-mapping>
+        <filter-name>AutorisationFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+        <dispatchar>FORWARD</dispatchar>
+    </filter-mapping>
 </web-app>

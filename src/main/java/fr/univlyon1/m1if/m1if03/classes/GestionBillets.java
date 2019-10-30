@@ -20,7 +20,10 @@ public class GestionBillets {
     }
     
     public Billet getBillet( int i) {
-        return billets.get(i);
+        if (i >= 0  && i < billets.size()){
+            return billets.get(i);
+        } 
+        return null;
     }
     
     /**
