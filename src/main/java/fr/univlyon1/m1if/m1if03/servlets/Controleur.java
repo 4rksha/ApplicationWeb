@@ -97,8 +97,19 @@ public class Controleur extends HttpServlet {
                 request.getServletContext().setAttribute("Gbillets",gBillet); 
                 request.getRequestDispatcher("WEB-INF/jsp/billets.jsp").forward(request, response);
             } else {
-                request.getServletContext().setAttribute("billet",billet);              
-                request.getRequestDispatcher("WEB-INF/jsp/billet.jsp").forward(request, response);
+                long timeRequest = request.getDateHeader("If-Modified-Since");
+//                System.out.println(timeRequest+ " " +billet.getLastModifTime()/1000);
+//                System.out.println(timeRequest/1000 >= (billet.getLastModifTime()/1000));
+                if (timeRequest != -1 
+                        && (timeRequest / 1000) >= (billet.getLastModifTime() / 1000)
+                ) {
+                    response.setStatus(HttpServletResponse.SC_NOT_MODIFIED);
+                } else {
+                    response.addDateHeader("Last-Modified", billet.getLastModifTime());
+                    request.getServletContext().setAttribute("billet",billet);              
+                    request.getRequestDispatcher("WEB-INF/jsp/billet.jsp").forward(request, response);
+                }
+                
             }
         }       
     }

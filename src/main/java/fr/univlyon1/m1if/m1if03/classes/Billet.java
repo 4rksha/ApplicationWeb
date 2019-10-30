@@ -1,11 +1,13 @@
 package fr.univlyon1.m1if.m1if03.classes;
 
+import java.util.Date;
 import java.util.ArrayList;
 import java.util.List;
 
 public class Billet {
     private String titre, contenu, auteur;
     private List<Commentaire> commentaires;
+    private long lastModifTime;
 
     public Billet() {
         this.titre = "Rien";
@@ -19,14 +21,16 @@ public class Billet {
         this.contenu = contenu;
         this.auteur = auteur;
         this.commentaires = new ArrayList<>();
+        this.lastModifTime = new Date().getTime();
     }
 
     public String getTitre() {
-        return titre;
+        return this.titre;
     }
 
     public void setTitre(String titre) {
         this.titre = titre;
+        this.lastModifTime = new Date().getTime();
     }
 
     public String getContenu() {
@@ -35,21 +39,28 @@ public class Billet {
 
     public void setContenu(String contenu) {
         this.contenu = contenu;
+        this.lastModifTime = new Date().getTime();
     }
 
     public String getAuteur() {
-        return auteur;
+        return this.auteur;
     }
 
     public void setAuteur(String auteur) {
         this.auteur = auteur;
+        this.lastModifTime = new Date().getTime();
+    }
+        
+    public long getLastModifTime() {
+        return this.lastModifTime;
     }
     
     public List<Commentaire> getCommentaires() {
-        return commentaires;
+        return this.commentaires;
     }
     
     public void addCommentaire(String auteur,String com) {
-        commentaires.add(new Commentaire(auteur, com));
+        this.commentaires.add(new Commentaire(auteur, com));
+        this.lastModifTime = new Date().getTime();
     }
 }
