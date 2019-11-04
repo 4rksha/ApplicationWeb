@@ -35,6 +35,7 @@ public class Controleur extends HttpServlet {
     
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        System.out.println(request.getRequestURI());
         HttpSession session = request.getSession(false);
         Map<String,Groupe> modele = (HashMap<String, Groupe>) request.getServletContext().getAttribute("groupes");
         String chemin = request.getRequestURI();
@@ -46,7 +47,7 @@ public class Controleur extends HttpServlet {
             gBillet = g.getgBillets();
         } else {
             String pseudo = (String) session.getAttribute("pseudo");
-            List<String> liste = new ArrayList<String>();
+            List<String> liste = new ArrayList<>();
             liste.add(pseudo);
             gBillet = new GestionBillets();
             Groupe g = new Groupe(
@@ -60,7 +61,7 @@ public class Controleur extends HttpServlet {
         }
         
         // Traitement de la requête
-        if (request.getMethod().equals("POST") && chemin.equals("/billets")) {
+        if (request.getMethod().equals("POST") && chemin.equals("/v1/billets")) {
             if (request.getParameter("contenu") != null){
                 gBillet.add(
                     new Billet(
@@ -83,7 +84,7 @@ public class Controleur extends HttpServlet {
         }
         
         
-        if (chemin.equals("/billets")) {
+        if (chemin.equals("/v1/billets")) {
             request.getServletContext().setAttribute("Gbillets", gBillet);
             System.out.println(modele.keySet());
             request.getServletContext().setAttribute(
@@ -91,7 +92,7 @@ public class Controleur extends HttpServlet {
                     modele.keySet()
             );
             request.getRequestDispatcher("WEB-INF/jsp/billets.jsp").forward(request, response);
-        } else if (chemin.equals("/billet")) {
+        } else if (chemin.equals("/v1/billet")) {
             Billet billet = gBillet.getBillet(new Integer(request.getParameter("id")));
             if (billet == null) {
                 request.getServletContext().setAttribute("Gbillets",gBillet); 
