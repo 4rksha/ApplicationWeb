@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <link rel="stylesheet" 
+          href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" 
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" 
+          crossorigin="anonymous">
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" 
+            integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" 
+            crossorigin="anonymous">
+    </script>
+    <title>Mes Copains</title>
+</head>
+<body>
+    <header>
+        <nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-dark">
+            <span class="navbar-brand">Gestionnaire de billet</span>
+        </nav>
+    </header>
+    <div class="container">
+        <br/>
+        <br/>
+        <br/>
+        <h1 class="text-left">Bienvenue sur Mes Copains !</h1>
+        <form class="form form-container" method="post" action="billets">
+            <div class="form-group">
+                <label for="pseudo">Entrer votre pseudo</label>
+                <input type="text" name="pseudo" class="form-control" id="pseudo">
+                <label for="groupe">Entrer votre groupe</label>
+                <input type="text" name="groupe" class="form-control" id="groupe">
+                
+            </div>
+            <button type="submit" class="btn btn-primary">Connexion</button>
+        </form>      
+    </div>
+</body>
+</html>
