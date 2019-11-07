@@ -9,17 +9,19 @@
         xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
         version="3.0">
     <display-name>Archetype Created Web Application</display-name>
-    <servlet>
-        <servlet-name>Commente</servlet-name>
-        <servlet-class>Commente</servlet-class>
+
+<!--    <servlet>
+        <servlet-name>routeur</servlet-name>
+        <servlet-class>Routeur</servlet-class>
     </servlet>
 
     <servlet-mapping>
-        <servlet-name>commente</servlet-name>
-        <url-pattern>/commente</url-pattern>
-    </servlet-mapping>
+        <servlet-name>routeur</servlet-name>
+        <url-pattern>/groupes</url-pattern>
+    </servlet-mapping>-->
+
     
-    <filter>
+<!--    <filter>
         <filter-name>AuthentificationFilter</filter-name>
         <filter-class>fr.univlyon1.m1if.m1if03.servlets.AuthentificationFilter</filter-class>
     </filter>
@@ -38,5 +40,5 @@
         <filter-name>AutorisationFilter</filter-name>
         <url-pattern>/*</url-pattern>
         <dispatchar>FORWARD</dispatchar>
-    </filter-mapping>
+    </filter-mapping>-->
 </web-app>

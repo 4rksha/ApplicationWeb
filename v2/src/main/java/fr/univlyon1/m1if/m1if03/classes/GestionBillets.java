@@ -57,5 +57,10 @@ public class GestionBillets {
         }
         throw new IndexOutOfBoundsException("Erreur dans l'appel à la fonction getLastBillet");
     }
+    public void deleteBillet(int id) {
+        if (id >= 0 && id < billets.size()){
+            billets.remove(id);
+        }
+    }
     
 }

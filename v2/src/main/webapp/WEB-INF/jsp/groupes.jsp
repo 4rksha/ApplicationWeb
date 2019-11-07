@@ -5,7 +5,7 @@
 <%@ page contentType="text/html; charset=UTF-8" %>
 <%@ page import="fr.univlyon1.m1if.m1if03.classes.GestionBillets" %>
 <%@ page import="fr.univlyon1.m1if.m1if03.classes.*" %>
-<jsp:useBean scope="application" id="Gbillets" class="fr.univlyon1.m1if.m1if03.classes.GestionBillets"/>
+<jsp:useBean scope="application" id="groupesList" type="java.util.Set"/>
 
 <!doctype html>
 <html>
@@ -35,17 +35,15 @@
         <h1 class="text-left">Liste des billets</h1>
         <br/>
         <div class="list-group">
-        <%! Billet billet;%>
-        <% for(int i = 0; i < Gbillets.getNbBillets(); ++i) { 
-                billet = Gbillets.getBillet(i); 
+        <%! String[] groups; %>
+        <%
+            groups = (String[]) groupesList.toArray(new String[groupesList.size()]);
+            
+            for (int i = 0; i < groups.length; ++i) {
         %>
-            <a href="billet?id=<%=i%>" class="list-group-item list-group-item-action">
-              <div class="d-flex w-100 justify-content-between">
-                <h5 class="mb-1"><%= billet.getTitre()%></h5>
-              </div>
-              <small>Auteur : <%= billet.getAuteur() %></small>
-            </a>
+            <p class="list-group-item" ><%=groups[i]%></p>
         <%}%>
+        </div>
     </div>
 
 </body>

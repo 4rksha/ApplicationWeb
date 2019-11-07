@@ -6,7 +6,9 @@
 package fr.univlyon1.m1if.m1if03.servlets.subcontroller;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.ServletException;
@@ -14,6 +16,8 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import fr.univlyon1.m1if.m1if03.classes.GestionBillets;
 import fr.univlyon1.m1if.m1if03.classes.Groupe;
 
 /**
@@ -31,14 +35,44 @@ public class ControllerGroupes extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-                //Recupération du modèle
-                Map<String,Groupe> modele = (HashMap<String, Groupe>) request.getServletContext().getAttribute("groupes");
+        //Recupération du modèle
+        Map<String,Groupe> modele = (HashMap<String,Groupe>) request.getServletContext().getAttribute("groupes");
+        //On charge les listes de les groupes contenue dans le modèles
+        request.getServletContext().setAttribute(
+            "groupesList", 
+            modele.keySet()
+        );
+        request.getRequestDispatcher("WEB-INF/jsp/groupes.jsp").forward(request, response);           
     }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        //Recupération du modèle
+        String author = request.getParameter("author");
+        String title = request.getParameter("title");
+        String content = request.getParameter("content");
+        System.out.println(author + " " + title + " " + content);
+        if (author == null || title == null || content == null) {
+            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+        }
+        Map<String,Groupe> modele = (HashMap<String, Groupe>) request.getServletContext().getAttribute("groupes");
+        if(modele.containsKey(title) == false) {
+            List<String> liste = new ArrayList<String>();
+            GestionBillets gBillet = new GestionBillets();
+            Groupe g = new Groupe(
+                    title,
+                    content,
+                    author,
+                    liste,
+                    gBillet
+            );
+            modele.put(title, g);
+//            System.out.println(modele.keySet());
+            response.setStatus(HttpServletResponse.SC_CREATED);
+        } else {
+            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+        }
     }
 
 

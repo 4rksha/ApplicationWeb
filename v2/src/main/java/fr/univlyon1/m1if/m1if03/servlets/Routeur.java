@@ -6,7 +6,6 @@
 package fr.univlyon1.m1if.m1if03.servlets;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.HashMap;
 
 import javax.servlet.ServletConfig;
@@ -22,7 +21,7 @@ import fr.univlyon1.m1if.m1if03.classes.Groupe;
  *
  * @author vasli
  */
-@WebServlet(name = "routeur", urlPatterns = {"/*"})
+@WebServlet(name = "routeur", urlPatterns = {"/groupes"})
 public class Routeur extends HttpServlet {
 
     /**
@@ -46,13 +45,12 @@ public class Routeur extends HttpServlet {
             throws ServletException, IOException {
         String uri= request.getRequestURI();
         String[] uriSplit = uri.split("/");
-        
-        switch (uriSplit[0]) {
-            case "users":
-                //Controller User
-                break;
+        switch (uriSplit[1]) {
+//            case "users": // temporaire du à des erreurs de routage
+//                //Controller User
+//                break;
             case "groupes":
-                uriGroupes(uriSplit, request, response);
+                this.uriGroupes(uriSplit, request, response);
                 break;
             default:
                 // error
@@ -60,36 +58,41 @@ public class Routeur extends HttpServlet {
         }
     }
 
-    private void uriGroupes(String[] uriSplit, HttpServletRequest request, HttpServletResponse response) {
-        if (uriSplit.length == 1) {
+    private void uriGroupes(String[] uriSplit, HttpServletRequest request, HttpServletResponse response) 
+            throws ServletException, IOException {
+        if (uriSplit.length == 2) {
             //listes de groupes : /groupes
-            // controller groupes
+            request.getRequestDispatcher("/ControllerGroupes").forward(request, response);
             return;
         }
-        if (uriSplit.length == 2) {
+        if (uriSplit.length == 3) {
             //Detail d'un groupe : /groupes/<id = split[1]>
             // controller détail groupe
+            request.getRequestDispatcher("ControllerGroupe").forward(request, response);
             return;
         } 
-        if (uriSplit[2].equals("billets")) {
+        if (uriSplit[3].equals("billets")) {
             uriBillets(uriSplit, request, response);     
         } else {
             //error
         }
     }
 
-    private void uriBillets(String[] uriSplit, HttpServletRequest request, HttpServletResponse response) {
-        if (uriSplit.length == 3) {
+    private void uriBillets(String[] uriSplit, HttpServletRequest request, HttpServletResponse response) 
+            throws ServletException, IOException {
+        if (uriSplit.length == 4) {
             //listes des billets : /groupes/<id = split[1]>/billets
             // controller des billets
+            request.getRequestDispatcher("ControllerBillets").forward(request, response);
             return;
         }
-        if (uriSplit.length == 4) {
+        if (uriSplit.length == 5) {
             //Detail d'un groupe : /groupes/<id = split[1]>/billets/<id = split[3]>
             // controller détail billet
+            request.getRequestDispatcher("ControllerBillet").forward(request, response);
             return;
         } 
-        if (uriSplit[4].equals("comments")) {
+        if (uriSplit[5].equals("comments")) {
             uriComments(uriSplit, request, response);
         } else{
             //error
@@ -97,15 +100,18 @@ public class Routeur extends HttpServlet {
 
     }
 
-    private void uriComments(String[] uriSplit, HttpServletRequest request, HttpServletResponse response) {
-        if (uriSplit.length == 5) {
+    private void uriComments(String[] uriSplit, HttpServletRequest request, HttpServletResponse response) 
+            throws ServletException, IOException {
+        if (uriSplit.length == 6) {
             //listes des commantaire : /groupes/<id = split[1]>/billets/<id = split[3]>/comments
             // controller des commentaires
+            request.getRequestDispatcher("ControllerComments").forward(request, response);
             return;
         }
-        if (uriSplit.length == 6) {
+        if (uriSplit.length == 7) {
             //Detail d'un groupe : /groupes/<id = split[1]>/billets/<id = split[3]>/comments/<id = split[5]>
             // controller détail d'un commentaire
+            request.getRequestDispatcher("ControllerComment").forward(request, response);
             return;
         }
         //error

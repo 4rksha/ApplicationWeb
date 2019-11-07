@@ -1,11 +1,8 @@
-<%@page import="java.util.List"%>
-<%@page import="java.util.ArrayList"%>
-<%@page import="java.util.Set"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html; charset=UTF-8" %>
 <%@ page import="fr.univlyon1.m1if.m1if03.classes.GestionBillets" %>
 <%@ page import="fr.univlyon1.m1if.m1if03.classes.*" %>
-<jsp:useBean scope="application" id="Gbillets" class="fr.univlyon1.m1if.m1if03.classes.GestionBillets"/>
+<jsp:useBean scope="application" id="groupe" class="fr.univlyon1.m1if.m1if03.classes.Groupe"/>
 
 <!doctype html>
 <html>
@@ -19,8 +16,8 @@
             integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" 
             crossorigin="anonymous">
     </script>
-    <meta http-equiv="refresh" content="5;url=billets" />
-    <title>Gestionnaire de billet</title>
+    <meta http-equiv="refresh" content="5;url=billet?id=<%=request.getParameter("id")%>" />
+    <title><%= billet.getTitre() %></title>
 </head>
 <body>
     <header>
@@ -32,21 +29,14 @@
         <br/>
         <br/>
         <br/>
-        <h1 class="text-left">Liste des billets</h1>
+        <h1 class="text-left"><%= billet.getTitre()%></h1>
         <br/>
-        <div class="list-group">
-        <%! Billet billet;%>
-        <% for(int i = 0; i < Gbillets.getNbBillets(); ++i) { 
-                billet = Gbillets.getBillet(i); 
-        %>
-            <a href="billet?id=<%=i%>" class="list-group-item list-group-item-action">
-              <div class="d-flex w-100 justify-content-between">
-                <h5 class="mb-1"><%= billet.getTitre()%></h5>
-              </div>
-              <small>Auteur : <%= billet.getAuteur() %></small>
-            </a>
-        <%}%>
+        <div class="card" style="max-width: 600px;">
+            <div class="card-body">
+                <p class="card-text"><%= billet.getContenu()%></small></p>
+                <p class="card-text"><small class="text-muted">écrit par <%= billet.getAuteur() %></small></p>
+            </div>
+        </div>
     </div>
-
 </body>
 </html>
