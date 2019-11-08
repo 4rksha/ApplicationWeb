@@ -19,7 +19,6 @@
             integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" 
             crossorigin="anonymous">
     </script>
-    <meta http-equiv="refresh" content="5;url=billets" />
     <title>Gestionnaire de billet</title>
 </head>
 <body>
@@ -39,12 +38,12 @@
         <% for(int i = 0; i < Gbillets.getNbBillets(); ++i) { 
                 billet = Gbillets.getBillet(i); 
         %>
-            <a href="billet?id=<%=i%>" class="list-group-item list-group-item-action">
+            <div class="list-group-item">
               <div class="d-flex w-100 justify-content-between">
-                <h5 class="mb-1"><%= billet.getTitre()%></h5>
+                  <h5 class="mb-1">id <%= i %> : <%= billet.getTitre()%></h5>
               </div>
               <small>Auteur : <%= billet.getAuteur() %></small>
-            </a>
+            </div>
         <%}%>
     </div>
 

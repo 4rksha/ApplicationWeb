@@ -16,8 +16,7 @@
             integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" 
             crossorigin="anonymous">
     </script>
-    <meta http-equiv="refresh" content="5;url=billet?id=<%=request.getParameter("id")%>" />
-    <title><%= billet.getTitre() %></title>
+    <title><%= groupe.getNom() %></title>
 </head>
 <body>
     <header>
@@ -29,12 +28,12 @@
         <br/>
         <br/>
         <br/>
-        <h1 class="text-left"><%= billet.getTitre()%></h1>
+        <h1 class="text-left"><%= groupe.getNom() %></h1>
         <br/>
         <div class="card" style="max-width: 600px;">
             <div class="card-body">
-                <p class="card-text"><%= billet.getContenu()%></small></p>
-                <p class="card-text"><small class="text-muted">écrit par <%= billet.getAuteur() %></small></p>
+                <p class="card-text"><%= groupe.getDescription() %></small></p>
+                <p class="card-text"><small class="text-muted">écrit par <%= groupe.getAuteur() %></small></p>
             </div>
         </div>
     </div>

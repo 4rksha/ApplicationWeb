@@ -19,7 +19,6 @@
             integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" 
             crossorigin="anonymous">
     </script>
-    <meta http-equiv="refresh" content="5;url=billets" />
     <title>Gestionnaire de billet</title>
 </head>
 <body>

@@ -52,7 +52,8 @@ public class ControllerGroupes extends HttpServlet {
         String author = request.getParameter("author");
         String title = request.getParameter("title");
         String content = request.getParameter("content");
-        System.out.println(author + " " + title + " " + content);
+        System.out.println(request.getParameterMap().keySet());
+        System.out.println(title + " " +content+ " " + author+ " ");
         if (author == null || title == null || content == null) {
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
         }

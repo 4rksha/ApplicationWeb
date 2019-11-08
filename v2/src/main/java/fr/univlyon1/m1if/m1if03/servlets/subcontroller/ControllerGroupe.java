@@ -27,7 +27,7 @@ public class ControllerGroupe extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String[] uriSplit = request.getRequestURI().split("/");
+        String[] uriSplit = ((String) request.getServletContext().getAttribute("URI")).split("/");
         Map<String,Groupe> modele = (HashMap<String, Groupe>) request.getServletContext().getAttribute("groupes");
         Groupe groupe = modele.get(uriSplit[2]);
         if (groupe == null) {
@@ -46,7 +46,7 @@ public class ControllerGroupe extends HttpServlet {
     @Override
     protected void doPut(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String[] uriSplit = request.getRequestURI().split("/");
+        String[] uriSplit = ((String) request.getServletContext().getAttribute("URI")).split("/");
         Map<String,Groupe> modele = (HashMap<String, Groupe>) request.getServletContext().getAttribute("groupes");
         Groupe groupe = modele.get(uriSplit[2]);
         if (groupe == null) {
@@ -67,7 +67,7 @@ public class ControllerGroupe extends HttpServlet {
     @Override
     protected void doDelete(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String[] uriSplit = request.getRequestURI().split("/");
+        String[] uriSplit = ((String) request.getServletContext().getAttribute("URI")).split("/");
         Map<String,Groupe> modele = (HashMap<String, Groupe>) request.getServletContext().getAttribute("groupes");
         if (modele.containsKey(uriSplit[2])) {
             modele.remove(uriSplit[2]);

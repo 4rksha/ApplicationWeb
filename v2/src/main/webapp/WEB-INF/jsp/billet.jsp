@@ -16,7 +16,6 @@
             integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" 
             crossorigin="anonymous">
     </script>
-    <meta http-equiv="refresh" content="5;url=billet?id=<%=request.getParameter("id")%>" />
     <title><%= billet.getTitre() %></title>
 </head>
 <body>
@@ -52,29 +51,6 @@
                 <p class="card-text"><%= billet.getContenu()%></small></p>
                 <p class="card-text"><small class="text-muted">écrit par <%= billet.getAuteur() %></small></p>
             </div>
-        </div>
-        <div>
-            <br/>
-            <h5 class="text-left">Commentaire</h5>
-            <br/>
-            <ul class="list-group list-group-flush">
-                <li class="list-group-item">
-                    <form method="post" action="commente">
-                        <div class="form-row">
-                            <div class="col-7">
-                                <input type="hidden" name="id" class="form-control mb-2 mr-sm-2" id="inlineFormInputName2" value="<%= request.getParameter("id") %>" >
-                                <input type="text" name="commentaire" class="form-control mb-2 mr-sm-2" id="inlineFormInputName2" placeholder="Commentaire">
-                            </div>
-                            <div class="col">
-                                <button type="submit" class="btn btn-primary mb-2">envoyer</button>
-                            </div>
-                        </div>
-                    </form>
-                </li>
-                <% for (int j = 0; j < billet.getCommentaires().size(); j++) {%>
-                    <li class="list-group-item"><%= billet.getCommentaires().get(j).toString()%></li>
-                <% } %>
-            </ul>
         </div>
     </div>
 </body>

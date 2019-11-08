@@ -27,7 +27,7 @@ public class ControllerBillets extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String[] uriSplit = request.getRequestURI().split("/");
+        String[] uriSplit = ((String) request.getServletContext().getAttribute("URI")).split("/");
         Map<String,Groupe> modele = (HashMap<String, Groupe>) request.getServletContext().getAttribute("groupes");
         Groupe groupe = modele.get(uriSplit[2]);
         if (groupe == null) {
@@ -42,7 +42,7 @@ public class ControllerBillets extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String[] uriSplit = request.getRequestURI().split("/");
+        String[] uriSplit = ((String) request.getServletContext().getAttribute("URI")).split("/");
         Map<String,Groupe> modele = (HashMap<String, Groupe>) request.getServletContext().getAttribute("groupes");
         Groupe groupe = modele.get(uriSplit[2]);
         if (groupe == null) {
@@ -59,6 +59,7 @@ public class ControllerBillets extends HttpServlet {
                 request.getParameter("content"),
                 request.getParameter("author")
             ));
+            response.setStatus(HttpServletResponse.SC_CREATED);
         } else {
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
         }
