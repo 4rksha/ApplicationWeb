@@ -28,8 +28,11 @@ public class Billet {
         return this.titre;
     }
 
-    public void setTitre(String titre) {
-        this.titre = titre;
+    public void setTitre(String title) {
+        if (title == null || title.equals("")) {
+            return;
+        }
+        this.titre = title;
         this.lastModifTime = new Date().getTime();
     }
 
@@ -37,8 +40,11 @@ public class Billet {
         return contenu;
     }
 
-    public void setContenu(String contenu) {
-        this.contenu = contenu;
+    public void setContenu(String content) {
+        if (content == null || content.equals("")) {
+            return;
+        }
+        this.contenu = content;
         this.lastModifTime = new Date().getTime();
     }
 
@@ -46,20 +52,23 @@ public class Billet {
         return this.auteur;
     }
 
-    public void setAuteur(String auteur) {
-        this.auteur = auteur;
+    public void setAuteur(String author) {
+        if (author == null || author.equals("")) {
+            return;
+        }
+        this.auteur = author;
         this.lastModifTime = new Date().getTime();
     }
-        
+
     public long getLastModifTime() {
         return this.lastModifTime;
     }
-    
+
     public List<Commentaire> getCommentaires() {
         return this.commentaires;
     }
-    
-    public void addCommentaire(String auteur,String com) {
+
+    public void addCommentaire(String auteur, String com) {
         this.commentaires.add(new Commentaire(auteur, com));
         this.lastModifTime = new Date().getTime();
     }

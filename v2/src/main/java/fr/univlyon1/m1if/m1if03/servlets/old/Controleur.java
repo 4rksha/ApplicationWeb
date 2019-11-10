@@ -43,18 +43,14 @@ public class Controleur extends HttpServlet {
         
         if (modele.containsKey(nameGroupe)) {
             Groupe g = (Groupe) modele.get(nameGroupe);
-            gBillet = g.getgBillets();
+            gBillet = g.getBillets();
         } else {
             String pseudo = (String) session.getAttribute("pseudo");
-            List<String> liste = new ArrayList<String>();
-            liste.add(pseudo);
             gBillet = new GestionBillets();
             Groupe g = new Groupe(
                     nameGroupe,
                     "",
-                    pseudo,
-                    liste,
-                    gBillet
+                    pseudo
             );
             modele.put(nameGroupe, g);
         }

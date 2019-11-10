@@ -9,23 +9,22 @@ import java.util.List;
 public class GestionBillets {
 
     private final List<Billet> billets;
-    
+
     public GestionBillets() {
         billets = new ArrayList<Billet>();
     }
 
-
-    public void add( Billet billet) {
+    public void add(Billet billet) {
         billets.add(billet);
     }
-    
-    public Billet getBillet( int i) {
-        if (i >= 0  && i < billets.size()){
+
+    public Billet getBillet(int i) {
+        if (i >= 0 && i < billets.size()) {
             return billets.get(i);
-        } 
+        }
         return null;
     }
-    
+
     /**
      * 
      * @param title
@@ -39,28 +38,29 @@ public class GestionBillets {
         }
         return null;
     }
-    
-    public void addCommantaireBillet( String author, int id, String text) {
+
+    public void addCommantaireBillet(String author, int id, String text) {
         Billet billet = this.getBillet(id);
         if (billet != null) {
             billet.addCommentaire(author, text);
         }
     }
-    
+
     public int getNbBillets() {
         return billets.size();
     }
 
     public Billet getLastBillet() {
-        if (billets.size()> 0) {
-            return this.getBillet( billets.size() - 1);
+        if (billets.size() > 0) {
+            return this.getBillet(billets.size() - 1);
         }
         throw new IndexOutOfBoundsException("Erreur dans l'appel à la fonction getLastBillet");
     }
+
     public void deleteBillet(int id) {
-        if (id >= 0 && id < billets.size()){
+        if (id >= 0 && id < billets.size()) {
             billets.remove(id);
         }
     }
-    
+
 }

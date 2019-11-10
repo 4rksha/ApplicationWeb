@@ -22,22 +22,6 @@
     <header>
         <nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-dark">
             <span class="navbar-brand">Gestionnaire de billet</span>
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-              <ul class="navbar-nav mr-auto">
-                <li class="nav-item acitve">
-                    <span class="navbar-brand">Compte: <%= session.getAttribute("pseudo")%></span>
-                </li>
-                <li class="nav-item acitve">
-                    <span class="navbar-brand">Groupe: <%= session.getAttribute("groupe")%></span>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="billets">Accueil</a> 
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="Deco">Se déconnecter</a> 
-                </li>
-              </ul>
-            </div>
         </nav>
     </header>
     <div class="container">

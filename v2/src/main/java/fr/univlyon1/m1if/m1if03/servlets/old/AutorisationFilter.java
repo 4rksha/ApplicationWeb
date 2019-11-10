@@ -52,8 +52,8 @@ public class AutorisationFilter implements Filter{
                 
                 if (modele != null
                         && modele.get(nameGroupe) != null
-                        && modele.get(nameGroupe).getgBillets() != null
-                        && modele.get(nameGroupe).getgBillets().getBillet(new Integer(request.getParameter("id"))) != null
+                        && modele.get(nameGroupe).getBillets() != null
+                        && modele.get(nameGroupe).getBillets().getBillet(new Integer(request.getParameter("id"))) != null
                 ){
                     this.context.log("Le billet existe avec le groupe de l'utilisateur");
                     chain.doFilter(request, response);

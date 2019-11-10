@@ -31,7 +31,7 @@
         <br/>
         <br/>
         <br/>
-        <h1 class="text-left">Liste des billets</h1>
+        <h1 class="text-left">Liste des groupes</h1>
         <br/>
         <div class="list-group">
         <%! String[] groups; %>
