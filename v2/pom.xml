@@ -51,6 +51,9 @@
                     <compilerArguments>
                         <endorseddirs>${endorsed.dir}</endorseddirs>
                     </compilerArguments>
+                    <excludes>
+                        <exclude>/home/zac/Documents/M1S1/m1if03/v2/src/main/java/fr/univlyon1/m1if/m1if03/servlets/old/*</exclude>
+                    </excludes>
                 </configuration>
             </plugin>
             <plugin>

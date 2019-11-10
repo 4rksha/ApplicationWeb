@@ -21,10 +21,7 @@ import fr.univlyon1.m1if.m1if03.classes.Groupe;
 import fr.univlyon1.m1if.m1if03.mapping.ContentGroupeMapper;
 import java.io.PrintWriter;
 
-/**
- *
- * @author vasli
- */
+
 @WebServlet(name = "ControllerGroupes", urlPatterns = { "/ControllerGroupes" })
 public class ControllerGroupes extends HttpServlet {
 

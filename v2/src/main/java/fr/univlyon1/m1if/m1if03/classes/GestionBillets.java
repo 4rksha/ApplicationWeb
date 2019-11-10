@@ -11,7 +11,7 @@ public class GestionBillets {
     private final List<Billet> billets;
 
     public GestionBillets() {
-        billets = new ArrayList<Billet>();
+        billets = new ArrayList<>();
     }
 
     public void add(Billet billet) {
@@ -25,8 +25,12 @@ public class GestionBillets {
         return null;
     }
 
+    public Billet getBillet(String s) {
+        return getBillet(Integer.valueOf(s));
+    }
+
     /**
-     * 
+     *
      * @param title
      * @return un billet si il trouve le billet sinon null
      */

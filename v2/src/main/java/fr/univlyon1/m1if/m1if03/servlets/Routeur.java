@@ -26,6 +26,7 @@ public class Routeur extends HttpServlet {
 
     /**
      * Initialisation du modèle
+     * @param sc
      */
     @Override
     public void init( ServletConfig sc) {
@@ -96,24 +97,24 @@ public class Routeur extends HttpServlet {
             request.getRequestDispatcher("/ControllerBillet").forward(request, response);
             return;
         } 
-        if (uriSplit[5].equals("comments")) {
-            uriComments(uriSplit, request, response);
+        if (uriSplit[5].equals("commentaires")) {
+            uriCommentaires(uriSplit, request, response);
         } else{
             //error
         }
 
     }
 
-    private void uriComments(String[] uriSplit, HttpServletRequest request, HttpServletResponse response) 
+    private void uriCommentaires(String[] uriSplit, HttpServletRequest request, HttpServletResponse response) 
             throws ServletException, IOException {
         if (uriSplit.length == 6) {
-            //listes des commantaire : /groupes/<id = split[2]>/billets/<id = split[4]>/comments
+            //listes des commantaire : /groupes/<id = split[1]>/billets/<id = split[3]>/commentaires
             // controller des commentaires
             request.getRequestDispatcher("/ControllerComments").forward(request, response);
             return;
         }
         if (uriSplit.length == 7) {
-            //Detail d'un groupe : /groupes/<id = split[2]>/billets/<id = split[4]>/comments/<id = split[5]>
+            //Detail d'un groupe : /groupes/<id = split[1]>/billets/<id = split[3]>/commentaires/<id = split[5]>
             // controller détail d'un commentaire
             request.getRequestDispatcher("/ControllerComment").forward(request, response);
             return;

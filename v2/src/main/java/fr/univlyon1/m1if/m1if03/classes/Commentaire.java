@@ -4,7 +4,12 @@ public class Commentaire {
     private String auteur;
     private String text;
 
-    Commentaire(String auteur,String text) {
+    public Commentaire() {
+        this.auteur = "";
+        this.text = "";
+    }
+    
+    public Commentaire(String auteur,String text) {
         this.auteur = auteur;
         this.text = text; 
     }
@@ -12,6 +17,14 @@ public class Commentaire {
     public void setCommentaire(String auteur, String text) {
         this.auteur = auteur;
         this.text = text;
+    }
+    
+    public String getText() {
+        return text;
+    }
+    
+    public String getAuteur() {
+        return auteur;
     }
     
     @Override

@@ -21,12 +21,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import fr.univlyon1.m1if.m1if03.classes.*;
 import fr.univlyon1.m1if.m1if03.mapping.BilletMapper;
 import fr.univlyon1.m1if.m1if03.mapping.ContentBilletMapper;
-import fr.univlyon1.m1if.m1if03.mapping.ContentGroupeMapper;
 
-/**
- *
- * @author vasli
- */
+
 @WebServlet(name = "ControllerBillet", urlPatterns = { "/ControllerBillet" })
 public class ControllerBillet extends HttpServlet {
 

@@ -19,7 +19,6 @@ import javax.servlet.http.HttpServletResponse;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import fr.univlyon1.m1if.m1if03.classes.*;
 import fr.univlyon1.m1if.m1if03.mapping.ContentBilletMapper;
-import fr.univlyon1.m1if.m1if03.mapping.ContentGroupeMapper;
 
 /**
  * Sous controlleur qui gère les billets et leurs créations

@@ -67,9 +67,21 @@ public class Billet {
     public List<Commentaire> getCommentaires() {
         return this.commentaires;
     }
-
-    public void addCommentaire(String auteur, String com) {
+    
+    public Commentaire getCommentaire(int index) {
+        if (index < 0 || index >= commentaires.size()) {
+            return null;
+        }
+        return commentaires.get(index);
+    }
+    
+    public void addCommentaire(String auteur,String com) {
         this.commentaires.add(new Commentaire(auteur, com));
+        this.lastModifTime = new Date().getTime();
+    }
+    
+    public void removeCommentaire(int i) {
+        this.commentaires.remove(i);
         this.lastModifTime = new Date().getTime();
     }
 }
