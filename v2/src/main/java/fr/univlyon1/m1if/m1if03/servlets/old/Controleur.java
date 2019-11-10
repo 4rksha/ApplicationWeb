@@ -46,7 +46,7 @@ public class Controleur extends HttpServlet {
             gBillet = g.getgBillets();
         } else {
             String pseudo = (String) session.getAttribute("pseudo");
-            List<String> liste = new ArrayList<String>();
+            List<String> liste = new ArrayList<>();
             liste.add(pseudo);
             gBillet = new GestionBillets();
             Groupe g = new Groupe(
