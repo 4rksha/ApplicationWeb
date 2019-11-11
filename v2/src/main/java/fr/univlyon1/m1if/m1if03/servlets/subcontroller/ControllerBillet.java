@@ -22,13 +22,8 @@ import fr.univlyon1.m1if.m1if03.classes.*;
 import fr.univlyon1.m1if.m1if03.mapping.BilletMapper;
 import fr.univlyon1.m1if.m1if03.mapping.ContentBilletMapper;
 
-
 @WebServlet(name = "ControllerBillet", urlPatterns = { "/ControllerBillet" })
 public class ControllerBillet extends HttpServlet {
-
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-    }
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)

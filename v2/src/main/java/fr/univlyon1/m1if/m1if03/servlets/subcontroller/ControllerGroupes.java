@@ -21,14 +21,8 @@ import fr.univlyon1.m1if.m1if03.classes.Groupe;
 import fr.univlyon1.m1if.m1if03.mapping.ContentGroupeMapper;
 import java.io.PrintWriter;
 
-
 @WebServlet(name = "ControllerGroupes", urlPatterns = { "/ControllerGroupes" })
 public class ControllerGroupes extends HttpServlet {
-
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-
-    }
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)

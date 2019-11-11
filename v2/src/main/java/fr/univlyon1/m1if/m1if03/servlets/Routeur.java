@@ -6,6 +6,7 @@
 package fr.univlyon1.m1if.m1if03.servlets;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import javax.servlet.ServletConfig;
@@ -31,6 +32,7 @@ public class Routeur extends HttpServlet {
     @Override
     public void init( ServletConfig sc) {
         sc.getServletContext().setAttribute("groupes", new HashMap<String, Groupe>());
+        sc.getServletContext().setAttribute("users", new ArrayList<String>());
     }
     
     /**
