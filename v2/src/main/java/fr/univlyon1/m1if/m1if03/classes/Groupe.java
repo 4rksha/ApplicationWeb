@@ -18,6 +18,7 @@ public class Groupe {
         this.nom = nom;
         this.description = description;
         this.auteur = auteur;
+        membres.add(auteur);
     }
 
     public String getNom() {

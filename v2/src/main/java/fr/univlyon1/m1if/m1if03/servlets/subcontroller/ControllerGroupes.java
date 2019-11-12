@@ -43,7 +43,6 @@ public class ControllerGroupes extends HttpServlet {
         ServletContext context = request.getServletContext();
         // Recupération du modèle
         String author = null, title = null, content = null;
-        String[] membres = null;
 
         if (request.getContentType() != null && request.getContentType().equals("application/json")) {
             ObjectMapper objectMapper = new ObjectMapper();
@@ -58,7 +57,6 @@ public class ControllerGroupes extends HttpServlet {
                 author = contentJson.proprietaire;
                 title = contentJson.nom;
                 content = contentJson.description;
-                membres = contentJson.membres;
             }
         } else {
             author = request.getParameter("proprietaire");
@@ -72,9 +70,6 @@ public class ControllerGroupes extends HttpServlet {
         Map<String, Groupe> modele = (HashMap<String, Groupe>) request.getServletContext().getAttribute("groupes");
         if (modele.containsKey(title) == false) {
             Groupe g = new Groupe(title, content, author);
-            if (membres != null) {
-                g.setMembres(membres);
-            }
             modele.put(title, g);
 
             context.setAttribute("status", HttpServletResponse.SC_CREATED);

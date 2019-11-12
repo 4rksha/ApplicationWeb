@@ -56,33 +56,43 @@ public class ContentNegotiation implements Filter {
         String view = (String) context.getAttribute("view");
         // S'il y a un contenu Ã  renvoyer
         if (view != null) {
-
-            if (req.getContentType() != null && req.getContentType().equals("application/json")) {
-                // "application/json":
-                String data = (String) req.getServletContext().getAttribute("data");
-                OutputStream out = resp.getOutputStream();
-                resp.setContentType("application/json");
-                resp.setCharacterEncoding("UTF-8");
-                out.write(data.getBytes());
-                out.flush();
-            } else if (((HttpServletRequest) req).getHeader("Accept").startsWith("text/html")) {
-                // Cas des JSP (nomméees dans le web.xml)
-                RequestDispatcher dispatcher = filterConfig.getServletContext().getNamedDispatcher("vue-" + view);
-                if (dispatcher != null) {
-                    HttpServletRequest wrapped = new HttpServletRequestWrapper((HttpServletRequest) req) {
-                        @Override
-                        public String getServletPath() {
-                            return "";
-                        }
-                    };
-                    dispatcher.forward(wrapped, resp);
+            String[] accepts = req.getHeader("Accept").split(",");
+            for (String a : accepts) {
+                if (a.equals("application/json")) {
+                    // "application/json":
+                    traitementJson(req, resp);
+                    return;
+                } else if (a.equals("text/html")) {
+                    // Cas des JSP (nomméees dans le web.xml)
+                    RequestDispatcher dispatcher = filterConfig.getServletContext().getNamedDispatcher("vue-" + view);
+                    if (dispatcher != null) {
+                        HttpServletRequest wrapped = new HttpServletRequestWrapper((HttpServletRequest) req) {
+                            @Override
+                            public String getServletPath() {
+                                return "";
+                            }
+                        };
+                        dispatcher.forward(wrapped, resp);
+                    }
+                    context.removeAttribute("view");
+                    return;
                 }
             }
-            context.removeAttribute("view");
+            traitementJson(req, resp);
         }
     }
 
     @Override
     public void destroy() {
+    }
+
+    private void traitementJson(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+        String data = (String) req.getServletContext().getAttribute("data");
+        OutputStream out = resp.getOutputStream();
+        resp.setContentType("application/json");
+        resp.setCharacterEncoding("UTF-8");
+        out.write(data.getBytes());
+        out.flush();
+        req.getServletContext().removeAttribute("view");
     }
 }
