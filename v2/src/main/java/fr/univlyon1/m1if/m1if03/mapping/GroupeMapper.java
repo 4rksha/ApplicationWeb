@@ -9,7 +9,7 @@ import fr.univlyon1.m1if.m1if03.classes.*;
 public class GroupeMapper {
 
     public String nom, description, proprietaire;
-    public String[] menbres;
+    public String[] membres;
     public String billets;
 
     public GroupeMapper(Groupe groupe) {
@@ -18,9 +18,9 @@ public class GroupeMapper {
         this.proprietaire = groupe.getAuteur();
         billets = "/groupes/" + groupe.getNom() + "/billets";
         int sizeMenbers = groupe.getMembres().size();
-        menbres = new String[sizeMenbers];
+        membres = new String[sizeMenbers];
         for (int i = 0; i < sizeMenbers; ++i ) {
-            menbres[i] = groupe.getMembres().get(i);
+            membres[i] = groupe.getMembres().get(i);
         }
 
     }

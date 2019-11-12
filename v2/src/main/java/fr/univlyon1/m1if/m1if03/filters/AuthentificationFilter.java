@@ -3,15 +3,13 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package fr.univlyon1.m1if.m1if03.servlets;
+package fr.univlyon1.m1if.m1if03.filters;
 
 import java.io.IOException;
-import java.util.Date;
 
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
 import javax.servlet.FilterConfig;
-import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
@@ -57,7 +55,7 @@ public class AuthentificationFilter implements Filter {
         }
 
         if (token == null) { // Pas de token on redirige vers la page d'acceuil
-            request.getRequestDispatcher("index.html").forward(request, response);
+            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
             return;
         }
         // Test du token
@@ -65,7 +63,7 @@ public class AuthentificationFilter implements Filter {
             chain.doFilter(request, response);
         } else {
             // Token invalide ou expiré
-            request.getRequestDispatcher("index.html").forward(request, response);
+            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
         }
     }
 
@@ -75,8 +73,8 @@ public class AuthentificationFilter implements Filter {
 
     /**
      * Vérifie, décode et ajoute au context le pseudo contenu dans le token
-     * 
-     * @param token   Token à verifier et décoder
+     *
+     * @param token Token à verifier et décoder
      * @param request la requête
      * @return true si le token est valide sinon false
      */
@@ -92,7 +90,7 @@ public class AuthentificationFilter implements Filter {
         } catch (TokenExpiredException e) {
             System.out.println("Time token expire");
             return false;
-        }catch (JWTVerificationException exception) {
+        } catch (JWTVerificationException exception) {
             return false;
         }
     }

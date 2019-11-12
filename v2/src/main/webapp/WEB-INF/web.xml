@@ -1,26 +1,74 @@
-<!DOCTYPE web-app PUBLIC
+<!DOCTYPE web-app PUBLIC 
  "-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN"
  "http://java.sun.com/dtd/web-app_2_3.dtd">
 
 <web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
-    xmlns="http://java.sun.com/xml/ns/javaee" 
-    xmlns:web="http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd" version="3.0">
+         xmlns="http://java.sun.com/xml/ns/javaee" 
+         xmlns:web="http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd" version="3.0">
     <display-name>Archetype Created Web Application</display-name>
 
-    <!--    <servlet>
-        <servlet-name>routeur</servlet-name>
-        <servlet-class>Routeur</servlet-class>
-    </servlet>
+    <filter>
+        <filter-name>CorsFilter</filter-name>
+        <filter-class>org.apache.catalina.filters.CorsFilter</filter-class>
+        <init-param>
+            <param-name>cors.allowed.origins</param-name>
+            <param-value>http://editor.swagger.io</param-value>
+        </init-param>
+        <init-param>
+            <param-name>cors.allowed.methods</param-name>
+            <param-value>GET,POST,PUT,DELETE</param-value>
+        </init-param>
+        <init-param>
+            <param-name>cors.support.credentials</param-name>
+            <param-value>true</param-value>
+        </init-param>
+    </filter>
+    
+    <filter-mapping>
+        <filter-name>CorsFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
 
-    <servlet-mapping>
-        <servlet-name>routeur</servlet-name>
-        <url-pattern>/groupes</url-pattern>
-    </servlet-mapping>-->
+    <servlet>
+        <servlet-name>vue-groupe</servlet-name>
+        <jsp-file>/WEB-INF/jsp/groupe.jsp</jsp-file>
+    </servlet>
+    
+    <servlet>
+        <servlet-name>vue-groupes</servlet-name>
+        <jsp-file>/WEB-INF/jsp/groupes.jsp</jsp-file>
+    </servlet>
+    
+    <servlet>
+        <servlet-name>vue-billet</servlet-name>
+        <jsp-file>/WEB-INF/jsp/billet.jsp</jsp-file>
+    </servlet>
+    
+    <servlet>
+        <servlet-name>vue-billets</servlet-name>
+        <jsp-file>/WEB-INF/jsp/billets.jsp</jsp-file>
+    </servlet>
+    
+    <servlet>
+        <servlet-name>vue-commentaires</servlet-name>
+        <jsp-file>/WEB-INF/jsp/commentaires.jsp</jsp-file>
+    </servlet>
+    
+    <servlet>
+        <servlet-name>vue-commentaire</servlet-name>
+        <jsp-file>/WEB-INF/jsp/commentaire.jsp</jsp-file>
+    </servlet>
+    
+    <servlet>
+        <servlet-name>vue-users</servlet-name>
+        <jsp-file>/WEB-INF/jsp/users.jsp</jsp-file>
+    </servlet>
+    
 
 
     <filter>
         <filter-name>AuthentificationFilter</filter-name>
-        <filter-class>fr.univlyon1.m1if.m1if03.servlets.AuthentificationFilter</filter-class>
+        <filter-class>fr.univlyon1.m1if.m1if03.filters.AuthentificationFilter</filter-class>
     </filter>
 
     <filter-mapping>
@@ -28,14 +76,11 @@
         <url-pattern>/groupes/*</url-pattern>
         <dispatchar>FORWARD</dispatchar>
     </filter-mapping>
-    <!--
-    <filter>
-        <filter-name>AutorisationFilter</filter-name>
-        <filter-class>fr.univlyon1.m1if.m1if03.servlets.AutorisationFilter</filter-class>
-    </filter>
-     <filter-mapping>
-        <filter-name>AutorisationFilter</filter-name>
+    
+    <filter-mapping>
+        <filter-name>ContentNegotiation</filter-name>
         <url-pattern>/*</url-pattern>
-        <dispatchar>FORWARD</dispatchar>
-    </filter-mapping>-->
+        <filter-class>fr.univlyon1.m1if.m1if03.filters.ContentNegotiation</filter-class>
+    </filter-mapping>
+    
 </web-app>

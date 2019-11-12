@@ -17,24 +17,32 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import fr.univlyon1.m1if.m1if03.classes.Groupe;
+import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletContext;
+import javax.servlet.http.HttpServletRequestWrapper;
 
 /**
  *
  * @author vasli
  */
-@WebServlet(name = "routeur", urlPatterns = {"/groupes/*"})
+@WebServlet(name = "routeur", urlPatterns = {"/*"})
 public class Routeur extends HttpServlet {
 
     /**
      * Initialisation du modèle
+     *
      * @param sc
+     * @throws javax.servlet.ServletException
      */
     @Override
-    public void init( ServletConfig sc) {
-        sc.getServletContext().setAttribute("groupes", new HashMap<String, Groupe>());
-        sc.getServletContext().setAttribute("users", new ArrayList<String>());
+    public void init(ServletConfig sc) throws ServletException {
+        super.init(sc);
+        ServletContext context = sc.getServletContext();
+
+        context.setAttribute("groupes", new HashMap<String, Groupe>());
+        context.setAttribute("users", new ArrayList<String>());
     }
-    
+
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -44,108 +52,132 @@ public class Routeur extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
+    protected void dispatch(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String uri= request.getRequestURI();
-        request.getServletContext().setAttribute(
-            "URI", 
-            uri
-        );
+
+        RequestDispatcher dispatcher;
+
+        String uri = request.getRequestURI();
+        request.getServletContext().setAttribute("URI", uri);
         String[] uriSplit = uri.split("/");
-        switch (uriSplit[1]) {
-//            case "users": // temporaire du à des erreurs de routage
-//                //Controller User
-//                break;
-            case "groupes":
-                this.uriGroupes(uriSplit, request, response);
-                break;
-            default:
-                // error
-                break;
+        if (uriSplit.length > 1) {
+            switch (uriSplit[1]) {
+                case "users": // temporaire du à des erreurs de routage
+                    dispatcher = request.getServletContext().getNamedDispatcher("ControllerUser");
+                    dispatcher.include(request, response);
+                    break;
+                case "groupes":
+                    this.uriGroupes(uriSplit, request, response);
+                    break;
+                default:
+                    dispatcher = request.getServletContext().getNamedDispatcher("default");
+                    HttpServletRequest wrapped = new HttpServletRequestWrapper(request) {
+                        @Override
+                        public String getServletPath() {
+                            return "";
+                        }
+                    };
+                    dispatcher.forward(wrapped, response);
+                    break;
+            }
+        } else {
+
         }
     }
 
-    private void uriGroupes(String[] uriSplit, HttpServletRequest request, HttpServletResponse response) 
+    private void uriGroupes(String[] uriSplit, HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        RequestDispatcher dispatcher;
+
         if (uriSplit.length == 2) {
             //listes de groupes : /groupes
-            request.getRequestDispatcher("/ControllerGroupes").forward(request, response);
-            return;
-        }
-        if (uriSplit.length == 3) {
+            dispatcher = request.getServletContext().getNamedDispatcher("ControllerGroupes");
+            if (dispatcher != null) {
+                dispatcher.include(request, response);
+            }
+        } else if (uriSplit.length == 3) {
             //Detail d'un groupe : /groupes/<id = split[2]>
             // controller détail groupe
-            request.getRequestDispatcher("/ControllerGroupe").forward(request, response);
-            return;
-        } 
-        if (uriSplit[3].equals("billets")) {
-            uriBillets(uriSplit, request, response);     
+            dispatcher = request.getServletContext().getNamedDispatcher("ControllerGroupe");
+            if (dispatcher != null) {
+                dispatcher.include(request, response);
+            }
+        } else if (uriSplit[3].equals("billets")) {
+            uriBillets(uriSplit, request, response);
         } else {
             //error
         }
     }
 
-    private void uriBillets(String[] uriSplit, HttpServletRequest request, HttpServletResponse response) 
+    private void uriBillets(String[] uriSplit, HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        RequestDispatcher dispatcher;
+
         if (uriSplit.length == 4) {
             //listes des billets : /groupes/<id = split[2]>/billets
             // controller des billets
-            request.getRequestDispatcher("/ControllerBillets").forward(request, response);
-            return;
-        }
-        if (uriSplit.length == 5) {
+            dispatcher = request.getServletContext().getNamedDispatcher("ControllerBillets");
+            if (dispatcher != null) {
+                dispatcher.include(request, response);
+            }
+        } else if (uriSplit.length == 5) {
             //Detail d'un groupe : /groupes/<id = split[2]>/billets/<id = split[4]>
             // controller détail billet
-            request.getRequestDispatcher("/ControllerBillet").forward(request, response);
-            return;
-        } 
-        if (uriSplit[5].equals("commentaires")) {
+            dispatcher = request.getServletContext().getNamedDispatcher("ControllerBillet");
+            if (dispatcher != null) {
+                dispatcher.include(request, response);
+            }
+        } else if (uriSplit[5].equals("commentaires")) {
             uriCommentaires(uriSplit, request, response);
-        } else{
+        } else {
             //error
         }
 
     }
 
-    private void uriCommentaires(String[] uriSplit, HttpServletRequest request, HttpServletResponse response) 
+    private void uriCommentaires(String[] uriSplit, HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        RequestDispatcher dispatcher;
         if (uriSplit.length == 6) {
             //listes des commantaire : /groupes/<id = split[1]>/billets/<id = split[3]>/commentaires
             // controller des commentaires
-            request.getRequestDispatcher("/ControllerComments").forward(request, response);
-            return;
-        }
-        if (uriSplit.length == 7) {
+            dispatcher = request.getServletContext().getNamedDispatcher("ControllerComments");
+            if (dispatcher != null) {
+                dispatcher.include(request, response);
+            }
+        } else if (uriSplit.length == 7) {
             //Detail d'un groupe : /groupes/<id = split[1]>/billets/<id = split[3]>/commentaires/<id = split[5]>
             // controller détail d'un commentaire
-            request.getRequestDispatcher("/ControllerComment").forward(request, response);
-            return;
+            dispatcher = request.getServletContext().getNamedDispatcher("ControllerComment");
+            if (dispatcher != null) {
+                dispatcher.include(request, response);
+            }
+        } else {
+            //error    
         }
-        //error
-
     }
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        dispatch(request, response);
     }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        dispatch(request, response);
     }
-    
+
     @Override
     protected void doDelete(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        dispatch(request, response);
     }
-    
+
     @Override
     protected void doPut(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        dispatch(request, response);
     }
 }

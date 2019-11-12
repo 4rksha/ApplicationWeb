@@ -19,89 +19,75 @@ import javax.servlet.http.HttpServletResponse;
 
 import fr.univlyon1.m1if.m1if03.classes.Groupe;
 import fr.univlyon1.m1if.m1if03.mapping.ContentGroupeMapper;
-import java.io.PrintWriter;
+import javax.servlet.ServletContext;
 
-@WebServlet(name = "ControllerGroupes", urlPatterns = { "/ControllerGroupes" })
+@WebServlet(name = "ControllerGroupes", urlPatterns = {"/ControllerGroupes"})
 public class ControllerGroupes extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        ServletContext context = request.getServletContext();
         // Recupération du modèle
-        Map<String, Groupe> modele = (HashMap<String, Groupe>) request.getServletContext().getAttribute("groupes");
+        Map<String, Groupe> modele = (HashMap<String, Groupe>) context.getAttribute("groupes");
         // On charge les listes de les groupes contenue dans le modèles
         request.getServletContext().setAttribute("groupesList", modele.keySet());
-
-        // ON charge la vue souhaité
-        if (request.getContentType() == null) {
-            request.getRequestDispatcher("WEB-INF/jsp/groupes.jsp").forward(request, response);
-        }
-        switch (request.getContentType()) {
-        case "text/html":
-            request.getRequestDispatcher("WEB-INF/jsp/groupes.jsp").forward(request, response);
-            break;
-        case "application/json":
-            ObjectMapper objectMapper = new ObjectMapper();
-            PrintWriter out = response.getWriter();
-            response.setContentType("application/json");
-            response.setCharacterEncoding("UTF-8");
-            String jsonGroupes = objectMapper.writeValueAsString(createGroupesTab(modele.keySet()));
-            out.print(jsonGroupes);
-            out.flush();
-            break;
-        default:
-            request.getRequestDispatcher("WEB-INF/jsp/groupes.jsp").forward(request, response);
-            break;
-        }
+        request.getServletContext().setAttribute("view", "groupes");
+        request.getServletContext().setAttribute("data",
+                new ObjectMapper().writeValueAsString(createGroupesTab(modele.keySet())));
     }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        ServletContext context = request.getServletContext();
         // Recupération du modèle
         String author = null, title = null, content = null;
+        String[] membres = null;
 
         if (request.getContentType() != null && request.getContentType().equals("application/json")) {
             ObjectMapper objectMapper = new ObjectMapper();
-            ContentGroupeMapper contentJson = null;
+            ContentGroupeMapper contentJson;
             try {
                 contentJson = objectMapper.readValue(request.getInputStream(), ContentGroupeMapper.class);
-            } catch (Exception e) {
-                response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            } catch (IOException e) {
+                context.setAttribute("status", HttpServletResponse.SC_BAD_REQUEST);
                 return;
             }
             if (contentJson != null) {
                 author = contentJson.proprietaire;
                 title = contentJson.nom;
                 content = contentJson.description;
+                membres = contentJson.membres;
             }
         } else {
             author = request.getParameter("proprietaire");
             title = request.getParameter("nom");
             content = request.getParameter("description");
         }
-        System.out.println(title + " " + content + " " + author + " ");
-
         if (author == null || author.equals("") || title == null || title.equals("") || content == null
                 || content.equals("")) {
-            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            context.setAttribute("status", HttpServletResponse.SC_NOT_FOUND);
         }
         Map<String, Groupe> modele = (HashMap<String, Groupe>) request.getServletContext().getAttribute("groupes");
         if (modele.containsKey(title) == false) {
             Groupe g = new Groupe(title, content, author);
+            if (membres != null) {
+                g.setMembres(membres);
+            }
             modele.put(title, g);
 
-            response.setStatus(HttpServletResponse.SC_CREATED);
+            context.setAttribute("status", HttpServletResponse.SC_CREATED);
             response.addHeader("Location", "/groupes/" + title);
 
         } else {
-            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            context.setAttribute("status", HttpServletResponse.SC_BAD_REQUEST);
         }
     }
 
     /**
      * Créé un tableau d'url à partir d'un set de groupes
-     * 
+     *
      * @param namesGroupe
      * @return tableau d'uri
      */

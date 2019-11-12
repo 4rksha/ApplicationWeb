@@ -6,7 +6,6 @@
 package fr.univlyon1.m1if.m1if03.servlets.subcontroller;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -24,13 +23,14 @@ import com.auth0.jwt.algorithms.Algorithm;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import fr.univlyon1.m1if.m1if03.classes.Pseudo;
+import javax.servlet.ServletContext;
 
-@WebServlet(name = "ControllerUser", urlPatterns = { "/ControllerUser/*" })
+@WebServlet(name = "ControllerUser", urlPatterns = {"/ControllerUser/*"})
 public class ControllerUser extends HttpServlet {
 
     /**
      * Initialisation de la liste des users
-     * 
+     *
      * @param sc
      */
     @Override
@@ -41,82 +41,74 @@ public class ControllerUser extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        List<String> users = (ArrayList<String>) request.getServletContext().getAttribute("users");
-        ObjectMapper objectMapper = new ObjectMapper();
-        PrintWriter out = response.getWriter();
-        response.setContentType("application/json");
-        response.setCharacterEncoding("UTF-8");
-        String jsonGroupes = objectMapper.writeValueAsString(createTabUser(users));
-        out.print(jsonGroupes);
-        out.flush();
+        ServletContext context = request.getServletContext();
+        List<String> users = (ArrayList<String>) context.getAttribute("users");
+        context.setAttribute("view", "users");
+        context.setAttribute("data",
+                new ObjectMapper().writeValueAsString(createTabUser(users)));
     }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        // String[] uriSplit = ((String)
-        // request.getServletContext().getAttribute("URI")).split("/");
+        ServletContext context = request.getServletContext();
         String[] uriSplit = request.getRequestURI().split("/");
-        List<String> users = (ArrayList<String>) request.getServletContext().getAttribute("users");
+        List<String> users = (ArrayList<String>) context.getAttribute("users");
 
         switch (uriSplit[2]) {
-        case "login": // Connexion
-            String pseudo = null;
-            if (request.getContentType() != null && request.getContentType().equals("application/json")) {
-                ObjectMapper objectMapper = new ObjectMapper();
-                try {
-                    Pseudo jsonResult = objectMapper.readValue(request.getInputStream(), Pseudo.class);
+            case "login": // Connexion
+                if (request.getContentType() != null && request.getContentType().equals("application/json")) {
+                    ObjectMapper objectMapper = new ObjectMapper();
+                    try {
+                        Pseudo jsonResult = objectMapper.readValue(request.getInputStream(), Pseudo.class);
 
-                    if (jsonResult != null && jsonResult.pseudo.equals("") == false) {
-                        pseudo = jsonResult.pseudo;
-                        response.setStatus(HttpServletResponse.SC_CREATED);
-                        String token = createJWT("/users/" + pseudo, 60000);// Temps de validité 10 minutes
-                        response.setHeader("Authorization", token);
-                        Cookie cookie = new Cookie("Authorization", token);
-                        cookie.setPath("/");
-                        // cookie.setSecure(true);
-                        response.addCookie(cookie);
-                        users.add(pseudo);
+                        if (jsonResult != null && jsonResult.pseudo.equals("") == false) {
+                            String pseudo = jsonResult.pseudo;
+                            context.setAttribute("status", HttpServletResponse.SC_CREATED);
+                            String token = createJWT("/users/" + pseudo, 600000);// Temps de validité 10 minutes
+                            context.setAttribute("status", HttpServletResponse.SC_CREATED);
+                            context.setAttribute("Authorization", token);
+                            Cookie cookie = new Cookie("Authorization", token);
+                            cookie.setPath("/");
+                            // cookie.setSecure(true);
+                            context.setAttribute("Cookie", cookie);
+                            if (!users.contains(pseudo)) {
+                                users.add(pseudo);
+                            }
+
+                        }
+                    } catch (IOException e) {
+                        context.setAttribute("status", HttpServletResponse.SC_BAD_REQUEST);
                     }
-                } catch (Exception e) {
-                    response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-                }
-            } else {
-                pseudo = request.getParameter("pseudo");
-                if (pseudo != null && pseudo.equals("") == false) {
-                    response.setStatus(HttpServletResponse.SC_CREATED);
-                    String token = createJWT("/users/" + pseudo, 600000);// Temps de validité 10 minutes
-                    response.setHeader("Authorization", token);
-                    response.addCookie(new Cookie("Authorization", token));
                 } else {
-                    response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+                    context.setAttribute("status", HttpServletResponse.SC_BAD_REQUEST);
                 }
-            }
-            break;
-        case "logout":
-            response.setHeader("Authorization", null);
-            Cookie cookie = new Cookie("Authorization", null);
-            cookie.setPath("/");
-            // cookie.setSecure(true);
-            response.addCookie(cookie);
-            response.setStatus(HttpServletResponse.SC_NO_CONTENT);
-            break;
-        default:
-            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-            break;
+                break;
+            case "logout":
+                context.setAttribute("Authorization", null);
+                Cookie cookie = new Cookie("Authorization", null);
+                cookie.setPath("/");
+                context.setAttribute("Cookie", cookie);
+                context.setAttribute("status", HttpServletResponse.SC_NO_CONTENT);
+                break;
+            default:
+                context.setAttribute("status", HttpServletResponse.SC_BAD_REQUEST);
+                break;
         }
     }
 
     @Override
     protected void doPut(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setStatus(HttpServletResponse.SC_NOT_IMPLEMENTED);
+        ServletContext context = request.getServletContext();
+        context.setAttribute("status", HttpServletResponse.SC_NOT_IMPLEMENTED);
     }
 
     @Override
     protected void doDelete(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setStatus(HttpServletResponse.SC_NOT_IMPLEMENTED);
+        ServletContext context = request.getServletContext();
+        context.setAttribute("status", HttpServletResponse.SC_NOT_IMPLEMENTED);
     }
 
     private String[] createTabUser(List<String> users) {
@@ -131,9 +123,9 @@ public class ControllerUser extends HttpServlet {
 
     /**
      * Génère un token
-     * 
+     *
      * @param uriUser URI de l'user qui demande un token
-     * @param ms      temps en ms de validité d'un token
+     * @param ms temps en ms de validité d'un token
      * @return token
      */
     private String createJWT(String uriUser, long ms) {

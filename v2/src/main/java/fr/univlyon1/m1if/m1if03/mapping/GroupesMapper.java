@@ -23,23 +23,4 @@ public class GroupesMapper {
             i++;
         }
     }
-
-//    public void outJSON(PrintWriter out) throws IOException {
-//        JsonFactory factory = new JsonFactory();
-//        JsonGenerator generator = factory.createGenerator(out);
-//        generator.writeStartObject();
-//        // Listage des groupes
-//        generator.writeFieldName("groupes");
-//        generator.writeStartArray();
-//        for (DetailGroupe groupe : this.groupes) {
-//            generator.writeStartObject(); 
-//            generator.writeStringField("id", groupe.id);
-//            generator.writeStringField("uri", groupe.uri);
-//            generator.writeEndObject();
-//        }
-//        generator.writeEndArray();
-//        generator.writeEndObject();
-//        // Fin de la génération du code
-//        generator.close();
-//    }
 }
