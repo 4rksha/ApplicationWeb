@@ -1,39 +1,1488 @@
-<!DOCTYPE html>
-<html lang="fr">
+﻿<!DOCTYPE html>
+<html>
+
 <head>
-    <meta charset="UTF-8">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-    <link rel="stylesheet" 
-          href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" 
-          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" 
-          crossorigin="anonymous">
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" 
-            integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" 
-            crossorigin="anonymous">
-    </script>
-    <title>Mes Copains</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>API TP4 Mes Copains !</title>
+  <link rel="stylesheet" href="https://stackedit.io/style.css" />
 </head>
-<body>
-    <header>
-        <nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-dark">
-            <span class="navbar-brand">Gestionnaire de billet</span>
-        </nav>
-    </header>
-    <div class="container">
-        <br/>
-        <br/>
-        <br/>
-        <h1 class="text-left">Bienvenue sur Mes Copains !</h1>
-        <form class="form form-container" method="post" action="billets">
-            <div class="form-group">
-                <label for="pseudo">Entrer votre pseudo</label>
-                <input type="text" name="pseudo" class="form-control" id="pseudo">
-                <label for="groupe">Entrer votre groupe</label>
-                <input type="text" name="groupe" class="form-control" id="groupe">
-                
-            </div>
-            <button type="submit" class="btn btn-primary">Connexion</button>
-        </form>      
-    </div>
+
+<body class="stackedit">
+  <div class="stackedit__html"><h1 id="api-tp4-mes-copains-">API TP4 Mes Copains !</h1>
+<h4 id="zacharia-beddalia--vaslin-pierre">Zacharia Beddalia &amp; Vaslin Pierre</h4>
+<p>Le code ci-dessous est un fichier yaml pour swagger qui décrit l’api et permet de la tester</p>
+<pre class=" language-yaml"><code class="prism  language-yaml">
+<span class="token key atrule">swagger</span><span class="token punctuation">:</span> <span class="token string">"2.0"</span>
+
+<span class="token key atrule">info</span><span class="token punctuation">:</span>
+
+<span class="token key atrule">description</span><span class="token punctuation">:</span> <span class="token string">"Description de l'API de l'application de blog. Vous pouvez changer les valeurs de 'host' et 'basePath' pour l'adapter à votre machine. Les autres valeurs ne doivent pas être modofiées.\n\n\n\nLe token de constant pour tester l'api 'token.pour.swagger'\n "</span>
+
+<span class="token key atrule">version</span><span class="token punctuation">:</span> <span class="token string">"1.0.0"</span>
+
+<span class="token key atrule">title</span><span class="token punctuation">:</span> <span class="token string">"Mes Copains !"</span>
+
+<span class="token key atrule">host</span><span class="token punctuation">:</span> <span class="token string">"192.168.75.87:8084"</span>
+
+<span class="token key atrule">basePath</span><span class="token punctuation">:</span> <span class="token string">"/api/v2/"</span>
+
+<span class="token key atrule">tags</span><span class="token punctuation">:</span>
+
+<span class="token punctuation">-</span> <span class="token key atrule">name</span><span class="token punctuation">:</span> <span class="token string">"groupes"</span>
+
+<span class="token key atrule">description</span><span class="token punctuation">:</span> <span class="token string">"Gestion des groupes"</span>
+
+<span class="token punctuation">-</span> <span class="token key atrule">name</span><span class="token punctuation">:</span> <span class="token string">"billets"</span>
+
+<span class="token key atrule">description</span><span class="token punctuation">:</span> <span class="token string">"Gestion des billets"</span>
+
+<span class="token punctuation">-</span> <span class="token key atrule">name</span><span class="token punctuation">:</span> <span class="token string">"commentaires"</span>
+
+<span class="token key atrule">description</span><span class="token punctuation">:</span> <span class="token string">"Gestion des commentaires"</span>
+
+<span class="token punctuation">-</span> <span class="token key atrule">name</span><span class="token punctuation">:</span> <span class="token string">"users"</span>
+
+<span class="token key atrule">description</span><span class="token punctuation">:</span> <span class="token string">"Gestion des utilisateurs"</span>
+
+<span class="token key atrule">schemes</span><span class="token punctuation">:</span>
+
+<span class="token punctuation">-</span> <span class="token string">"http"</span>
+
+<span class="token key atrule">paths</span><span class="token punctuation">:</span>
+
+<span class="token key atrule">/groupes</span><span class="token punctuation">:</span>
+
+<span class="token key atrule">get</span><span class="token punctuation">:</span>
+
+<span class="token key atrule">tags</span><span class="token punctuation">:</span>
+
+<span class="token punctuation">-</span> <span class="token string">"groupes"</span>
+
+<span class="token key atrule">summary</span><span class="token punctuation">:</span> <span class="token string">"Récupérer la liste des groupes"</span>
+
+<span class="token key atrule">description</span><span class="token punctuation">:</span> <span class="token string">"Renvoie les URI des groupes de l'application"</span>
+
+<span class="token key atrule">operationId</span><span class="token punctuation">:</span> <span class="token string">"getAllGroupes"</span>
+
+<span class="token key atrule">produces</span><span class="token punctuation">:</span>
+
+<span class="token punctuation">-</span> <span class="token string">"application/json"</span>
+
+<span class="token punctuation">-</span> <span class="token string">"application/xml"</span>
+
+<span class="token punctuation">-</span> <span class="token string">"text/html"</span>
+
+<span class="token key atrule">responses</span><span class="token punctuation">:</span>
+
+<span class="token key atrule">200</span><span class="token punctuation">:</span>
+
+<span class="token key atrule">description</span><span class="token punctuation">:</span> <span class="token string">"successful operation"</span>
+
+<span class="token key atrule">schema</span><span class="token punctuation">:</span>
+
+<span class="token key atrule">$ref</span><span class="token punctuation">:</span> <span class="token string">"#/definitions/Groupes"</span>
+
+<span class="token key atrule">examples</span><span class="token punctuation">:</span>
+
+<span class="token key atrule">application/json</span><span class="token punctuation">:</span>
+
+<span class="token punctuation">-</span> <span class="token string">"http://localhost:8080/groupes/M1IF03"</span>
+
+<span class="token punctuation">-</span> <span class="token string">"http://localhost:8080/groupes/M1IF04"</span>
+
+<span class="token key atrule">application/xml</span><span class="token punctuation">:</span> <span class="token string">"&lt;groupes&gt;\n &lt;groupe&gt;http://localhost:8080/groupes/M1IF03&lt;/groupe&gt;\n &lt;groupe&gt;http://localhost:8080/groupes/M1IF04&lt;/groupe&gt;\n&lt;/groupes&gt;"</span>
+
+<span class="token key atrule">text/html</span><span class="token punctuation">:</span> page HTML contenant la liste
+
+<span class="token key atrule">401</span><span class="token punctuation">:</span>
+
+<span class="token key atrule">description</span><span class="token punctuation">:</span> <span class="token string">"Utilisateur non authentifié"</span>
+
+<span class="token key atrule">security</span><span class="token punctuation">:</span>
+
+<span class="token punctuation">-</span> <span class="token key atrule">pseudo_auth</span><span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token punctuation">]</span>
+
+<span class="token key atrule">post</span><span class="token punctuation">:</span>
+
+<span class="token key atrule">tags</span><span class="token punctuation">:</span>
+
+<span class="token punctuation">-</span> <span class="token string">"groupes"</span>
+
+<span class="token key atrule">summary</span><span class="token punctuation">:</span> <span class="token string">"Créer un groupe"</span>
+
+<span class="token key atrule">description</span><span class="token punctuation">:</span> <span class="token string">"Crée un nouveau groupe"</span>
+
+<span class="token key atrule">operationId</span><span class="token punctuation">:</span> <span class="token string">"addGroupe"</span>
+
+<span class="token key atrule">consumes</span><span class="token punctuation">:</span>
+
+<span class="token punctuation">-</span> <span class="token string">"application/json"</span>
+
+<span class="token punctuation">-</span> <span class="token string">"application/x-www-form-urlencoded"</span>
+
+<span class="token punctuation">-</span> <span class="token string">"application/xml"</span>
+
+<span class="token key atrule">parameters</span><span class="token punctuation">:</span>
+
+<span class="token punctuation">-</span> <span class="token key atrule">in</span><span class="token punctuation">:</span> <span class="token string">"body"</span>
+
+<span class="token key atrule">name</span><span class="token punctuation">:</span> <span class="token string">"groupe"</span>
+
+<span class="token key atrule">description</span><span class="token punctuation">:</span> <span class="token string">"nom du groupe"</span>
+
+<span class="token key atrule">required</span><span class="token punctuation">:</span> <span class="token boolean important">true</span>
+
+<span class="token key atrule">schema</span><span class="token punctuation">:</span>
+
+<span class="token key atrule">$ref</span><span class="token punctuation">:</span> <span class="token string">"#/definitions/contentGroupe"</span>
+
+<span class="token key atrule">responses</span><span class="token punctuation">:</span>
+
+<span class="token key atrule">201</span><span class="token punctuation">:</span>
+
+<span class="token key atrule">description</span><span class="token punctuation">:</span> <span class="token string">"Groupe cré"</span>
+
+<span class="token key atrule">400</span><span class="token punctuation">:</span>
+
+<span class="token key atrule">description</span><span class="token punctuation">:</span> <span class="token string">"Pas de paramètres acceptables dans la requête"</span>
+
+<span class="token key atrule">401</span><span class="token punctuation">:</span>
+
+<span class="token key atrule">description</span><span class="token punctuation">:</span> <span class="token string">"Utilisateur non authentifié"</span>
+
+<span class="token key atrule">security</span><span class="token punctuation">:</span>
+
+<span class="token punctuation">-</span> <span class="token key atrule">pseudo_auth</span><span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token punctuation">]</span>
+
+/groupes/<span class="token punctuation">{</span>groupeId<span class="token punctuation">}</span><span class="token punctuation">:</span>
+
+<span class="token key atrule">get</span><span class="token punctuation">:</span>
+
+<span class="token key atrule">tags</span><span class="token punctuation">:</span>
+
+<span class="token punctuation">-</span> <span class="token string">"groupes"</span>
+
+<span class="token key atrule">summary</span><span class="token punctuation">:</span> <span class="token string">"Retrouver un groupe"</span>
+
+<span class="token key atrule">description</span><span class="token punctuation">:</span> <span class="token string">"Renvoie une représentation d'un groupe"</span>
+
+<span class="token key atrule">operationId</span><span class="token punctuation">:</span> <span class="token string">"getGroupeById"</span>
+
+<span class="token key atrule">produces</span><span class="token punctuation">:</span>
+
+<span class="token punctuation">-</span> <span class="token string">"application/json"</span>
+
+<span class="token punctuation">-</span> <span class="token string">"application/xml"</span>
+
+<span class="token punctuation">-</span> <span class="token string">"text/html"</span>
+
+<span class="token key atrule">parameters</span><span class="token punctuation">:</span>
+
+<span class="token punctuation">-</span> <span class="token key atrule">name</span><span class="token punctuation">:</span> <span class="token string">"groupeId"</span>
+
+<span class="token key atrule">in</span><span class="token punctuation">:</span> <span class="token string">"path"</span>
+
+<span class="token key atrule">description</span><span class="token punctuation">:</span> <span class="token string">"Id du groupe"</span>
+
+<span class="token key atrule">required</span><span class="token punctuation">:</span> <span class="token boolean important">true</span>
+
+<span class="token key atrule">type</span><span class="token punctuation">:</span> <span class="token string">"string"</span>
+
+<span class="token punctuation">-</span> <span class="token key atrule">$ref</span><span class="token punctuation">:</span> <span class="token string">"#/securityDefinitions/pseudo_auth"</span>
+
+<span class="token key atrule">responses</span><span class="token punctuation">:</span>
+
+<span class="token key atrule">200</span><span class="token punctuation">:</span>
+
+<span class="token key atrule">description</span><span class="token punctuation">:</span> <span class="token string">"successful operation"</span>
+
+<span class="token key atrule">schema</span><span class="token punctuation">:</span>
+
+<span class="token key atrule">$ref</span><span class="token punctuation">:</span> <span class="token string">"#/definitions/Groupe"</span>
+
+<span class="token key atrule">401</span><span class="token punctuation">:</span>
+
+<span class="token key atrule">description</span><span class="token punctuation">:</span> <span class="token string">"Utilisateur non authentifié"</span>
+
+<span class="token key atrule">404</span><span class="token punctuation">:</span>
+
+<span class="token key atrule">description</span><span class="token punctuation">:</span> <span class="token string">"Groupe non trouvé"</span>
+
+<span class="token key atrule">security</span><span class="token punctuation">:</span>
+
+<span class="token punctuation">-</span> <span class="token key atrule">pseudo_auth</span><span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token punctuation">]</span>
+
+<span class="token key atrule">put</span><span class="token punctuation">:</span>
+
+<span class="token key atrule">tags</span><span class="token punctuation">:</span>
+
+<span class="token punctuation">-</span> <span class="token string">"groupes"</span>
+
+<span class="token key atrule">summary</span><span class="token punctuation">:</span> <span class="token string">"Mettre à jour ou créer un groupe"</span>
+
+<span class="token key atrule">description</span><span class="token punctuation">:</span> <span class="token string">"Met à jour le groupe dont le nom est en paramètre s'il existe déjà ou le crée sinon"</span>
+
+<span class="token key atrule">operationId</span><span class="token punctuation">:</span> <span class="token string">"updatePet"</span>
+
+<span class="token key atrule">consumes</span><span class="token punctuation">:</span>
+
+<span class="token punctuation">-</span> <span class="token string">"application/json"</span>
+
+<span class="token punctuation">-</span> <span class="token string">"application/xml"</span>
+
+<span class="token key atrule">parameters</span><span class="token punctuation">:</span>
+
+<span class="token punctuation">-</span> <span class="token key atrule">name</span><span class="token punctuation">:</span> <span class="token string">"groupeId"</span>
+
+<span class="token key atrule">in</span><span class="token punctuation">:</span> <span class="token string">"path"</span>
+
+<span class="token key atrule">description</span><span class="token punctuation">:</span> <span class="token string">"Id du groupe"</span>
+
+<span class="token key atrule">required</span><span class="token punctuation">:</span> <span class="token boolean important">true</span>
+
+<span class="token key atrule">type</span><span class="token punctuation">:</span> <span class="token string">"string"</span>
+
+<span class="token punctuation">-</span> <span class="token key atrule">in</span><span class="token punctuation">:</span> <span class="token string">"body"</span>
+
+<span class="token key atrule">name</span><span class="token punctuation">:</span> <span class="token string">"groupe"</span>
+
+<span class="token key atrule">description</span><span class="token punctuation">:</span> <span class="token string">"Objet Groupe à ajouter"</span>
+
+<span class="token key atrule">required</span><span class="token punctuation">:</span> <span class="token boolean important">true</span>
+
+<span class="token key atrule">schema</span><span class="token punctuation">:</span>
+
+<span class="token key atrule">$ref</span><span class="token punctuation">:</span> <span class="token string">"#/definitions/contentGroupe"</span>
+
+<span class="token punctuation">-</span> <span class="token key atrule">$ref</span><span class="token punctuation">:</span> <span class="token string">"#/securityDefinitions/pseudo_auth"</span>
+
+<span class="token key atrule">responses</span><span class="token punctuation">:</span>
+
+<span class="token key atrule">204</span><span class="token punctuation">:</span>
+
+<span class="token key atrule">description</span><span class="token punctuation">:</span> <span class="token string">"Groupe correctement cré ou modifié"</span>
+
+<span class="token key atrule">400</span><span class="token punctuation">:</span>
+
+<span class="token key atrule">description</span><span class="token punctuation">:</span> <span class="token string">"Pas de paramètres acceptables dans la requête"</span>
+
+<span class="token key atrule">401</span><span class="token punctuation">:</span>
+
+<span class="token key atrule">description</span><span class="token punctuation">:</span> <span class="token string">"Utilisateur non authentifié"</span>
+
+<span class="token key atrule">404</span><span class="token punctuation">:</span>
+
+<span class="token key atrule">description</span><span class="token punctuation">:</span> <span class="token string">"Groupe non trouvé"</span>
+
+<span class="token key atrule">security</span><span class="token punctuation">:</span>
+
+<span class="token punctuation">-</span> <span class="token key atrule">pseudo_auth</span><span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token punctuation">]</span>
+
+<span class="token key atrule">delete</span><span class="token punctuation">:</span>
+
+<span class="token key atrule">tags</span><span class="token punctuation">:</span>
+
+<span class="token punctuation">-</span> <span class="token string">"groupes"</span>
+
+<span class="token key atrule">summary</span><span class="token punctuation">:</span> <span class="token string">"Supprimer un groupe"</span>
+
+<span class="token key atrule">description</span><span class="token punctuation">:</span> <span class="token string">"Supprime le groupe dont le nom est en paramètre"</span>
+
+<span class="token key atrule">operationId</span><span class="token punctuation">:</span> <span class="token string">"deleteGroupe"</span>
+
+<span class="token key atrule">parameters</span><span class="token punctuation">:</span>
+
+<span class="token punctuation">-</span> <span class="token key atrule">name</span><span class="token punctuation">:</span> <span class="token string">"groupeId"</span>
+
+<span class="token key atrule">in</span><span class="token punctuation">:</span> <span class="token string">"path"</span>
+
+<span class="token key atrule">description</span><span class="token punctuation">:</span> <span class="token string">"Id du groupe"</span>
+
+<span class="token key atrule">required</span><span class="token punctuation">:</span> <span class="token boolean important">true</span>
+
+<span class="token key atrule">type</span><span class="token punctuation">:</span> <span class="token string">"string"</span>
+
+<span class="token punctuation">-</span> <span class="token key atrule">$ref</span><span class="token punctuation">:</span> <span class="token string">"#/securityDefinitions/pseudo_auth"</span>
+
+<span class="token key atrule">responses</span><span class="token punctuation">:</span>
+
+<span class="token key atrule">204</span><span class="token punctuation">:</span>
+
+<span class="token key atrule">description</span><span class="token punctuation">:</span> <span class="token string">"Groupe supprimé"</span>
+
+<span class="token key atrule">401</span><span class="token punctuation">:</span>
+
+<span class="token key atrule">description</span><span class="token punctuation">:</span> <span class="token string">"Utilisateur non authentifié"</span>
+
+<span class="token key atrule">403</span><span class="token punctuation">:</span>
+
+<span class="token key atrule">description</span><span class="token punctuation">:</span> <span class="token string">"Utilisateur non membre du groupe"</span>
+
+<span class="token key atrule">404</span><span class="token punctuation">:</span>
+
+<span class="token key atrule">description</span><span class="token punctuation">:</span> <span class="token string">"Groupe non trouvé"</span>
+
+<span class="token key atrule">security</span><span class="token punctuation">:</span>
+
+<span class="token punctuation">-</span> <span class="token key atrule">pseudo_auth</span><span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token punctuation">]</span>
+
+/groupes/<span class="token punctuation">{</span>groupeId<span class="token punctuation">}</span>/billets<span class="token punctuation">:</span>
+
+<span class="token key atrule">get</span><span class="token punctuation">:</span>
+
+<span class="token key atrule">tags</span><span class="token punctuation">:</span>
+
+<span class="token punctuation">-</span> <span class="token string">"billets"</span>
+
+<span class="token key atrule">summary</span><span class="token punctuation">:</span> <span class="token string">"Récupérer la liste des billets d'un groupe"</span>
+
+<span class="token key atrule">description</span><span class="token punctuation">:</span> <span class="token string">"Renvoie les URI des billets du groupe demandé"</span>
+
+<span class="token key atrule">operationId</span><span class="token punctuation">:</span> <span class="token string">"getAllBilletsFromGroupe"</span>
+
+<span class="token key atrule">produces</span><span class="token punctuation">:</span>
+
+<span class="token punctuation">-</span> <span class="token string">"application/json"</span>
+
+<span class="token punctuation">-</span> <span class="token string">"application/xml"</span>
+
+<span class="token punctuation">-</span> <span class="token string">"text/html"</span>
+
+<span class="token key atrule">parameters</span><span class="token punctuation">:</span>
+
+<span class="token punctuation">-</span> <span class="token key atrule">name</span><span class="token punctuation">:</span> <span class="token string">"groupeId"</span>
+
+<span class="token key atrule">in</span><span class="token punctuation">:</span> <span class="token string">"path"</span>
+
+<span class="token key atrule">description</span><span class="token punctuation">:</span> <span class="token string">"Id du groupe"</span>
+
+<span class="token key atrule">required</span><span class="token punctuation">:</span> <span class="token boolean important">true</span>
+
+<span class="token key atrule">type</span><span class="token punctuation">:</span> <span class="token string">"string"</span>
+
+<span class="token punctuation">-</span> <span class="token key atrule">$ref</span><span class="token punctuation">:</span> <span class="token string">"#/securityDefinitions/pseudo_auth"</span>
+
+<span class="token key atrule">responses</span><span class="token punctuation">:</span>
+
+<span class="token key atrule">200</span><span class="token punctuation">:</span>
+
+<span class="token key atrule">description</span><span class="token punctuation">:</span> <span class="token string">"successful operation"</span>
+
+<span class="token key atrule">schema</span><span class="token punctuation">:</span>
+
+<span class="token key atrule">$ref</span><span class="token punctuation">:</span> <span class="token string">"#/definitions/Billets"</span>
+
+<span class="token key atrule">examples</span><span class="token punctuation">:</span>
+
+<span class="token key atrule">application/json</span><span class="token punctuation">:</span>
+
+<span class="token punctuation">-</span> <span class="token string">"http://localhost:8080/groupes/M1IF03/0"</span>
+
+<span class="token punctuation">-</span> <span class="token string">"http://localhost:8080/groupes/M1IF03/1"</span>
+
+<span class="token key atrule">application/xml</span><span class="token punctuation">:</span> <span class="token string">"&lt;billets&gt;\n &lt;billet&gt;http://localhost:8080/groupes/M1IF03/0&lt;/billet&gt;\n &lt;billet&gt;http://localhost:8080/groupes/M1IF03/1&lt;/billet&gt;\n &lt;/billets&gt;"</span>
+
+<span class="token key atrule">text/html</span><span class="token punctuation">:</span> page HTML contenant la liste
+
+<span class="token key atrule">401</span><span class="token punctuation">:</span>
+
+<span class="token key atrule">description</span><span class="token punctuation">:</span> <span class="token string">"Utilisateur non authentifié"</span>
+
+<span class="token key atrule">403</span><span class="token punctuation">:</span>
+
+<span class="token key atrule">description</span><span class="token punctuation">:</span> <span class="token string">"Utilisateur non membre du groupe"</span>
+
+<span class="token key atrule">security</span><span class="token punctuation">:</span>
+
+<span class="token punctuation">-</span> <span class="token key atrule">pseudo_auth</span><span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token punctuation">]</span>
+
+<span class="token key atrule">post</span><span class="token punctuation">:</span>
+
+<span class="token key atrule">tags</span><span class="token punctuation">:</span>
+
+<span class="token punctuation">-</span> <span class="token string">"billets"</span>
+
+<span class="token key atrule">summary</span><span class="token punctuation">:</span> <span class="token string">"Créer un billet"</span>
+
+<span class="token key atrule">description</span><span class="token punctuation">:</span> <span class="token string">"Crée un nouveau billet dans le groupe"</span>
+
+<span class="token key atrule">operationId</span><span class="token punctuation">:</span> <span class="token string">"addBillet"</span>
+
+<span class="token key atrule">consumes</span><span class="token punctuation">:</span>
+
+<span class="token punctuation">-</span> <span class="token string">"application/json"</span>
+
+<span class="token punctuation">-</span> <span class="token string">"application/x-www-form-urlencoded"</span>
+
+<span class="token punctuation">-</span> <span class="token string">"application/xml"</span>
+
+<span class="token key atrule">parameters</span><span class="token punctuation">:</span>
+
+<span class="token punctuation">-</span> <span class="token key atrule">in</span><span class="token punctuation">:</span> <span class="token string">"path"</span>
+
+<span class="token key atrule">name</span><span class="token punctuation">:</span> <span class="token string">"groupeId"</span>
+
+<span class="token key atrule">description</span><span class="token punctuation">:</span> <span class="token string">"id du groupe"</span>
+
+<span class="token key atrule">required</span><span class="token punctuation">:</span> <span class="token boolean important">true</span>
+
+<span class="token key atrule">type</span><span class="token punctuation">:</span> <span class="token string">"string"</span>
+
+<span class="token punctuation">-</span> <span class="token key atrule">in</span><span class="token punctuation">:</span> <span class="token string">"body"</span>
+
+<span class="token key atrule">name</span><span class="token punctuation">:</span> <span class="token string">"billet"</span>
+
+<span class="token key atrule">description</span><span class="token punctuation">:</span> <span class="token string">"billet à créer"</span>
+
+<span class="token key atrule">required</span><span class="token punctuation">:</span> <span class="token boolean important">true</span>
+
+<span class="token key atrule">schema</span><span class="token punctuation">:</span>
+
+<span class="token key atrule">$ref</span><span class="token punctuation">:</span> <span class="token string">"#/definitions/contentBillet"</span>
+
+<span class="token punctuation">-</span> <span class="token key atrule">$ref</span><span class="token punctuation">:</span> <span class="token string">"#/securityDefinitions/pseudo_auth"</span>
+
+<span class="token key atrule">responses</span><span class="token punctuation">:</span>
+
+<span class="token key atrule">201</span><span class="token punctuation">:</span>
+
+<span class="token key atrule">description</span><span class="token punctuation">:</span> <span class="token string">"Billet cré"</span>
+
+<span class="token key atrule">400</span><span class="token punctuation">:</span>
+
+<span class="token key atrule">description</span><span class="token punctuation">:</span> <span class="token string">"Pas de paramètres acceptables dans la requête"</span>
+
+<span class="token key atrule">401</span><span class="token punctuation">:</span>
+
+<span class="token key atrule">description</span><span class="token punctuation">:</span> <span class="token string">"Utilisateur non authentifié"</span>
+
+<span class="token key atrule">403</span><span class="token punctuation">:</span>
+
+<span class="token key atrule">description</span><span class="token punctuation">:</span> <span class="token string">"Utilisateur non membre du groupe"</span>
+
+<span class="token key atrule">security</span><span class="token punctuation">:</span>
+
+<span class="token punctuation">-</span> <span class="token key atrule">pseudo_auth</span><span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token punctuation">]</span>
+
+/groupes/<span class="token punctuation">{</span>groupeId<span class="token punctuation">}</span>/billets/<span class="token punctuation">{</span>billetId<span class="token punctuation">}</span><span class="token punctuation">:</span>
+
+<span class="token key atrule">get</span><span class="token punctuation">:</span>
+
+<span class="token key atrule">tags</span><span class="token punctuation">:</span>
+
+<span class="token punctuation">-</span> <span class="token string">"billets"</span>
+
+<span class="token key atrule">summary</span><span class="token punctuation">:</span> <span class="token string">"Retrouver un billet"</span>
+
+<span class="token key atrule">description</span><span class="token punctuation">:</span> <span class="token string">"Renvoie une représentation d'un billet"</span>
+
+<span class="token key atrule">operationId</span><span class="token punctuation">:</span> <span class="token string">"getBilletById"</span>
+
+<span class="token key atrule">produces</span><span class="token punctuation">:</span>
+
+<span class="token punctuation">-</span> <span class="token string">"application/json"</span>
+
+<span class="token punctuation">-</span> <span class="token string">"application/xml"</span>
+
+<span class="token punctuation">-</span> <span class="token string">"text/html"</span>
+
+<span class="token key atrule">parameters</span><span class="token punctuation">:</span>
+
+<span class="token punctuation">-</span> <span class="token key atrule">name</span><span class="token punctuation">:</span> <span class="token string">"groupeId"</span>
+
+<span class="token key atrule">in</span><span class="token punctuation">:</span> <span class="token string">"path"</span>
+
+<span class="token key atrule">description</span><span class="token punctuation">:</span> <span class="token string">"Id du groupe"</span>
+
+<span class="token key atrule">required</span><span class="token punctuation">:</span> <span class="token boolean important">true</span>
+
+<span class="token key atrule">type</span><span class="token punctuation">:</span> <span class="token string">"string"</span>
+
+<span class="token punctuation">-</span> <span class="token key atrule">name</span><span class="token punctuation">:</span> <span class="token string">"billetId"</span>
+
+<span class="token key atrule">in</span><span class="token punctuation">:</span> <span class="token string">"path"</span>
+
+<span class="token key atrule">description</span><span class="token punctuation">:</span> <span class="token string">"Id du billet"</span>
+
+<span class="token key atrule">required</span><span class="token punctuation">:</span> <span class="token boolean important">true</span>
+
+<span class="token key atrule">type</span><span class="token punctuation">:</span> <span class="token string">"integer"</span>
+
+<span class="token punctuation">-</span> <span class="token key atrule">$ref</span><span class="token punctuation">:</span> <span class="token string">"#/securityDefinitions/pseudo_auth"</span>
+
+<span class="token key atrule">responses</span><span class="token punctuation">:</span>
+
+<span class="token key atrule">200</span><span class="token punctuation">:</span>
+
+<span class="token key atrule">description</span><span class="token punctuation">:</span> <span class="token string">"successful operation"</span>
+
+<span class="token key atrule">schema</span><span class="token punctuation">:</span>
+
+<span class="token key atrule">$ref</span><span class="token punctuation">:</span> <span class="token string">"#/definitions/Billet"</span>
+
+<span class="token key atrule">401</span><span class="token punctuation">:</span>
+
+<span class="token key atrule">description</span><span class="token punctuation">:</span> <span class="token string">"Utilisateur non authentifié"</span>
+
+<span class="token key atrule">403</span><span class="token punctuation">:</span>
+
+<span class="token key atrule">description</span><span class="token punctuation">:</span> <span class="token string">"Utilisateur non membre du groupe"</span>
+
+<span class="token key atrule">404</span><span class="token punctuation">:</span>
+
+<span class="token key atrule">description</span><span class="token punctuation">:</span> <span class="token string">"Billet non trouvé"</span>
+
+<span class="token key atrule">security</span><span class="token punctuation">:</span>
+
+<span class="token punctuation">-</span> <span class="token key atrule">pseudo_auth</span><span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token punctuation">]</span>
+
+<span class="token key atrule">put</span><span class="token punctuation">:</span>
+
+<span class="token key atrule">tags</span><span class="token punctuation">:</span>
+
+<span class="token punctuation">-</span> <span class="token string">"billets"</span>
+
+<span class="token key atrule">summary</span><span class="token punctuation">:</span> <span class="token string">"Mettre à jour ou créer un billet"</span>
+
+<span class="token key atrule">description</span><span class="token punctuation">:</span> <span class="token string">"Met à jour le billet dont le nom est en paramètre s'il existe déjà ou le crée sinon"</span>
+
+<span class="token key atrule">operationId</span><span class="token punctuation">:</span> <span class="token string">"updateBillet"</span>
+
+<span class="token key atrule">consumes</span><span class="token punctuation">:</span>
+
+<span class="token punctuation">-</span> <span class="token string">"application/json"</span>
+
+<span class="token punctuation">-</span> <span class="token string">"application/xml"</span>
+
+<span class="token key atrule">parameters</span><span class="token punctuation">:</span>
+
+<span class="token punctuation">-</span> <span class="token key atrule">name</span><span class="token punctuation">:</span> <span class="token string">"groupeId"</span>
+
+<span class="token key atrule">in</span><span class="token punctuation">:</span> <span class="token string">"path"</span>
+
+<span class="token key atrule">description</span><span class="token punctuation">:</span> <span class="token string">"Id du groupe"</span>
+
+<span class="token key atrule">required</span><span class="token punctuation">:</span> <span class="token boolean important">true</span>
+
+<span class="token key atrule">type</span><span class="token punctuation">:</span> <span class="token string">"string"</span>
+
+<span class="token punctuation">-</span> <span class="token key atrule">name</span><span class="token punctuation">:</span> <span class="token string">"billetId"</span>
+
+<span class="token key atrule">in</span><span class="token punctuation">:</span> <span class="token string">"path"</span>
+
+<span class="token key atrule">description</span><span class="token punctuation">:</span> <span class="token string">"Id du billet"</span>
+
+<span class="token key atrule">required</span><span class="token punctuation">:</span> <span class="token boolean important">true</span>
+
+<span class="token key atrule">type</span><span class="token punctuation">:</span> <span class="token string">"integer"</span>
+
+<span class="token punctuation">-</span> <span class="token key atrule">in</span><span class="token punctuation">:</span> <span class="token string">"body"</span>
+
+<span class="token key atrule">name</span><span class="token punctuation">:</span> <span class="token string">"billet"</span>
+
+<span class="token key atrule">description</span><span class="token punctuation">:</span> <span class="token string">"Objet Billet à ajouter"</span>
+
+<span class="token key atrule">required</span><span class="token punctuation">:</span> <span class="token boolean important">true</span>
+
+<span class="token key atrule">schema</span><span class="token punctuation">:</span>
+
+<span class="token key atrule">$ref</span><span class="token punctuation">:</span> <span class="token string">"#/definitions/contentBillet"</span>
+
+<span class="token punctuation">-</span> <span class="token key atrule">$ref</span><span class="token punctuation">:</span> <span class="token string">"#/securityDefinitions/pseudo_auth"</span>
+
+<span class="token key atrule">responses</span><span class="token punctuation">:</span>
+
+<span class="token key atrule">204</span><span class="token punctuation">:</span>
+
+<span class="token key atrule">description</span><span class="token punctuation">:</span> <span class="token string">"Billet correctement cré ou modifié"</span>
+
+<span class="token key atrule">400</span><span class="token punctuation">:</span>
+
+<span class="token key atrule">description</span><span class="token punctuation">:</span> <span class="token string">"Pas de paramètres acceptables dans la requête"</span>
+
+<span class="token key atrule">401</span><span class="token punctuation">:</span>
+
+<span class="token key atrule">description</span><span class="token punctuation">:</span> <span class="token string">"Utilisateur non authentifié"</span>
+
+<span class="token key atrule">403</span><span class="token punctuation">:</span>
+
+<span class="token key atrule">description</span><span class="token punctuation">:</span> <span class="token string">"Utilisateur non membre du groupe"</span>
+
+<span class="token key atrule">404</span><span class="token punctuation">:</span>
+
+<span class="token key atrule">description</span><span class="token punctuation">:</span> <span class="token string">"Billet non trouvé"</span>
+
+<span class="token key atrule">security</span><span class="token punctuation">:</span>
+
+<span class="token punctuation">-</span> <span class="token key atrule">pseudo_auth</span><span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token punctuation">]</span>
+
+<span class="token key atrule">delete</span><span class="token punctuation">:</span>
+
+<span class="token key atrule">tags</span><span class="token punctuation">:</span>
+
+<span class="token punctuation">-</span> <span class="token string">"billets"</span>
+
+<span class="token key atrule">summary</span><span class="token punctuation">:</span> <span class="token string">"Supprimer un billet"</span>
+
+<span class="token key atrule">description</span><span class="token punctuation">:</span> <span class="token string">"Supprime le billet dont le nom est en paramètre"</span>
+
+<span class="token key atrule">operationId</span><span class="token punctuation">:</span> <span class="token string">"deleteBillet"</span>
+
+<span class="token key atrule">parameters</span><span class="token punctuation">:</span>
+
+<span class="token punctuation">-</span> <span class="token key atrule">name</span><span class="token punctuation">:</span> <span class="token string">"groupeId"</span>
+
+<span class="token key atrule">in</span><span class="token punctuation">:</span> <span class="token string">"path"</span>
+
+<span class="token key atrule">description</span><span class="token punctuation">:</span> <span class="token string">"Id du groupe"</span>
+
+<span class="token key atrule">required</span><span class="token punctuation">:</span> <span class="token boolean important">true</span>
+
+<span class="token key atrule">type</span><span class="token punctuation">:</span> <span class="token string">"string"</span>
+
+<span class="token punctuation">-</span> <span class="token key atrule">name</span><span class="token punctuation">:</span> <span class="token string">"billetId"</span>
+
+<span class="token key atrule">in</span><span class="token punctuation">:</span> <span class="token string">"path"</span>
+
+<span class="token key atrule">description</span><span class="token punctuation">:</span> <span class="token string">"Id du billet"</span>
+
+<span class="token key atrule">required</span><span class="token punctuation">:</span> <span class="token boolean important">true</span>
+
+<span class="token key atrule">type</span><span class="token punctuation">:</span> <span class="token string">"integer"</span>
+
+<span class="token punctuation">-</span> <span class="token key atrule">$ref</span><span class="token punctuation">:</span> <span class="token string">"#/securityDefinitions/pseudo_auth"</span>
+
+<span class="token key atrule">responses</span><span class="token punctuation">:</span>
+
+<span class="token key atrule">204</span><span class="token punctuation">:</span>
+
+<span class="token key atrule">description</span><span class="token punctuation">:</span> <span class="token string">"Billet supprimé"</span>
+
+<span class="token key atrule">401</span><span class="token punctuation">:</span>
+
+<span class="token key atrule">description</span><span class="token punctuation">:</span> <span class="token string">"Utilisateur non authentifié"</span>
+
+<span class="token key atrule">403</span><span class="token punctuation">:</span>
+
+<span class="token key atrule">description</span><span class="token punctuation">:</span> <span class="token string">"Utilisateur non membre du groupe"</span>
+
+<span class="token key atrule">404</span><span class="token punctuation">:</span>
+
+<span class="token key atrule">description</span><span class="token punctuation">:</span> <span class="token string">"Billet non trouvé"</span>
+
+<span class="token key atrule">security</span><span class="token punctuation">:</span>
+
+<span class="token punctuation">-</span> <span class="token key atrule">pseudo_auth</span><span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token punctuation">]</span>
+
+/groupes/<span class="token punctuation">{</span>groupeId<span class="token punctuation">}</span>/billets/<span class="token punctuation">{</span>billetId<span class="token punctuation">}</span>/commentaires<span class="token punctuation">:</span>
+
+<span class="token key atrule">get</span><span class="token punctuation">:</span>
+
+<span class="token key atrule">tags</span><span class="token punctuation">:</span>
+
+<span class="token punctuation">-</span> <span class="token string">"commentaires"</span>
+
+<span class="token key atrule">summary</span><span class="token punctuation">:</span> <span class="token string">"Récupérer la liste des commentaires d'un billet"</span>
+
+<span class="token key atrule">description</span><span class="token punctuation">:</span> <span class="token string">"Renvoie les URI des commentaires du billet demandé"</span>
+
+<span class="token key atrule">operationId</span><span class="token punctuation">:</span> <span class="token string">"getAllCommentairesFromBillet"</span>
+
+<span class="token key atrule">produces</span><span class="token punctuation">:</span>
+
+<span class="token punctuation">-</span> <span class="token string">"application/json"</span>
+
+<span class="token punctuation">-</span> <span class="token string">"application/xml"</span>
+
+<span class="token punctuation">-</span> <span class="token string">"text/html"</span>
+
+<span class="token key atrule">parameters</span><span class="token punctuation">:</span>
+
+<span class="token punctuation">-</span> <span class="token key atrule">name</span><span class="token punctuation">:</span> <span class="token string">"groupeId"</span>
+
+<span class="token key atrule">in</span><span class="token punctuation">:</span> <span class="token string">"path"</span>
+
+<span class="token key atrule">description</span><span class="token punctuation">:</span> <span class="token string">"Id du groupe"</span>
+
+<span class="token key atrule">required</span><span class="token punctuation">:</span> <span class="token boolean important">true</span>
+
+<span class="token key atrule">type</span><span class="token punctuation">:</span> <span class="token string">"string"</span>
+
+<span class="token punctuation">-</span> <span class="token key atrule">name</span><span class="token punctuation">:</span> <span class="token string">"billetId"</span>
+
+<span class="token key atrule">in</span><span class="token punctuation">:</span> <span class="token string">"path"</span>
+
+<span class="token key atrule">description</span><span class="token punctuation">:</span> <span class="token string">"Id du billet"</span>
+
+<span class="token key atrule">required</span><span class="token punctuation">:</span> <span class="token boolean important">true</span>
+
+<span class="token key atrule">type</span><span class="token punctuation">:</span> <span class="token string">"integer"</span>
+
+<span class="token punctuation">-</span> <span class="token key atrule">$ref</span><span class="token punctuation">:</span> <span class="token string">"#/securityDefinitions/pseudo_auth"</span>
+
+<span class="token key atrule">responses</span><span class="token punctuation">:</span>
+
+<span class="token key atrule">200</span><span class="token punctuation">:</span>
+
+<span class="token key atrule">description</span><span class="token punctuation">:</span> <span class="token string">"successful operation"</span>
+
+<span class="token key atrule">schema</span><span class="token punctuation">:</span>
+
+<span class="token key atrule">$ref</span><span class="token punctuation">:</span> <span class="token string">"#/definitions/Commentaires"</span>
+
+<span class="token key atrule">examples</span><span class="token punctuation">:</span>
+
+<span class="token key atrule">application/json</span><span class="token punctuation">:</span>
+
+<span class="token punctuation">-</span> <span class="token string">"http://localhost:8080/groupes/M1IF03/0/billets/0/commentaires/0"</span>
+
+<span class="token punctuation">-</span> <span class="token string">"http://localhost:8080/groupes/M1IF03/0/billets/0/commentaires/1"</span>
+
+<span class="token key atrule">application/xml</span><span class="token punctuation">:</span> <span class="token string">"&lt;commentaires&gt;\n &lt;commentaire&gt;http://localhost:8080/groupes/M1IF03/0/billets/0/commentaires/0&lt;/commentaire&gt;\n &lt;commentaire&gt;http://localhost:8080/groupes/M1IF03/0/billets/0/commentaires/1&lt;/commentaire&gt;\n&lt;/commentaires&gt;"</span>
+
+<span class="token key atrule">text/html</span><span class="token punctuation">:</span> page HTML contenant la liste
+
+<span class="token key atrule">401</span><span class="token punctuation">:</span>
+
+<span class="token key atrule">description</span><span class="token punctuation">:</span> <span class="token string">"Utilisateur non authentifié"</span>
+
+<span class="token key atrule">403</span><span class="token punctuation">:</span>
+
+<span class="token key atrule">description</span><span class="token punctuation">:</span> <span class="token string">"Utilisateur non membre du groupe"</span>
+
+<span class="token key atrule">security</span><span class="token punctuation">:</span>
+
+<span class="token punctuation">-</span> <span class="token key atrule">pseudo_auth</span><span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token punctuation">]</span>
+
+<span class="token key atrule">post</span><span class="token punctuation">:</span>
+
+<span class="token key atrule">tags</span><span class="token punctuation">:</span>
+
+<span class="token punctuation">-</span> <span class="token string">"commentaires"</span>
+
+<span class="token key atrule">summary</span><span class="token punctuation">:</span> <span class="token string">"Créer un commentaire"</span>
+
+<span class="token key atrule">description</span><span class="token punctuation">:</span> <span class="token string">"Ajoute un nouveau commentaire au billet"</span>
+
+<span class="token key atrule">operationId</span><span class="token punctuation">:</span> <span class="token string">"addCommentaire"</span>
+
+<span class="token key atrule">consumes</span><span class="token punctuation">:</span>
+
+<span class="token punctuation">-</span> <span class="token string">"application/json"</span>
+
+<span class="token punctuation">-</span> <span class="token string">"application/x-www-form-urlencoded"</span>
+
+<span class="token punctuation">-</span> <span class="token string">"application/xml"</span>
+
+<span class="token key atrule">parameters</span><span class="token punctuation">:</span>
+
+<span class="token punctuation">-</span> <span class="token key atrule">in</span><span class="token punctuation">:</span> <span class="token string">"path"</span>
+
+<span class="token key atrule">name</span><span class="token punctuation">:</span> <span class="token string">"groupeId"</span>
+
+<span class="token key atrule">description</span><span class="token punctuation">:</span> <span class="token string">"id du groupe"</span>
+
+<span class="token key atrule">required</span><span class="token punctuation">:</span> <span class="token boolean important">true</span>
+
+<span class="token key atrule">type</span><span class="token punctuation">:</span> <span class="token string">"string"</span>
+
+<span class="token punctuation">-</span> <span class="token key atrule">name</span><span class="token punctuation">:</span> <span class="token string">"billetId"</span>
+
+<span class="token key atrule">in</span><span class="token punctuation">:</span> <span class="token string">"path"</span>
+
+<span class="token key atrule">description</span><span class="token punctuation">:</span> <span class="token string">"Id du billet"</span>
+
+<span class="token key atrule">required</span><span class="token punctuation">:</span> <span class="token boolean important">true</span>
+
+<span class="token key atrule">type</span><span class="token punctuation">:</span> <span class="token string">"integer"</span>
+
+<span class="token punctuation">-</span> <span class="token key atrule">in</span><span class="token punctuation">:</span> <span class="token string">"body"</span>
+
+<span class="token key atrule">name</span><span class="token punctuation">:</span> <span class="token string">"commentaire"</span>
+
+<span class="token key atrule">description</span><span class="token punctuation">:</span> <span class="token string">"Commentaire à créer"</span>
+
+<span class="token key atrule">required</span><span class="token punctuation">:</span> <span class="token boolean important">true</span>
+
+<span class="token key atrule">schema</span><span class="token punctuation">:</span>
+
+<span class="token key atrule">$ref</span><span class="token punctuation">:</span> <span class="token string">"#/definitions/Commentaire"</span>
+
+<span class="token punctuation">-</span> <span class="token key atrule">$ref</span><span class="token punctuation">:</span> <span class="token string">"#/securityDefinitions/pseudo_auth"</span>
+
+<span class="token key atrule">responses</span><span class="token punctuation">:</span>
+
+<span class="token key atrule">201</span><span class="token punctuation">:</span>
+
+<span class="token key atrule">description</span><span class="token punctuation">:</span> <span class="token string">"Commentaire cré"</span>
+
+<span class="token key atrule">400</span><span class="token punctuation">:</span>
+
+<span class="token key atrule">description</span><span class="token punctuation">:</span> <span class="token string">"Pas de paramètres acceptables dans la requête"</span>
+
+<span class="token key atrule">401</span><span class="token punctuation">:</span>
+
+<span class="token key atrule">description</span><span class="token punctuation">:</span> <span class="token string">"Utilisateur non authentifié"</span>
+
+<span class="token key atrule">403</span><span class="token punctuation">:</span>
+
+<span class="token key atrule">description</span><span class="token punctuation">:</span> <span class="token string">"Utilisateur non membre du groupe"</span>
+
+<span class="token key atrule">security</span><span class="token punctuation">:</span>
+
+<span class="token punctuation">-</span> <span class="token key atrule">pseudo_auth</span><span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token punctuation">]</span>
+
+/groupes/<span class="token punctuation">{</span>groupeId<span class="token punctuation">}</span>/billets/<span class="token punctuation">{</span>billetId<span class="token punctuation">}</span>/commentaires/<span class="token punctuation">{</span>commentaireId<span class="token punctuation">}</span><span class="token punctuation">:</span>
+
+<span class="token key atrule">get</span><span class="token punctuation">:</span>
+
+<span class="token key atrule">tags</span><span class="token punctuation">:</span>
+
+<span class="token punctuation">-</span> <span class="token string">"commentaires"</span>
+
+<span class="token key atrule">summary</span><span class="token punctuation">:</span> <span class="token string">"Récupérer un commentaire"</span>
+
+<span class="token key atrule">description</span><span class="token punctuation">:</span> <span class="token string">"Renvoie une représentation d'un commentaire"</span>
+
+<span class="token key atrule">operationId</span><span class="token punctuation">:</span> <span class="token string">"getCommentaireById"</span>
+
+<span class="token key atrule">produces</span><span class="token punctuation">:</span>
+
+<span class="token punctuation">-</span> <span class="token string">"application/json"</span>
+
+<span class="token punctuation">-</span> <span class="token string">"application/xml"</span>
+
+<span class="token punctuation">-</span> <span class="token string">"text/html"</span>
+
+<span class="token key atrule">parameters</span><span class="token punctuation">:</span>
+
+<span class="token punctuation">-</span> <span class="token key atrule">name</span><span class="token punctuation">:</span> <span class="token string">"groupeId"</span>
+
+<span class="token key atrule">in</span><span class="token punctuation">:</span> <span class="token string">"path"</span>
+
+<span class="token key atrule">description</span><span class="token punctuation">:</span> <span class="token string">"Id du groupe"</span>
+
+<span class="token key atrule">required</span><span class="token punctuation">:</span> <span class="token boolean important">true</span>
+
+<span class="token key atrule">type</span><span class="token punctuation">:</span> <span class="token string">"string"</span>
+
+<span class="token punctuation">-</span> <span class="token key atrule">name</span><span class="token punctuation">:</span> <span class="token string">"billetId"</span>
+
+<span class="token key atrule">in</span><span class="token punctuation">:</span> <span class="token string">"path"</span>
+
+<span class="token key atrule">description</span><span class="token punctuation">:</span> <span class="token string">"Id du billet"</span>
+
+<span class="token key atrule">required</span><span class="token punctuation">:</span> <span class="token boolean important">true</span>
+
+<span class="token key atrule">type</span><span class="token punctuation">:</span> <span class="token string">"integer"</span>
+
+<span class="token punctuation">-</span> <span class="token key atrule">name</span><span class="token punctuation">:</span> <span class="token string">"commentaireId"</span>
+
+<span class="token key atrule">in</span><span class="token punctuation">:</span> <span class="token string">"path"</span>
+
+<span class="token key atrule">description</span><span class="token punctuation">:</span> <span class="token string">"Id du commentaire"</span>
+
+<span class="token key atrule">required</span><span class="token punctuation">:</span> <span class="token boolean important">true</span>
+
+<span class="token key atrule">type</span><span class="token punctuation">:</span> <span class="token string">"integer"</span>
+
+<span class="token punctuation">-</span> <span class="token key atrule">$ref</span><span class="token punctuation">:</span> <span class="token string">"#/securityDefinitions/pseudo_auth"</span>
+
+<span class="token key atrule">responses</span><span class="token punctuation">:</span>
+
+<span class="token key atrule">200</span><span class="token punctuation">:</span>
+
+<span class="token key atrule">description</span><span class="token punctuation">:</span> <span class="token string">"successful operation"</span>
+
+<span class="token key atrule">schema</span><span class="token punctuation">:</span>
+
+<span class="token key atrule">$ref</span><span class="token punctuation">:</span> <span class="token string">"#/definitions/Commentaire"</span>
+
+<span class="token key atrule">401</span><span class="token punctuation">:</span>
+
+<span class="token key atrule">description</span><span class="token punctuation">:</span> <span class="token string">"Utilisateur non authentifié"</span>
+
+<span class="token key atrule">403</span><span class="token punctuation">:</span>
+
+<span class="token key atrule">description</span><span class="token punctuation">:</span> <span class="token string">"Utilisateur non membre du groupe"</span>
+
+<span class="token key atrule">404</span><span class="token punctuation">:</span>
+
+<span class="token key atrule">description</span><span class="token punctuation">:</span> <span class="token string">"Commentaire non trouvé"</span>
+
+<span class="token key atrule">security</span><span class="token punctuation">:</span>
+
+<span class="token punctuation">-</span> <span class="token key atrule">pseudo_auth</span><span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token punctuation">]</span>
+
+<span class="token key atrule">put</span><span class="token punctuation">:</span>
+
+<span class="token key atrule">tags</span><span class="token punctuation">:</span>
+
+<span class="token punctuation">-</span> <span class="token string">"commentaires"</span>
+
+<span class="token key atrule">summary</span><span class="token punctuation">:</span> <span class="token string">"Mettre à jour ou créer un commentaire"</span>
+
+<span class="token key atrule">description</span><span class="token punctuation">:</span> <span class="token string">"Met à jour le commentaire dont le nom est en paramètre s'il existe déjà ou le crée sinon"</span>
+
+<span class="token key atrule">operationId</span><span class="token punctuation">:</span> <span class="token string">"updateCommentaire"</span>
+
+<span class="token key atrule">consumes</span><span class="token punctuation">:</span>
+
+<span class="token punctuation">-</span> <span class="token string">"application/json"</span>
+
+<span class="token punctuation">-</span> <span class="token string">"application/xml"</span>
+
+<span class="token key atrule">parameters</span><span class="token punctuation">:</span>
+
+<span class="token punctuation">-</span> <span class="token key atrule">name</span><span class="token punctuation">:</span> <span class="token string">"groupeId"</span>
+
+<span class="token key atrule">in</span><span class="token punctuation">:</span> <span class="token string">"path"</span>
+
+<span class="token key atrule">description</span><span class="token punctuation">:</span> <span class="token string">"Id du groupe"</span>
+
+<span class="token key atrule">required</span><span class="token punctuation">:</span> <span class="token boolean important">true</span>
+
+<span class="token key atrule">type</span><span class="token punctuation">:</span> <span class="token string">"string"</span>
+
+<span class="token punctuation">-</span> <span class="token key atrule">name</span><span class="token punctuation">:</span> <span class="token string">"billetId"</span>
+
+<span class="token key atrule">in</span><span class="token punctuation">:</span> <span class="token string">"path"</span>
+
+<span class="token key atrule">description</span><span class="token punctuation">:</span> <span class="token string">"Id du billet"</span>
+
+<span class="token key atrule">required</span><span class="token punctuation">:</span> <span class="token boolean important">true</span>
+
+<span class="token key atrule">type</span><span class="token punctuation">:</span> <span class="token string">"integer"</span>
+
+<span class="token punctuation">-</span> <span class="token key atrule">in</span><span class="token punctuation">:</span> <span class="token string">"body"</span>
+
+<span class="token key atrule">name</span><span class="token punctuation">:</span> <span class="token string">"commentaire"</span>
+
+<span class="token key atrule">description</span><span class="token punctuation">:</span> <span class="token string">"Objet Commentaire à ajouter"</span>
+
+<span class="token key atrule">required</span><span class="token punctuation">:</span> <span class="token boolean important">true</span>
+
+<span class="token key atrule">schema</span><span class="token punctuation">:</span>
+
+<span class="token key atrule">$ref</span><span class="token punctuation">:</span> <span class="token string">"#/definitions/Commentaire"</span>
+
+<span class="token punctuation">-</span> <span class="token key atrule">name</span><span class="token punctuation">:</span> <span class="token string">"commentaireId"</span>
+
+<span class="token key atrule">in</span><span class="token punctuation">:</span> <span class="token string">"path"</span>
+
+<span class="token key atrule">description</span><span class="token punctuation">:</span> <span class="token string">"Id du commentaire"</span>
+
+<span class="token key atrule">required</span><span class="token punctuation">:</span> <span class="token boolean important">true</span>
+
+<span class="token key atrule">type</span><span class="token punctuation">:</span> <span class="token string">"integer"</span>
+
+<span class="token punctuation">-</span> <span class="token key atrule">$ref</span><span class="token punctuation">:</span> <span class="token string">"#/securityDefinitions/pseudo_auth"</span>
+
+<span class="token key atrule">responses</span><span class="token punctuation">:</span>
+
+<span class="token key atrule">204</span><span class="token punctuation">:</span>
+
+<span class="token key atrule">description</span><span class="token punctuation">:</span> <span class="token string">"Commentaire correctement cré ou modifié"</span>
+
+<span class="token key atrule">400</span><span class="token punctuation">:</span>
+
+<span class="token key atrule">description</span><span class="token punctuation">:</span> <span class="token string">"Pas de paramètres acceptables dans la requête"</span>
+
+<span class="token key atrule">401</span><span class="token punctuation">:</span>
+
+<span class="token key atrule">description</span><span class="token punctuation">:</span> <span class="token string">"Utilisateur non authentifié"</span>
+
+<span class="token key atrule">403</span><span class="token punctuation">:</span>
+
+<span class="token key atrule">description</span><span class="token punctuation">:</span> <span class="token string">"Utilisateur non membre du groupe"</span>
+
+<span class="token key atrule">404</span><span class="token punctuation">:</span>
+
+<span class="token key atrule">description</span><span class="token punctuation">:</span> <span class="token string">"Commentaire non trouvé"</span>
+
+<span class="token key atrule">security</span><span class="token punctuation">:</span>
+
+<span class="token punctuation">-</span> <span class="token key atrule">pseudo_auth</span><span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token punctuation">]</span>
+
+<span class="token key atrule">delete</span><span class="token punctuation">:</span>
+
+<span class="token key atrule">tags</span><span class="token punctuation">:</span>
+
+<span class="token punctuation">-</span> <span class="token string">"commentaires"</span>
+
+<span class="token key atrule">summary</span><span class="token punctuation">:</span> <span class="token string">"Supprimer un commentaire"</span>
+
+<span class="token key atrule">description</span><span class="token punctuation">:</span> <span class="token string">"Supprime le commentaire dont le nom est en paramètre"</span>
+
+<span class="token key atrule">operationId</span><span class="token punctuation">:</span> <span class="token string">"deleteCommentaire"</span>
+
+<span class="token key atrule">parameters</span><span class="token punctuation">:</span>
+
+<span class="token punctuation">-</span> <span class="token key atrule">name</span><span class="token punctuation">:</span> <span class="token string">"groupeId"</span>
+
+<span class="token key atrule">in</span><span class="token punctuation">:</span> <span class="token string">"path"</span>
+
+<span class="token key atrule">description</span><span class="token punctuation">:</span> <span class="token string">"Id du groupe"</span>
+
+<span class="token key atrule">required</span><span class="token punctuation">:</span> <span class="token boolean important">true</span>
+
+<span class="token key atrule">type</span><span class="token punctuation">:</span> <span class="token string">"string"</span>
+
+<span class="token punctuation">-</span> <span class="token key atrule">name</span><span class="token punctuation">:</span> <span class="token string">"billetId"</span>
+
+<span class="token key atrule">in</span><span class="token punctuation">:</span> <span class="token string">"path"</span>
+
+<span class="token key atrule">description</span><span class="token punctuation">:</span> <span class="token string">"Id du billet"</span>
+
+<span class="token key atrule">required</span><span class="token punctuation">:</span> <span class="token boolean important">true</span>
+
+<span class="token key atrule">type</span><span class="token punctuation">:</span> <span class="token string">"integer"</span>
+
+<span class="token punctuation">-</span> <span class="token key atrule">name</span><span class="token punctuation">:</span> <span class="token string">"commentaireId"</span>
+
+<span class="token key atrule">in</span><span class="token punctuation">:</span> <span class="token string">"path"</span>
+
+<span class="token key atrule">description</span><span class="token punctuation">:</span> <span class="token string">"Id du commentaire"</span>
+
+<span class="token key atrule">required</span><span class="token punctuation">:</span> <span class="token boolean important">true</span>
+
+<span class="token key atrule">type</span><span class="token punctuation">:</span> <span class="token string">"integer"</span>
+
+<span class="token punctuation">-</span> <span class="token key atrule">$ref</span><span class="token punctuation">:</span> <span class="token string">"#/securityDefinitions/pseudo_auth"</span>
+
+<span class="token key atrule">responses</span><span class="token punctuation">:</span>
+
+<span class="token key atrule">204</span><span class="token punctuation">:</span>
+
+<span class="token key atrule">description</span><span class="token punctuation">:</span> <span class="token string">"Commentaire supprimé"</span>
+
+<span class="token key atrule">401</span><span class="token punctuation">:</span>
+
+<span class="token key atrule">description</span><span class="token punctuation">:</span> <span class="token string">"Utilisateur non authentifié"</span>
+
+<span class="token key atrule">403</span><span class="token punctuation">:</span>
+
+<span class="token key atrule">description</span><span class="token punctuation">:</span> <span class="token string">"Utilisateur non membre du groupe"</span>
+
+<span class="token key atrule">404</span><span class="token punctuation">:</span>
+
+<span class="token key atrule">description</span><span class="token punctuation">:</span> <span class="token string">"Commentaire non trouvé"</span>
+
+<span class="token key atrule">security</span><span class="token punctuation">:</span>
+
+<span class="token punctuation">-</span> <span class="token key atrule">pseudo_auth</span><span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token punctuation">]</span>
+
+<span class="token key atrule">/users</span><span class="token punctuation">:</span>
+
+<span class="token key atrule">get</span><span class="token punctuation">:</span>
+
+<span class="token key atrule">tags</span><span class="token punctuation">:</span>
+
+<span class="token punctuation">-</span> <span class="token string">"users"</span>
+
+<span class="token key atrule">summary</span><span class="token punctuation">:</span> <span class="token string">"Récupérer la liste des utilisateurs"</span>
+
+<span class="token key atrule">description</span><span class="token punctuation">:</span> <span class="token string">"Renvoie les URI des utilisateurs"</span>
+
+<span class="token key atrule">operationId</span><span class="token punctuation">:</span> <span class="token string">"getAllUsers"</span>
+
+<span class="token key atrule">produces</span><span class="token punctuation">:</span>
+
+<span class="token punctuation">-</span> <span class="token string">"application/json"</span>
+
+<span class="token punctuation">-</span> <span class="token string">"application/xml"</span>
+
+<span class="token punctuation">-</span> <span class="token string">"text/html"</span>
+
+<span class="token key atrule">parameters</span><span class="token punctuation">:</span>
+
+<span class="token punctuation">-</span> <span class="token key atrule">$ref</span><span class="token punctuation">:</span> <span class="token string">"#/securityDefinitions/pseudo_auth"</span>
+
+<span class="token key atrule">responses</span><span class="token punctuation">:</span>
+
+<span class="token key atrule">200</span><span class="token punctuation">:</span>
+
+<span class="token key atrule">description</span><span class="token punctuation">:</span> <span class="token string">"successful operation"</span>
+
+<span class="token key atrule">schema</span><span class="token punctuation">:</span>
+
+<span class="token key atrule">$ref</span><span class="token punctuation">:</span> <span class="token string">"#/definitions/Users"</span>
+
+<span class="token key atrule">examples</span><span class="token punctuation">:</span>
+
+<span class="token key atrule">application/json</span><span class="token punctuation">:</span>
+
+<span class="token punctuation">-</span> <span class="token string">"http://localhost:8080/users/toto"</span>
+
+<span class="token punctuation">-</span> <span class="token string">"http://localhost:8080/users/titi"</span>
+
+<span class="token key atrule">application/xml</span><span class="token punctuation">:</span> <span class="token string">"&lt;users&gt;\n &lt;user&gt;http://localhost:8080/users/toto&lt;/user&gt;\n &lt;user&gt;http://localhost:8080/users/titi&lt;/user&gt;\n&lt;/users&gt;"</span>
+
+<span class="token key atrule">text/html</span><span class="token punctuation">:</span> page HTML contenant la liste
+
+<span class="token key atrule">401</span><span class="token punctuation">:</span>
+
+<span class="token key atrule">description</span><span class="token punctuation">:</span> <span class="token string">"Utilisateur non authentifié"</span>
+
+<span class="token key atrule">403</span><span class="token punctuation">:</span>
+
+<span class="token key atrule">description</span><span class="token punctuation">:</span> <span class="token string">"Utilisateur non membre du groupe"</span>
+
+<span class="token key atrule">security</span><span class="token punctuation">:</span>
+
+<span class="token punctuation">-</span> <span class="token key atrule">pseudo_auth</span><span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token punctuation">]</span>
+
+<span class="token key atrule">/users/login</span><span class="token punctuation">:</span>
+
+<span class="token key atrule">post</span><span class="token punctuation">:</span>
+
+<span class="token key atrule">tags</span><span class="token punctuation">:</span>
+
+<span class="token punctuation">-</span> <span class="token string">"users"</span>
+
+<span class="token key atrule">summary</span><span class="token punctuation">:</span> <span class="token string">"Connecter un utilisateur"</span>
+
+<span class="token key atrule">description</span><span class="token punctuation">:</span> <span class="token string">"Crée un nouvel utilisateur et le connecte à l'aide d'un token JWT"</span>
+
+<span class="token key atrule">operationId</span><span class="token punctuation">:</span> <span class="token string">"loginUser"</span>
+
+<span class="token key atrule">consumes</span><span class="token punctuation">:</span>
+
+<span class="token punctuation">-</span> <span class="token string">"application/json"</span>
+
+<span class="token punctuation">-</span> <span class="token string">"application/x-www-form-urlencoded"</span>
+
+<span class="token punctuation">-</span> <span class="token string">"application/xml"</span>
+
+<span class="token key atrule">parameters</span><span class="token punctuation">:</span>
+
+<span class="token punctuation">-</span> <span class="token key atrule">name</span><span class="token punctuation">:</span> <span class="token string">"pseudo"</span>
+
+<span class="token key atrule">in</span><span class="token punctuation">:</span> <span class="token string">"body"</span>
+
+<span class="token key atrule">description</span><span class="token punctuation">:</span> <span class="token string">"login de l'utilisateur"</span>
+
+<span class="token key atrule">required</span><span class="token punctuation">:</span> <span class="token boolean important">true</span>
+
+<span class="token key atrule">schema</span><span class="token punctuation">:</span>
+
+<span class="token key atrule">$ref</span><span class="token punctuation">:</span> <span class="token string">"#/definitions/Pseudo"</span>
+
+<span class="token key atrule">responses</span><span class="token punctuation">:</span>
+
+<span class="token key atrule">201</span><span class="token punctuation">:</span>
+
+<span class="token key atrule">description</span><span class="token punctuation">:</span> <span class="token string">"Utilisateur cré"</span>
+
+<span class="token key atrule">headers</span><span class="token punctuation">:</span>
+
+<span class="token key atrule">Authorization</span><span class="token punctuation">:</span>
+
+<span class="token key atrule">type</span><span class="token punctuation">:</span> <span class="token string">"string"</span>
+
+<span class="token key atrule">description</span><span class="token punctuation">:</span> <span class="token string">"le token d'authentification"</span>
+
+<span class="token key atrule">400</span><span class="token punctuation">:</span>
+
+<span class="token key atrule">description</span><span class="token punctuation">:</span> <span class="token string">"Pas de paramètres acceptables dans la requête"</span>
+
+<span class="token key atrule">/users/logout</span><span class="token punctuation">:</span>
+
+<span class="token key atrule">post</span><span class="token punctuation">:</span>
+
+<span class="token key atrule">tags</span><span class="token punctuation">:</span>
+
+<span class="token punctuation">-</span> <span class="token string">"users"</span>
+
+<span class="token key atrule">summary</span><span class="token punctuation">:</span> <span class="token string">"Déconnexion de l'utilisateur connecté"</span>
+
+<span class="token key atrule">description</span><span class="token punctuation">:</span> <span class="token string">"Déconnecte l'utilisateur sans l'enlever de la liste. Si vous passez l'authentification dans des headers HTTP, cette méthode ne fait rien mais répond que l'opération s'est bien passée."</span>
+
+<span class="token key atrule">operationId</span><span class="token punctuation">:</span> <span class="token string">"logoutUser"</span>
+
+<span class="token key atrule">parameters</span><span class="token punctuation">:</span>
+
+<span class="token punctuation">-</span> <span class="token key atrule">$ref</span><span class="token punctuation">:</span> <span class="token string">"#/securityDefinitions/pseudo_auth"</span>
+
+<span class="token key atrule">responses</span><span class="token punctuation">:</span>
+
+<span class="token key atrule">204</span><span class="token punctuation">:</span>
+
+<span class="token key atrule">description</span><span class="token punctuation">:</span> <span class="token string">"successful operation"</span>
+
+<span class="token key atrule">401</span><span class="token punctuation">:</span>
+
+<span class="token key atrule">description</span><span class="token punctuation">:</span> <span class="token string">"Utilisateur non authentifié"</span>
+
+<span class="token key atrule">securityDefinitions</span><span class="token punctuation">:</span>
+
+<span class="token key atrule">pseudo_auth</span><span class="token punctuation">:</span>
+
+<span class="token key atrule">type</span><span class="token punctuation">:</span> apiKey
+
+<span class="token key atrule">in</span><span class="token punctuation">:</span> header
+
+<span class="token key atrule">name</span><span class="token punctuation">:</span> Authorization
+
+<span class="token key atrule">definitions</span><span class="token punctuation">:</span>
+
+<span class="token key atrule">Groupe</span><span class="token punctuation">:</span>
+
+<span class="token key atrule">type</span><span class="token punctuation">:</span> <span class="token string">"object"</span>
+
+<span class="token key atrule">required</span><span class="token punctuation">:</span>
+
+<span class="token punctuation">-</span> <span class="token string">"nom"</span>
+
+<span class="token key atrule">properties</span><span class="token punctuation">:</span>
+
+<span class="token key atrule">nom</span><span class="token punctuation">:</span>
+
+<span class="token key atrule">type</span><span class="token punctuation">:</span> <span class="token string">"string"</span>
+
+<span class="token key atrule">description</span><span class="token punctuation">:</span>
+
+<span class="token key atrule">type</span><span class="token punctuation">:</span> <span class="token string">"string"</span>
+
+<span class="token key atrule">proprietaire</span><span class="token punctuation">:</span>
+
+<span class="token key atrule">type</span><span class="token punctuation">:</span> <span class="token string">"string"</span>
+
+<span class="token key atrule">membres</span><span class="token punctuation">:</span>
+
+<span class="token key atrule">type</span><span class="token punctuation">:</span> <span class="token string">"array"</span>
+
+<span class="token key atrule">items</span><span class="token punctuation">:</span>
+
+<span class="token key atrule">type</span><span class="token punctuation">:</span> <span class="token string">"string"</span>
+
+<span class="token key atrule">billets</span><span class="token punctuation">:</span>
+
+<span class="token key atrule">type</span><span class="token punctuation">:</span> <span class="token string">"array"</span>
+
+<span class="token key atrule">items</span><span class="token punctuation">:</span>
+
+<span class="token key atrule">type</span><span class="token punctuation">:</span> <span class="token string">"string"</span>
+
+<span class="token key atrule">xml</span><span class="token punctuation">:</span>
+
+<span class="token key atrule">name</span><span class="token punctuation">:</span> <span class="token string">"groupe"</span>
+
+<span class="token key atrule">contentGroupe</span><span class="token punctuation">:</span>
+
+<span class="token key atrule">type</span><span class="token punctuation">:</span> <span class="token string">"object"</span>
+
+<span class="token key atrule">required</span><span class="token punctuation">:</span>
+
+<span class="token punctuation">-</span> <span class="token string">"nom"</span>
+
+<span class="token key atrule">properties</span><span class="token punctuation">:</span>
+
+<span class="token key atrule">nom</span><span class="token punctuation">:</span>
+
+<span class="token key atrule">type</span><span class="token punctuation">:</span> <span class="token string">"string"</span>
+
+<span class="token key atrule">example</span><span class="token punctuation">:</span> G1
+
+<span class="token key atrule">description</span><span class="token punctuation">:</span>
+
+<span class="token key atrule">type</span><span class="token punctuation">:</span> <span class="token string">"string"</span>
+
+<span class="token key atrule">example</span><span class="token punctuation">:</span> un groupe de test
+
+<span class="token key atrule">proprietaire</span><span class="token punctuation">:</span>
+
+<span class="token key atrule">type</span><span class="token punctuation">:</span> <span class="token string">"string"</span>
+
+<span class="token key atrule">example</span><span class="token punctuation">:</span> anonyme
+
+<span class="token key atrule">xml</span><span class="token punctuation">:</span>
+
+<span class="token key atrule">name</span><span class="token punctuation">:</span> <span class="token string">"groupe"</span>
+
+<span class="token key atrule">Billet</span><span class="token punctuation">:</span>
+
+<span class="token key atrule">type</span><span class="token punctuation">:</span> <span class="token string">"object"</span>
+
+<span class="token key atrule">properties</span><span class="token punctuation">:</span>
+
+<span class="token key atrule">titre</span><span class="token punctuation">:</span>
+
+<span class="token key atrule">type</span><span class="token punctuation">:</span> <span class="token string">"string"</span>
+
+<span class="token key atrule">contenu</span><span class="token punctuation">:</span>
+
+<span class="token key atrule">type</span><span class="token punctuation">:</span> <span class="token string">"string"</span>
+
+<span class="token key atrule">auteur</span><span class="token punctuation">:</span>
+
+<span class="token key atrule">type</span><span class="token punctuation">:</span> <span class="token string">"string"</span>
+
+<span class="token key atrule">commentaires</span><span class="token punctuation">:</span>
+
+<span class="token key atrule">type</span><span class="token punctuation">:</span> <span class="token string">"array"</span>
+
+<span class="token key atrule">items</span><span class="token punctuation">:</span>
+
+<span class="token key atrule">type</span><span class="token punctuation">:</span> <span class="token string">"string"</span>
+
+<span class="token key atrule">xml</span><span class="token punctuation">:</span>
+
+<span class="token key atrule">name</span><span class="token punctuation">:</span> <span class="token string">"billet"</span>
+
+<span class="token key atrule">contentBillet</span><span class="token punctuation">:</span>
+
+<span class="token key atrule">type</span><span class="token punctuation">:</span> <span class="token string">"object"</span>
+
+<span class="token key atrule">properties</span><span class="token punctuation">:</span>
+
+<span class="token key atrule">titre</span><span class="token punctuation">:</span>
+
+<span class="token key atrule">type</span><span class="token punctuation">:</span> <span class="token string">"string"</span>
+
+<span class="token key atrule">example</span><span class="token punctuation">:</span> Billet_1
+
+<span class="token key atrule">contenu</span><span class="token punctuation">:</span>
+
+<span class="token key atrule">type</span><span class="token punctuation">:</span> <span class="token string">"string"</span>
+
+<span class="token key atrule">example</span><span class="token punctuation">:</span> Contenu d'un billet
+
+<span class="token key atrule">auteur</span><span class="token punctuation">:</span>
+
+<span class="token key atrule">type</span><span class="token punctuation">:</span> <span class="token string">"string"</span>
+
+<span class="token key atrule">example</span><span class="token punctuation">:</span> anonyme
+
+<span class="token key atrule">xml</span><span class="token punctuation">:</span>
+
+<span class="token key atrule">name</span><span class="token punctuation">:</span> <span class="token string">"billet"</span>
+
+<span class="token key atrule">Commentaire</span><span class="token punctuation">:</span>
+
+<span class="token key atrule">type</span><span class="token punctuation">:</span> <span class="token string">"object"</span>
+
+<span class="token key atrule">properties</span><span class="token punctuation">:</span>
+
+<span class="token key atrule">auteur</span><span class="token punctuation">:</span>
+
+<span class="token key atrule">type</span><span class="token punctuation">:</span> <span class="token string">"string"</span>
+
+<span class="token key atrule">texte</span><span class="token punctuation">:</span>
+
+<span class="token key atrule">type</span><span class="token punctuation">:</span> <span class="token string">"string"</span>
+
+<span class="token key atrule">xml</span><span class="token punctuation">:</span>
+
+<span class="token key atrule">name</span><span class="token punctuation">:</span> <span class="token string">"commentaire"</span>
+
+<span class="token key atrule">Groupes</span><span class="token punctuation">:</span>
+
+<span class="token key atrule">type</span><span class="token punctuation">:</span> <span class="token string">"object"</span>
+
+<span class="token key atrule">properties</span><span class="token punctuation">:</span>
+
+<span class="token key atrule">groupes</span><span class="token punctuation">:</span>
+
+<span class="token key atrule">type</span><span class="token punctuation">:</span> <span class="token string">"array"</span>
+
+<span class="token key atrule">items</span><span class="token punctuation">:</span>
+
+<span class="token key atrule">type</span><span class="token punctuation">:</span> <span class="token string">"string"</span>
+
+<span class="token key atrule">xml</span><span class="token punctuation">:</span>
+
+<span class="token key atrule">name</span><span class="token punctuation">:</span> <span class="token string">"groupe"</span>
+
+<span class="token key atrule">xml</span><span class="token punctuation">:</span>
+
+<span class="token key atrule">name</span><span class="token punctuation">:</span> <span class="token string">"groupes"</span>
+
+<span class="token key atrule">Billets</span><span class="token punctuation">:</span>
+
+<span class="token key atrule">type</span><span class="token punctuation">:</span> <span class="token string">"object"</span>
+
+<span class="token key atrule">properties</span><span class="token punctuation">:</span>
+
+<span class="token key atrule">billets</span><span class="token punctuation">:</span>
+
+<span class="token key atrule">type</span><span class="token punctuation">:</span> <span class="token string">"array"</span>
+
+<span class="token key atrule">items</span><span class="token punctuation">:</span>
+
+<span class="token key atrule">type</span><span class="token punctuation">:</span> <span class="token string">"string"</span>
+
+<span class="token key atrule">xml</span><span class="token punctuation">:</span>
+
+<span class="token key atrule">name</span><span class="token punctuation">:</span> <span class="token string">"billet"</span>
+
+<span class="token key atrule">xml</span><span class="token punctuation">:</span>
+
+<span class="token key atrule">name</span><span class="token punctuation">:</span> <span class="token string">"billets"</span>
+
+<span class="token key atrule">Commentaires</span><span class="token punctuation">:</span>
+
+<span class="token key atrule">type</span><span class="token punctuation">:</span> <span class="token string">"object"</span>
+
+<span class="token key atrule">properties</span><span class="token punctuation">:</span>
+
+<span class="token key atrule">commentaires</span><span class="token punctuation">:</span>
+
+<span class="token key atrule">type</span><span class="token punctuation">:</span> <span class="token string">"array"</span>
+
+<span class="token key atrule">items</span><span class="token punctuation">:</span>
+
+<span class="token key atrule">type</span><span class="token punctuation">:</span> <span class="token string">"string"</span>
+
+<span class="token key atrule">xml</span><span class="token punctuation">:</span>
+
+<span class="token key atrule">name</span><span class="token punctuation">:</span> <span class="token string">"commentaire"</span>
+
+<span class="token key atrule">xml</span><span class="token punctuation">:</span>
+
+<span class="token key atrule">name</span><span class="token punctuation">:</span> <span class="token string">"commentaires"</span>
+
+<span class="token key atrule">Users</span><span class="token punctuation">:</span>
+
+<span class="token key atrule">type</span><span class="token punctuation">:</span> <span class="token string">"object"</span>
+
+<span class="token key atrule">properties</span><span class="token punctuation">:</span>
+
+<span class="token key atrule">users</span><span class="token punctuation">:</span>
+
+<span class="token key atrule">type</span><span class="token punctuation">:</span> <span class="token string">"array"</span>
+
+<span class="token key atrule">items</span><span class="token punctuation">:</span>
+
+<span class="token key atrule">type</span><span class="token punctuation">:</span> <span class="token string">"string"</span>
+
+<span class="token key atrule">xml</span><span class="token punctuation">:</span>
+
+<span class="token key atrule">name</span><span class="token punctuation">:</span> <span class="token string">"user"</span>
+
+<span class="token key atrule">xml</span><span class="token punctuation">:</span>
+
+<span class="token key atrule">name</span><span class="token punctuation">:</span> <span class="token string">"users"</span>
+
+<span class="token key atrule">Pseudo</span><span class="token punctuation">:</span>
+
+<span class="token key atrule">type</span><span class="token punctuation">:</span> <span class="token string">"object"</span>
+
+<span class="token key atrule">properties</span><span class="token punctuation">:</span>
+
+<span class="token key atrule">pseudo</span><span class="token punctuation">:</span>
+
+<span class="token key atrule">type</span><span class="token punctuation">:</span> <span class="token string">"string"</span>
+
+<span class="token key atrule">externalDocs</span><span class="token punctuation">:</span>
+
+<span class="token key atrule">description</span><span class="token punctuation">:</span> <span class="token string">"Voir le sujet du TP"</span>
+
+<span class="token key atrule">url</span><span class="token punctuation">:</span> <span class="token string">"https://perso.liris.cnrs.fr/lionel.medini/enseignement/M1IF03/TP/TP_REST.html"</span>
+
+</code></pre>
+</div>
 </body>
+
 </html>
