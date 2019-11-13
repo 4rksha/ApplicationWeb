@@ -57,7 +57,7 @@ public class Routeur extends HttpServlet {
 
         RequestDispatcher dispatcher;
 
-        String uri = request.getRequestURI();
+        String uri = request.getPathInfo();
         request.getServletContext().setAttribute("URI", uri);
         String[] uriSplit = uri.split("/");
         if (uriSplit.length > 1) {

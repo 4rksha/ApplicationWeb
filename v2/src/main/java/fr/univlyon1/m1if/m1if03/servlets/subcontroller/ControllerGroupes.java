@@ -65,7 +65,8 @@ public class ControllerGroupes extends HttpServlet {
         }
         if (author == null || author.equals("") || title == null || title.equals("") || content == null
                 || content.equals("")) {
-            context.setAttribute("status", HttpServletResponse.SC_NOT_FOUND);
+            context.setAttribute("status", HttpServletResponse.SC_BAD_REQUEST);
+            return;
         }
         Map<String, Groupe> modele = (HashMap<String, Groupe>) request.getServletContext().getAttribute("groupes");
         if (modele.containsKey(title) == false) {

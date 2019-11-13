@@ -52,7 +52,7 @@ public class ControllerUser extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         ServletContext context = request.getServletContext();
-        String[] uriSplit = request.getRequestURI().split("/");
+        String[] uriSplit = request.getPathInfo().split("/");
         List<String> users = (ArrayList<String>) context.getAttribute("users");
 
         switch (uriSplit[2]) {
