@@ -27,7 +27,7 @@ function init() {
                 break;
             case "#billet":
                 let urlBillet = localStorage.getItem(BILLET);
-                if (urlBillet == null){
+                if (urlBillet == null) {
                     location.hash = "#groupe";
                     break;
                 }
@@ -50,34 +50,6 @@ function init() {
     }
 }
 
-$(function () {
-
-    $('#pseudoForm').submit(() => {
-        let target = "https://192.168.75.13/api/v2/users/login";
-        let pseudo = $("#pseudo").val();
-        console.log(pseudo);
-        let requestData = JSON.stringify({ "pseudo": pseudo });
-        $.ajax({
-            url: target,
-            type: 'POST',
-            xhrFields: {withCredentials: true},
-            crossDomain: true,
-            data: requestData,
-            headers: {
-                "Content-Type": "application/json",
-            },
-            success: function (data) {
-                console.log("SUCCESS : " + target);
-            },
-            error: function (xhr, textStatus, errorThrown) {
-                $(".errMsg").append("Erreur POST : " + target);
-                console.log(xhr.responseText);
-            }
-        }).done(function (data, textstatus, xhr) {
-            window.location = "#groupes";
-        });
-    });
-});
 
 /**
  * Télécharge et affiche la liste des groupes
@@ -89,7 +61,7 @@ function groupes() {
         url: target,
         type: 'GET',
         crossDomain: true,
-        xhrFields: {withCredentials: true},
+        xhrFields: { withCredentials: true },
         headers: {
             "Accept": "application/json"
         },
@@ -111,62 +83,7 @@ function groupes() {
             console.log(xhr.responseText);
         }
     });
-
 }
-
-function access(url) {
-    let payload;
-    $.ajax({
-        url: url,
-        type: 'GET',
-        crossDomain: true,
-        xhrFields: {withCredentials: true},
-        headers: {
-            "Accept": "application/json"
-        },
-        success: function (data) {
-            payload = data;
-        },
-        error: function (xhr, textStatus, errorThrown) {
-            console.log("erreur get : " + url);
-            console.log(xhr.responseText);
-        }
-    });
-}
-
-$(function () {
-
-    $('#addgroupeForm').submit((event) => {
-        event.preventDefault();
-        let target = "https://192.168.75.13/api/v2/groupes";
-        let groupe = $("#groupeInput").val();
-        let requestData = JSON.stringify({ "nom": groupe });
-        $.ajax({
-            url: target,
-            type: 'POST',
-            crossDomain: true,
-            data: requestData,
-            xhrFields: {withCredentials: true},
-            headers: {
-                "Content-Type": "application/json"
-            },
-            success: function (data) {
-                console.log("SUCCESS : " + target);
-                console.log ("groupe : " + groupe);
-                window.location.hash = "#groupes/" + groupe;
-            },
-            error: function (xhr, textStatus, errorThrown) {
-                $(".errMsg").append("Erreur POST : " + target);
-                console.log(xhr.responseText);
-            }
-        });
-    });
-});
-
-
-
-
-
 
 /**
  * Redirige vers la page du groupe
@@ -181,17 +98,26 @@ function join(urlGroupe) {
  * @param {String[]} urlTabBillets 
  * @returns tableau de billets
  */
-function getSummuryBillets(urlTabBillets) {
+function getSummaryBillets(urlTabBillets) {
     let billets = []
     for (urlbillet of urlTabBillets) {
         $.ajax({
-            url: "./js/billet.json",
-            dataType: 'json',
+            url: urlbillet,
+            type: 'GET',
+            crossDomain: true,
             async: false,
+            xhrFields: { withCredentials: true },
+            headers: {
+                "Accept": "application/json"
+            },
             success: function (data) {
                 if (/^.*\/(.+)$/.test(urlbillet)) {
                     billets.push({ id: RegExp.$1, titre: data.titre, url: urlbillet });
                 }
+            }, 
+            error: function (xhr, textStatus, errorThrown) {
+                $(".errMsg").append("Erreur POST : " + urlbillet);
+                console.log(xhr.responseText);
             }
         });
     }
@@ -207,7 +133,7 @@ function groupe(urlGroupe) {
         url: urlGroupe,
         type: 'GET',
         crossDomain: true,
-        xhrFields: {withCredentials: true},
+        xhrFields: { withCredentials: true },
         headers: {
             "Accept": "application/json"
         },
@@ -215,8 +141,12 @@ function groupe(urlGroupe) {
             $("#grpName").html("Groupe " + data.nom);
             $("#grpDesc").html(data.description);
             let template = $("#SbilletsTemplate").html();
-            let text = Mustache.render(template, getSummuryBillets(data.billets));
+            let text = Mustache.render(template, getSummaryBillets(data.billets));
             $("#bltList").html(text);
+        }, 
+        error: function (xhr, textStatus, errorThrown) {
+            $(".errMsg").append("Erreur POST : " + urlGroupe);
+            console.log(xhr.responseText);
         }
     });
 }
@@ -235,35 +165,114 @@ function displayBtn(idElement) {
  * @param {String} idBillet id du billet modifié
  */
 function save_titreB(urlBillet, idBillet) {
+    let payload;
+    $.ajax({
+        url: urlBillet,
+        type: 'GET',
+        crossDomain: true,
+        xhrFields: { withCredentials: true },
+        headers: {
+            "Accept": "application/json"
+        },
+        success: function (data) {
+            payload = data;
+        },
+        error: function (xhr, textStatus, errorThrown) {
+            $(".errMsg").append("Erreur POST : " + target);
+            console.log(xhr.responseText);
+        }
+    });
+    
     let editedTitle = $("#titre_" + idBillet).text();
-    //envoie
+    if (editedTitle === payload.titre) {
+        $("#edit_" + idBillet).hide();
+        return;
+    }
+    payload.titre = editedTitle;
+    let target = urlBillet;
+    $.ajax({
+        url: target,
+        type: 'PUT',
+        crossDomain: true,
+        data: payload,
+        xhrFields: { withCredentials: true },
+        headers: {
+            "Content-Type": "application/json"
+        },
+        success: function (data) {
+            console.log("SUCCESS : " + target);
+            join(localStorage.getItem(GROUPE));
+        },
+        error: function (xhr, textStatus, errorThrown) {
+            $(".errMsg").append("Erreur POST : " + target);
+            console.log(xhr.responseText);
+        }
+    });
+
+
     $("#edit_" + idBillet).hide();
 }
+
 
 /**
  * Ouvre la page d'un billet
  * @param {String} urlBillet 
  */
-function openBillet(urlBillet){
-    localStorage.setItem(BILLET,urlBillet);
+function openBillet(urlBillet) {
+    localStorage.setItem(BILLET, urlBillet);
     location.hash = "#billet";
 }
+
+/**
+ * Supprime un billet
+ * @param {String} urlBillet 
+ */
+function deleteBillet(url) {
+    $.ajax({
+        url: url,
+        type: 'DELETE',
+        crossDomain: true,
+        xhrFields: { withCredentials: true },
+        headers: {
+            "Content-Type": "application/json"
+        },
+        success: function (data) {
+            console.log("SUCCESS : " + url);
+            join(localStorage.getItem(GROUPE));
+        },
+        error: function (xhr, textStatus, errorThrown) {
+            $(".errMsg").append("Erreur POST : " + url);
+            console.log(xhr.responseText);
+        }
+    });
+}
+
+
 /**
  * Télécharge et affiche un billet
  * @param {String} urlBillet url du billet à afficher
  */
 function billet(urlBillet) {
+
     $.ajax({
-        url: "./js/billet.json",
-        dataType: 'json',
-        async: false,
+        url: urlBillet,
+        type: 'GET',
+        crossDomain: true,
+        xhrFields: { withCredentials: true },
+        headers: {
+            "Accept": "application/json"
+        },
         success: function (data) {
             $("#bltAuteur").text(data.auteur);
             $("#bltTitre").text(data.titre);
             $("#bltContenu").text(data.contenu);
             let template = $("#commentairesTemplate").html();
-            let text = Mustache.render(template, commaintaires(data.commentaires));
+            let text = Mustache.render(template, commentaires(data.commentaires));
             $("#commentList").html(text);
+        },
+        error: function (xhr, textStatus, errorThrown) {
+            $(".errMsg").append("Erreur POST : " + target);
+            console.log(xhr.responseText);
         }
     });
 }
@@ -273,19 +282,26 @@ function billet(urlBillet) {
  * @param {String[]} urlTab Tableau d'url de commentaire
  * @returns Le tableau des commantaire téléchargé
  */
-function commaintaires(urlTab) {
+function commentaires(urlTab) {
     result = []
-    // for (let url of urlTab) { // A mettre a la place de in 
-    for (let url in urlTab) {
+    for (let url of urlTab) {
         $.ajax({
-            url: "./js/commentaires/" + url + ".json",
-            dataType: 'json',
+            url: url,
+            type: 'GET',
+            crossDomain: true,
+            xhrFields: { withCredentials: true },
             async: false,
+            headers: {
+                "Accept": "application/json"
+            },
             success: function (data) {
-                // if (/^.*\/(.+)$/.test(url)) { // version avec le of 
-                if (/^.*\/(.+)$/.test(urlTab[url])) {
+                if (/^.*\/(.+)$/.test(url)) {
                     result.push({ id: RegExp.$1, texte: data.texte, auteur: data.auteur });
                 }
+            },
+            error: function (xhr, textStatus, errorThrown) {
+                $(".errMsg").append("Erreur POST : " + target);
+                console.log(xhr.responseText);
             }
         });
     }
@@ -301,9 +317,26 @@ function commaintaires(urlTab) {
 function save_commentaire(urlCom, idCom, author) {
     if (localStorage.getItem(PSEUDO) == author) {
         let newText = $("text_" + idCom).text();
-        // send 
+        let comm = {"auteur": author , "text": newText};
+        $.ajax({
+            url: urlCom,
+            type: 'PUT',
+            crossDomain: true,
+            data: comm,
+            xhrFields: { withCredentials: true },
+            headers: {
+                "Content-Type": "application/json"
+            },
+            success: function (data) {
+                console.log("SUCCESS : " + target);
+            },
+            error: function (xhr, textStatus, errorThrown) {
+                $(".errMsg").append("Erreur POST : " + target);
+                console.log(xhr.responseText);
+            }
+        });    
     } else {
-        //erreur afficher dans errMsg
+        $(".errMsg").append("Seul l'auteur d'un commentaire peut le modifier.");
     }
     $("#editC_" + idCom).hide();
 }
@@ -313,27 +346,174 @@ function save_commentaire(urlCom, idCom, author) {
  * @param {String} urlGroupe 
  */
 function users(urlGroupe) {
+    let target = "https://192.168.75.13/api/v2/users";
     $.ajax({
-        url: "./js/groupe.json", // exemple
-        dataType: 'json',
+        url: target,
+        type: 'GET',
+        crossDomain: true,
+        xhrFields: { withCredentials: true },
+        async: false,
+        headers: {
+            "Accept": "application/json"
+        },
         success: function (data) {
+            let users = [];
+            for (let user of data) {
+                name = user.split("/")[user.split("/").length - 1];
+                users.push(name);
+            }
             let template = $("#usersTemplate").html();
-            let text = Mustache.render(template, data.membres);
+            let text = Mustache.render(template, users );
             $("#usersList").html(text);
         }
     });
 }
 
-function formPseudo(event) {
 
-    event.preventDefault();
-
-}
 /**
- * Chargement du DOM
+ * Chargement du dome
  */
 $(function () {
+    $('#pseudoForm').submit((event) => {
+        event.preventDefault();
+        let target = "https://192.168.75.13/api/v2/users/login";
+        let psd = $("#pseudo").val();
+        console.log(psd);
+        let requestData = JSON.stringify({ "pseudo": psd });
+        $.ajax({
+            url: target,
+            type: 'POST',
+            xhrFields: { withCredentials: true },
+            crossDomain: true,
+            data: requestData,
+            datatype: "json",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            success: function (data) {
+                console.log("SUCCESS : " + target);
+            },
+            error: function (xhr, textStatus, errorThrown) {
+                $(".errMsg").append("Erreur POST : " + target);
+                console.log(xhr.responseText);
+            }
+        }).done(function (data, textstatus, xhr) {
+            localStorage.setItem("pseudo", psd);
+            window.location = "#groupes";
+        });
+    });
+
+    $('#addgroupeForm').submit((event) => {
+        event.preventDefault();
+        let target = "https://192.168.75.13/api/v2/groupes";
+        let groupe = $("#groupeInput").val();
+        let requestData = JSON.stringify({ "nom": groupe });
+        $.ajax({
+            url: target,
+            type: 'POST',
+            crossDomain: true,
+            data: requestData,
+            datatype: "json",
+            xhrFields: { withCredentials: true },
+            headers: {
+                "Content-Type": "application/json"
+            },
+            success: function (data) {
+                console.log("SUCCESS : " + target);
+                console.log("groupe : " + groupe);
+                join(target + "/" + groupe);
+            },
+            error: function (xhr, textStatus, errorThrown) {
+                $(".errMsg").append("Erreur POST : " + target);
+                console.log(xhr.responseText);
+            }
+        });
+    });
+
+    $('#newBilletForm').submit((event) => {
+        event.preventDefault();
+        let target = localStorage.getItem(GROUPE) + "/billets";
+        let titre = $("#titreBillet").val();
+        let text =  $("#contenuBilletInput").val();
+        let requestData = JSON.stringify({
+            "titre": titre,
+            "contenu": text,
+            "auteur": localStorage.getItem("pseudo"),
+            "commentaires": []
+        });
+        $.ajax({
+            url: target,
+            type: 'POST',
+            crossDomain: true,
+            data: requestData,
+            datatype: 'json',
+            xhrFields: { withCredentials: true },
+            headers: {
+                "Content-Type": "application/json"
+            },
+            success: function (data, status, xhr) {
+                console.log("SUCCESS : " + target);
+            },
+            error: function (xhr, textStatus, errorThrown) {
+                $(".errMsg").append("Erreur POST : " + target);
+                console.log(xhr.responseText);
+            }
+        });
+    });
+
+    $('#addCommentaireForm').submit((event) => {
+        event.preventDefault();
+        let target = localStorage.getItem(BILLET) + "/commentaires" ;
+        let text =  $("#commentaireInput").val();
+        let requestData = JSON.stringify({
+            "auteur": localStorage.getItem("pseudo"),
+            "texte": text,
+        });
+        $.ajax({
+            url: target,
+            type: 'POST',
+            crossDomain: true,
+            data: requestData,
+            datatype: 'json',
+            xhrFields: { withCredentials: true },
+            headers: {
+                "Content-Type": "application/json"
+            },
+            success: function (data) {
+                console.log("SUCCESS : " + target);
+                openBillet(localStorage.getItem(BILLET));
+            },
+            error: function (xhr, textStatus, errorThrown) {
+                $(".errMsg").append("Erreur POST : " + target);
+                console.log(xhr.responseText);
+            }
+        });
+    });
+
+    $('#decoForm').submit((event) => {
+        event.preventDefault();
+        let target = "https://192.168.75.13/api/v2/users/logout";
+        //let del = $("#userCheckbox").val();
+        $.ajax({
+            url: target,
+            type: 'POST',
+            crossDomain: true,
+            datatype: 'json',
+            xhrFields: { withCredentials: true },
+            headers: {
+                "Content-Type": "application/json"
+            },
+            success: function (data) {
+                console.log("SUCCESS : " + target);
+                localStorage.setItem("pseudo", "");
+            },
+            error: function (xhr, textStatus, errorThrown) {
+                $(".errMsg").append("Erreur POST : " + target);
+                console.log(xhr.responseText);
+            }
+        });
+    });
+
     init();
     $(window).on("hashchange", init);
-    $("#pseudoForm").submit(formPseudo);
 });
