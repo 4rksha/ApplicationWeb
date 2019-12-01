@@ -1,0 +1,13 @@
+{
+    "nom": "Anonymus",
+    "description": "c'est un groupe de test",
+    "auteur": "pierre",
+    "membres": [
+      "pierre",
+      "zac"
+    ],
+    "billets": [
+        "http://localhost:8080/groupes/M1IF03/0",
+        "http://localhost:8080/groupes/M1IF03/1"
+    ]
+  }

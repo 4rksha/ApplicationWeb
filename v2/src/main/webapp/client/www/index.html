@@ -1,0 +1,166 @@
+<!doctype html>
+<html lang="fr">
+
+<head>
+    <title>Mes Copains !</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"></script>
+    <script src="js/mustache.min.js"></script>
+    <script src="js/route.js"></script>
+    <meta charset="UTF-8">
+</head>
+
+<body>
+    <div id="errMsg"></div>
+    <header class="mb-4">
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+            <a class="navbar-brand" href="#index">Mes Copains (en AJAX) !</a>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item active"><a class="nav-link" href='#index'>Accueil</a></li>
+                    <li class="nav-item active"><a class="nav-link" href='#groupes'>Groupes</a></li>
+                    <li class="nav-item active"><a class="nav-link" href='#groupe'>Groupe</a></li>
+                    <li class="nav-item active"><a class="nav-link" href='#billet'>Billet</a></li>
+                    <li class="nav-item active"><a class="nav-link" href='#users'>Utilisateurs</a></li>
+                    <li class="nav-item active"><a class="nav-link" href='#deco'>Déconnexion</a></li>
+                </ul>
+            </div>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+        </nav>
+    </header>
+    <section id='index' class="container">
+        <h2>Bienvenue sur Chatons.org</h2>
+        <form class="form-inline bg-light p-3 rounded" method="post" action="Init">
+            <div class="form-group mx-sm-4">
+                <label class="mx-sm-2" for="pseudo">Entrer votre pseudo : </label>
+                <input type="text" name="pseudo" class="form-control" id="pseudo">
+            </div>
+            <input type="submit" class="btn btn-primary" value="Connexion">
+        </form>
+    </section>
+    <section id='groupes' class="container">
+        <h2 class="mb-4">Liste des groupes</h2>
+        <!-- Pour chaque élément de la liste, l'interface doit proposer à l'utilisateur de :
+                - s'inscrire au groupe // le membres ajouté dans le pout de groupe
+                - se désinscrire du groupe
+                - accéder au groupe
+                - supprimer le groupe
+                Les résultats de l'opération invoquée par le client seront affichés dans le div "errMsg" -->
+        <script id="groupesTemplate" type="x-tmpl-mustache">
+                {{#.}}
+                    <li class="list-group-item">
+                        <h3 class="">{{name}}</h3>
+                        <button class="btn btn-success" onclick="intergrate('{{url}}')">accéder</button>
+                        <button class="btn btn-primary" onclick="subscribe('{{url}}')">s'inscrire</button>
+                        <button class="btn btn-warning" onclick="intergrate('{{url}}')">quitter groupe</button>
+                        <button class="btn btn-danger" onclick="unsubscribe('{{url}}')">se désinscrire</button>
+                    </li>
+                {{/.}}
+            </script>
+        <ul id='groupesList' class="list-group mb-4"></ul>
+        <form class="form-inline p-3 mb-4 bg-light rounded" action="CreateGroupe()">
+            <div class="form-group mx-sm-4">
+                <label class="mx-sm-1" for="groupeInput">Créer un nouveau groupe :</label>
+                <input type="text" name="groupe" class="form-control" id="groupeInput">
+            </div>
+            <input type="submit" class="btn btn-primary " value="Créer">
+        </form>
+        <p><a class="btn btn-danger" href='#deco'>Déconnexion</a></p>
+    </section>
+    <section id='groupe' class="container">
+
+        <h2 id="grpName">Groupe ...</h2>
+        <h3>Description</h3>
+        <p id="grpDesc"></p>
+        <h3>Billets</h3>
+        <!-- Pour chaque élément de la liste, l'interface doit proposer à l'utilisateur de :
+            - visualiser le billet
+            - modifier le titre du billet (aide : attribut contenteditable)
+            - supprimer le billet
+        -->
+        <script id="SbilletsTemplate" type="x-tmpl-mustache">
+            {{#.}}
+                <li class="list-group-item">
+                    <h2 id="titre_{{id}}" contenteditable="true" oninput="displayBtn('edit_{{id}}')">{{titre}}</h2>
+                    <button class="btn btn-primary" id="edit_{{id}}" onclick="save_titreB('{{url}}','{{id}}')" style="display:none;">Sauvegarder</button>
+                    <button class="btn btn-success" onclick="openBillet('{{url}}')">Ouvrire</button>
+                    <button class="btn btn-danger" onclick="deleteBillet('{{url}}')">Supprimer</button>
+                </li>
+            {{/.}}
+        </script>
+        <ul id='bltList' class="list-group mb-4"></ul>
+        <form class="form-container bg-light p-2 rounded mb-4" method='post' action='Billets'>
+            <div class="form-group">
+                <label for="titreBillet">Créer un nouveau billet :</label>
+                <input type='text' name='titre' class="form-control mb-2" id="titreBillet">
+                <textarea name="contenu" class="form-control"></textarea>
+            </div>
+            <input class="btn btn-primary" type='submit' value='Envoyer'>
+        </form>
+        <a class="btn btn-secondary" href='#groupes'>Liste des groupes</a>
+    </section>
+    <section id='billet' class="container">
+        <p>Ceci est un billet de <span id='bltAuteur'></span>.</p>
+        <h1 id="bltTitre"></h1>
+        <div class="contenu" id="bltContenu"></div>
+        <h2>Commentaires</h2>
+        <!-- Pour chaque élément de la liste, l'interface doit proposer à l'utilisateur de :
+            - modifier le commentaire
+            - supprimer le commentaire
+        -->
+        <script id="commentairesTemplate" type="x-tmpl-mustache">
+            {{#.}}
+                <li class="list-group-item">
+                    <small class="text-muted">De {{auteur}}  </small>
+                    <p id="text_{{id}}"class="mb-1" contenteditable="true" oninput="displayBtn('editC_{{id}}')">{{texte}}</p>
+                    <button id="editC_{{id}}" class="btn btn-primary" onclick="save_commentaire('{{url}}','{{id}}','{{auteur}}')" style="display:none;">Sauvegarder</button>
+                    <button class="btn btn-danger" onclick="deleteBillet('{{url}}')">supprimer</button>
+                </li>
+            {{/.}}
+        </script>
+        <ul id='commentList' class="list-group"></ul>
+        <form method="post" action="Commentaires">
+            <p>Ajouter un commentaire :
+                <input type="text" name="commentaire">
+                <input type="submit" value="Envoyer">
+            </p>
+        </form>
+        <p><a href="#groupe">Retour au groupe</a></p>
+        <p><a href="Deco">Se déconnecter</a></p>
+    </section>
+    <section id='users' class="container">
+        <h2>Liste des utilisateurs</h2>
+        <!-- Rien de particulier à faire ici, juste lister les pseudos. -->
+        <script id="usersTemplate" type="x-tmpl-mustache">
+            {{#.}}
+                <li class="list-group-item">
+                    <p>{{.}}</p>
+                </li>
+            {{/.}}
+        </script>
+        <ul id='usersList' class="list-group list-group-flush mb-4"></ul>
+        <a class="btn btn-secondary" href='#deco'>Déconnexion</a>
+    </section>
+    <section id='deco' class="container">
+        <h2>Déconnexion</h2>
+        <form method="post" action="Deco">
+            <p>Validez ce formulaire pour vous déconnecter :
+                <input type="checkbox" name="user"> Supprimer l'utilisateur
+                <input type="submit" value="Deconnexion">
+            </p>
+        </form>
+        <p><a href='#index'>Retour à la page d'accueil</a></p>
+    </section>
+</body>
+
+</html>

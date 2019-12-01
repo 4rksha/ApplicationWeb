@@ -1,0 +1,9 @@
+{
+    "titre": "billetTitle",
+    "contenu": "un billet de test",
+    "auteur": "pierre",
+    "commentaires": [
+        "http://localhost:8080/groupes/M1IF03/0/billets/0/commentaires/0",
+        "http://localhost:8080/groupes/M1IF03/0/billets/0/commentaires/1"
+    ]
+  }
