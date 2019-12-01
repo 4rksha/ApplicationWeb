@@ -40,7 +40,7 @@
     </header>
     <section id='index' class="container">
         <h2>Bienvenue sur Chatons.org</h2>
-        <form class="form-inline bg-light p-3 rounded" method="post" action="Init">
+        <form id="pseudoForm" class="form-inline bg-light p-3 rounded">
             <div class="form-group mx-sm-4">
                 <label class="mx-sm-2" for="pseudo">Entrer votre pseudo : </label>
                 <input type="text" name="pseudo" class="form-control" id="pseudo">
@@ -60,9 +60,9 @@
                 {{#.}}
                     <li class="list-group-item">
                         <h3 class="">{{name}}</h3>
-                        <button class="btn btn-success" onclick="intergrate('{{url}}')">accéder</button>
+                        <button class="btn btn-success" onclick="join('{{url}}')">accéder</button>
                         <button class="btn btn-primary" onclick="subscribe('{{url}}')">s'inscrire</button>
-                        <button class="btn btn-warning" onclick="intergrate('{{url}}')">quitter groupe</button>
+                        <button class="btn btn-warning" onclick="quitGroupe('{{url}}')">quitter groupe</button>
                         <button class="btn btn-danger" onclick="unsubscribe('{{url}}')">se désinscrire</button>
                     </li>
                 {{/.}}
@@ -93,7 +93,7 @@
                 <li class="list-group-item">
                     <h2 id="titre_{{id}}" contenteditable="true" oninput="displayBtn('edit_{{id}}')">{{titre}}</h2>
                     <button class="btn btn-primary" id="edit_{{id}}" onclick="save_titreB('{{url}}','{{id}}')" style="display:none;">Sauvegarder</button>
-                    <button class="btn btn-success" onclick="openBillet('{{url}}')">Ouvrire</button>
+                    <button class="btn btn-success" onclick="openBillet('{{url}}')">Ouvrir</button>
                     <button class="btn btn-danger" onclick="deleteBillet('{{url}}')">Supprimer</button>
                 </li>
             {{/.}}
@@ -124,7 +124,7 @@
                     <small class="text-muted">De {{auteur}}  </small>
                     <p id="text_{{id}}"class="mb-1" contenteditable="true" oninput="displayBtn('editC_{{id}}')">{{texte}}</p>
                     <button id="editC_{{id}}" class="btn btn-primary" onclick="save_commentaire('{{url}}','{{id}}','{{auteur}}')" style="display:none;">Sauvegarder</button>
-                    <button class="btn btn-danger" onclick="deleteBillet('{{url}}')">supprimer</button>
+                    <button class="btn btn-danger" onclick="deleteCommentaire('{{url}}')">supprimer</button>
                 </li>
             {{/.}}
         </script>

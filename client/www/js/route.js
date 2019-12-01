@@ -11,12 +11,14 @@ function init() {
                 groupes();
                 break;
             case "#groupe":
+                // let urlGroupe = localStorage.getItem("groupeUrl");
                 groupe();
                 break;
             case "#billet":
                 billet();
                 break;
             case "#users":
+                // let urlGroupe = localStorage.getItem("groupeUrl");
                 users();
                 break;
             default:
@@ -174,10 +176,16 @@ function users(urlGroupe) {
         dataType: 'json',
         success: function (data) {
             let template = $("#usersTemplate").html();
-            let text = Mustache.render(template,data.membres);
+            let text = Mustache.render(template, data.membres);
             $("#usersList").html(text);
         }
     });
+}
+
+function formPseudo(event) {
+
+    event.preventDefault();
+
 }
 /**
  * Chargement du DOM
@@ -185,4 +193,5 @@ function users(urlGroupe) {
 $(function () {
     init();
     $(window).on("hashchange", init);
+    $("#pseudoForm").submit(formPseudo);
 });
