@@ -31,21 +31,123 @@ function init() {
     }
 }
 
+$(function () {
+
+    $('#pseudoForm').submit(() => {
+        let target = "https://192.168.75.13/api/v2/users/login";
+        let pseudo = $("#pseudo").val();
+        console.log(pseudo);
+        let requestData = JSON.stringify({ "pseudo": pseudo });
+        $.ajax({
+            url: target,
+            type: 'POST',
+            xhrFields: {withCredentials: true},
+            crossDomain: true,
+            data: requestData,
+            headers: {
+                "Content-Type": "application/json",
+            },
+            success: function (data) {
+                console.log("SUCCESS : " + target);
+            },
+            error: function (xhr, textStatus, errorThrown) {
+                $(".errMsg").append("Erreur POST : " + target);
+                console.log(xhr.responseText);
+            }
+        }).done(function (data, textstatus, xhr) {
+            window.location = "#groupes";
+        });
+    });
+});
+
 /**
  * Télécharge et affiche la liste des groupes
  */
 function groupes() {
-    let data = JSON.parse('["http://localhost:8080/groupes/M1IF03","http://localhost:8080/groupes/M1IF04"]');
-    let groupesResult = [];
-    for (let groupe of data) {
-        if (/^.*\/(.+)$/.test(groupe)) {
-            groupesResult.push({ name: RegExp.$1, url: groupe });
+    let payload = "";
+    let target = "https://192.168.75.13/api/v2/groupes"
+    $.ajax({
+        url: target,
+        type: 'GET',
+        crossDomain: true,
+        xhrFields: {withCredentials: true},
+        headers: {
+            "Accept": "application/json"
+        },
+        success: function (data) {
+            console.log("SUCCESS : " + target);
+            let groupesResult = [];
+            for (let groupe of data) {
+                if (/^.*\/(.+)$/.test(groupe)) {
+                    groupesResult.push({ name: RegExp.$1, url: groupe });
+                }
+            }
+            console.log(groupesResult);
+            let template = $("#groupesTemplate").html();
+            let text = Mustache.render(template, groupesResult);
+            $("#groupesList").html(text);
+        },
+        error: function (xhr, textStatus, errorThrown) {
+            $(".errMsg").append("Erreur GET : " + target);
+            console.log(xhr.responseText);
         }
-    }
-    let template = $("#groupesTemplate").html();
-    let text = Mustache.render(template, groupesResult);
-    $("#groupesList").html(text);
+    });
+
 }
+
+function access(url) {
+    let payload;
+    $.ajax({
+        url: url,
+        type: 'GET',
+        crossDomain: true,
+        xhrFields: {withCredentials: true},
+        headers: {
+            "Accept": "application/json"
+        },
+        success: function (data) {
+            payload = data;
+        },
+        error: function (xhr, textStatus, errorThrown) {
+            console.log("erreur get : " + url);
+            console.log(xhr.responseText);
+        }
+    });
+}
+
+$(function () {
+
+    $('#addgroupeForm').submit((event) => {
+        event.preventDefault();
+        let target = "https://192.168.75.13/api/v2/groupes";
+        let groupe = $("#groupeInput").val();
+        let requestData = JSON.stringify({ "nom": groupe });
+        $.ajax({
+            url: target,
+            type: 'POST',
+            crossDomain: true,
+            data: requestData,
+            xhrFields: {withCredentials: true},
+            headers: {
+                "Content-Type": "application/json"
+            },
+            success: function (data) {
+                console.log("SUCCESS : " + target);
+                console.log ("groupe : " + groupe);
+                window.location.hash = "#groupes/" + groupe;
+            },
+            error: function (xhr, textStatus, errorThrown) {
+                $(".errMsg").append("Erreur POST : " + target);
+                console.log(xhr.responseText);
+            }
+        });
+    });
+});
+
+
+
+
+
 
 /**
  * Télécharge les billets fournie en url dans le tableau
@@ -75,8 +177,13 @@ function getSummuryBillets(urlTabBillets) {
  */
 function groupe(urlGroupe) {
     $.ajax({
-        url: "./js/groupe.json",
-        dataType: 'json',
+        url: urlGroupe,
+        type: 'GET',
+        crossDomain: true,
+        xhrFields: {withCredentials: true},
+        headers: {
+            "Accept": "application/json"
+        },
         success: function (data) {
             $("#grpName").html("Groupe " + data.nom);
             $("#grpDesc").html(data.description);

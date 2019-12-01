@@ -50,6 +50,13 @@
     </section>
     <section id='groupes' class="container">
         <h2 class="mb-4">Liste des groupes</h2>
+        <form id="addgroupeForm" class="form-inline p-3 mb-4 bg-light rounded" action="CreateGroupe()">
+            <div class="form-group mx-sm-4">
+                <label class="mx-sm-1" for="groupeInput">Créer un nouveau groupe :</label>
+                <input type="text" name="groupe" class="form-control" id="groupeInput">
+            </div>
+            <input type="submit" class="btn btn-primary " value="Créer">
+        </form>
         <!-- Pour chaque élément de la liste, l'interface doit proposer à l'utilisateur de :
                 - s'inscrire au groupe // le membres ajouté dans le pout de groupe
                 - se désinscrire du groupe
@@ -68,13 +75,6 @@
                 {{/.}}
             </script>
         <ul id='groupesList' class="list-group mb-4"></ul>
-        <form id="addgroupeForm" class="form-inline p-3 mb-4 bg-light rounded" action="CreateGroupe()">
-            <div class="form-group mx-sm-4">
-                <label class="mx-sm-1" for="groupeInput">Créer un nouveau groupe :</label>
-                <input type="text" name="groupe" class="form-control" id="groupeInput">
-            </div>
-            <input type="submit" class="btn btn-primary " value="Créer">
-        </form>
         <p><a class="btn btn-danger" href='#deco'>Déconnexion</a></p>
     </section>
     <section id='groupe' class="container">
@@ -156,9 +156,9 @@
         <h2>Déconnexion</h2>
         <form id="decoForm" class="form-inline p-2 mb-4 bg-light rounded">
             <div class="form-group mx-sm-4">
-                    <h5 class="mx-sm-2">Validez ce formulaire pour vous déconnecter :</h5>
-                    <input type="checkbox" name="user" class="form-check-input" id="userCheckbox">
-                    <label for="userCheckbox">Supprimer l'utilisateur</label>
+                <h5 class="mx-sm-2">Validez ce formulaire pour vous déconnecter :</h5>
+                <input type="checkbox" name="user" class="form-check-input" id="userCheckbox">
+                <label for="userCheckbox">Supprimer l'utilisateur</label>
             </div>
             <input class="btn btn-primary" type="submit" value="Deconnexion">
         </form>
