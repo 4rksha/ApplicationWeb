@@ -1,6 +1,6 @@
 const PSEUDO = 'pseudo';
 
-// localStorage.setItem("pseudo", "pierre");
+localStorage.setItem("pseudo", "pierre");
 function init() {
     let page = window.location.hash;
     let pseudo = localStorage.getItem("pseudo");

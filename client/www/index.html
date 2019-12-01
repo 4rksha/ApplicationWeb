@@ -68,7 +68,7 @@
                 {{/.}}
             </script>
         <ul id='groupesList' class="list-group mb-4"></ul>
-        <form class="form-inline p-3 mb-4 bg-light rounded" action="CreateGroupe()">
+        <form id="addgroupeForm" class="form-inline p-3 mb-4 bg-light rounded" action="CreateGroupe()">
             <div class="form-group mx-sm-4">
                 <label class="mx-sm-1" for="groupeInput">Créer un nouveau groupe :</label>
                 <input type="text" name="groupe" class="form-control" id="groupeInput">
@@ -99,11 +99,11 @@
             {{/.}}
         </script>
         <ul id='bltList' class="list-group mb-4"></ul>
-        <form class="form-container bg-light p-2 rounded mb-4" method='post' action='Billets'>
+        <form id="newBilletForm" class="form-container bg-light p-2 rounded mb-4">
             <div class="form-group">
                 <label for="titreBillet">Créer un nouveau billet :</label>
                 <input type='text' name='titre' class="form-control mb-2" id="titreBillet">
-                <textarea name="contenu" class="form-control"></textarea>
+                <textarea id="contenuBilletInput" name="contenu" class="form-control"></textarea>
             </div>
             <input class="btn btn-primary" type='submit' value='Envoyer'>
         </form>
@@ -128,15 +128,16 @@
                 </li>
             {{/.}}
         </script>
-        <ul id='commentList' class="list-group"></ul>
-        <form method="post" action="Commentaires">
-            <p>Ajouter un commentaire :
-                <input type="text" name="commentaire">
-                <input type="submit" value="Envoyer">
-            </p>
+        <ul id='commentList' class="list-group mb-4"></ul>
+        <form id="addCommentaireForm" class="form-inline p-2 mb-4 bg-light rounded">
+            <div class="form-group mx-sm-4">
+                <label for="commentaireInput" class="mx-sm-2">Ajouter un commentaire : </label>
+                <input type="text" name="commentaire" class="form-control" id="commentaireInput">
+            </div>
+            <input class="btn btn-primary" type='submit' value='Envoyer'>
         </form>
-        <p><a href="#groupe">Retour au groupe</a></p>
-        <p><a href="Deco">Se déconnecter</a></p>
+        <a class="btn btn-primary" href="#groupe">Retour au groupe</a>
+        <a class="btn btn-secondary" href="#deco">Se déconnecter</a>
     </section>
     <section id='users' class="container">
         <h2>Liste des utilisateurs</h2>
@@ -153,13 +154,15 @@
     </section>
     <section id='deco' class="container">
         <h2>Déconnexion</h2>
-        <form method="post" action="Deco">
-            <p>Validez ce formulaire pour vous déconnecter :
-                <input type="checkbox" name="user"> Supprimer l'utilisateur
-                <input type="submit" value="Deconnexion">
-            </p>
+        <form id="decoForm" class="form-inline p-2 mb-4 bg-light rounded">
+            <div class="form-group mx-sm-4">
+                    <h5 class="mx-sm-2">Validez ce formulaire pour vous déconnecter :</h5>
+                    <input type="checkbox" name="user" class="form-check-input" id="userCheckbox">
+                    <label for="userCheckbox">Supprimer l'utilisateur</label>
+            </div>
+            <input class="btn btn-primary" type="submit" value="Deconnexion">
         </form>
-        <p><a href='#index'>Retour à la page d'accueil</a></p>
+        <a class="btn btn-secondary" href='#index'>Retour à la page d'accueil</a>
     </section>
 </body>
 
