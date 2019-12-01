@@ -1,9 +1,17 @@
 const PSEUDO = 'pseudo';
+const GROUPE = "groupe";
+const BILLET = "billet";
 
-localStorage.setItem("pseudo", "pierre");
 function init() {
     let page = window.location.hash;
+    // let page = "";
+    // let context = "";
+    // if (/^(#[a-zA-Z1-9]+)\/?(.*)$/.test(appUrl)) {
+    //     page = RegExp.$1;
+    //     context = RegExp.$2;
+    // }
     let pseudo = localStorage.getItem("pseudo");
+    let urlGroupe = localStorage.getItem(GROUPE);
     $("section").hide();
     if (page != "" && pseudo != null) {
         switch (page) {
@@ -11,15 +19,26 @@ function init() {
                 groupes();
                 break;
             case "#groupe":
-                // let urlGroupe = localStorage.getItem("groupeUrl");
-                groupe();
+                if (urlGroupe == null) {
+                    location.hash = "#groupes";
+                    break;
+                }
+                groupe(urlGroupe);
                 break;
             case "#billet":
-                billet();
+                let urlBillet = localStorage.getItem(BILLET);
+                if (urlBillet == null){
+                    location.hash = "#groupe";
+                    break;
+                }
+                billet(urlBillet);
                 break;
             case "#users":
-                // let urlGroupe = localStorage.getItem("groupeUrl");
-                users();
+                if (urlGroupe == null) {
+                    location.hash = "#groupes";
+                    break;
+                }
+                users(urlGroupe);
                 break;
             default:
                 break;
@@ -47,6 +66,14 @@ function groupes() {
     $("#groupesList").html(text);
 }
 
+/**
+ * Redirige vers la page du groupe
+ * @param {String} urlGroupe 
+ */
+function join(urlGroupe) {
+    localStorage.setItem(GROUPE, urlGroupe);
+    location.hash = "#groupe";
+}
 /**
  * Télécharge les billets fournie en url dans le tableau
  * @param {String[]} urlTabBillets 
@@ -106,6 +133,14 @@ function save_titreB(urlBillet, idBillet) {
     $("#edit_" + idBillet).hide();
 }
 
+/**
+ * Ouvre la page d'un billet
+ * @param {String} urlBillet 
+ */
+function openBillet(urlBillet){
+    localStorage.setItem(BILLET,urlBillet);
+    location.hash = "#billet";
+}
 /**
  * Télécharge et affiche un billet
  * @param {String} urlBillet url du billet à afficher
