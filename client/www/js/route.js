@@ -2,6 +2,7 @@ const PSEUDO = 'pseudo';
 const GROUPE = "groupe";
 const BILLET = "billet";
 
+
 function init() {
     let page = window.location.hash;
     // let page = "";
@@ -13,7 +14,7 @@ function init() {
     let pseudo = localStorage.getItem("pseudo");
     let urlGroupe = localStorage.getItem(GROUPE);
     $("section").hide();
-    if (page != "" && pseudo != null) {
+    if (page != "" && pseudo != null && pseudo !== "") {
         switch (page) {
             case "#groupes":
                 groupes();
@@ -64,24 +65,23 @@ function groupes() {
         xhrFields: { withCredentials: true },
         headers: {
             "Accept": "application/json"
-        },
-        success: function (data) {
-            console.log("SUCCESS : " + target);
-            let groupesResult = [];
-            for (let groupe of data) {
-                if (/^.*\/(.+)$/.test(groupe)) {
-                    groupesResult.push({ name: RegExp.$1, url: groupe });
-                }
-            }
-            console.log(groupesResult);
-            let template = $("#groupesTemplate").html();
-            let text = Mustache.render(template, groupesResult);
-            $("#groupesList").html(text);
-        },
-        error: function (xhr, textStatus, errorThrown) {
-            $(".errMsg").append("Erreur GET : " + target);
-            console.log(xhr.responseText);
         }
+    }).done(function (data) {
+        console.log("SUCCESS : " + target);
+        json = JSON.parse(data);
+        let groupesResult = [];
+        for (let groupe of json) {
+            if (/^.*\/(.+)$/.test(groupe)) {
+                groupesResult.push({ name: RegExp.$1, url: groupe });
+            }
+        }
+        console.log(groupesResult);
+        let template = $("#groupesTemplate").html();
+        let text = Mustache.render(template, groupesResult);
+        $("#groupesList").html(text);
+    }).fail(function (xhr, textStatus, errorThrown) {
+        $(".errMsg").append("Erreur GET : " + target);
+        console.log(xhr.responseText);
     });
 }
 
@@ -92,36 +92,6 @@ function groupes() {
 function join(urlGroupe) {
     localStorage.setItem(GROUPE, urlGroupe);
     location.hash = "#groupe";
-}
-/**
- * Télécharge les billets fournie en url dans le tableau
- * @param {String[]} urlTabBillets 
- * @returns tableau de billets
- */
-function getSummaryBillets(urlTabBillets) {
-    let billets = []
-    for (urlbillet of urlTabBillets) {
-        $.ajax({
-            url: urlbillet,
-            type: 'GET',
-            crossDomain: true,
-            async: false,
-            xhrFields: { withCredentials: true },
-            headers: {
-                "Accept": "application/json"
-            },
-            success: function (data) {
-                if (/^.*\/(.+)$/.test(urlbillet)) {
-                    billets.push({ id: RegExp.$1, titre: data.titre, url: urlbillet });
-                }
-            }, 
-            error: function (xhr, textStatus, errorThrown) {
-                $(".errMsg").append("Erreur POST : " + urlbillet);
-                console.log(xhr.responseText);
-            }
-        });
-    }
-    return billets;
 }
 
 /**
@@ -136,18 +106,56 @@ function groupe(urlGroupe) {
         xhrFields: { withCredentials: true },
         headers: {
             "Accept": "application/json"
-        },
-        success: function (data) {
-            $("#grpName").html("Groupe " + data.nom);
-            $("#grpDesc").html(data.description);
-            let template = $("#SbilletsTemplate").html();
-            let text = Mustache.render(template, getSummaryBillets(data.billets));
-            $("#bltList").html(text);
-        }, 
-        error: function (xhr, textStatus, errorThrown) {
-            $(".errMsg").append("Erreur POST : " + urlGroupe);
-            console.log(xhr.responseText);
         }
+    }).done(function (data) {
+        $("#grpName").html("Groupe " + data.nom);
+        $("#grpDesc").html(data.description);
+        let template = $("#SbilletsTemplate").html();
+        let urlbillets = data.billets;
+        let billets = [];
+        var promise1 = new Promise(function (resolve, reject) {
+            if (urlbillets.length == 0) {
+                resolve([]);
+            }
+            let dic = [];
+            for (urlbillet of urlbillets) {
+                dic[urlbillet] =
+                    $.ajax({
+                        url: urlbillet,
+                        type: 'GET',
+                        crossDomain: true,
+                        xhrFields: { withCredentials: true },
+                        headers: {
+                            "Accept": "application/json"
+                        }
+                    }).done(function (data) {
+                        if (/^.*\/(.+)$/.test(urlbillet)) {
+                            billets.push({
+                                id: urlbillet.split("/")[urlbillet.split("/").length - 1],
+                                titre: data.titre,
+                                url: urlbillet
+                            });
+                        }
+                        if (billets.length == urlbillets.length) {
+                            resolve(billets);
+                        }
+                    }).fail(function (xhr, textStatus, errorThrown) {
+                        $(".errMsg").append("Erreur POST : " + urlbillet);
+                        console.log(xhr.responseText);
+                    });
+            }
+        })
+        promise1.then(function (value) {
+            $("#bltList").html("");
+            if (value !== []) {
+                let text = Mustache.render(template, value);
+                $("#bltList").html(text);
+            }
+        });
+
+    }).fail(function (xhr, textStatus, errorThrown) {
+        $(".errMsg").append("Erreur POST : " + urlGroupe);
+        console.log(xhr.responseText);
     });
 }
 
@@ -173,44 +181,37 @@ function save_titreB(urlBillet, idBillet) {
         xhrFields: { withCredentials: true },
         headers: {
             "Accept": "application/json"
-        },
-        success: function (data) {
-            payload = data;
-        },
-        error: function (xhr, textStatus, errorThrown) {
-            $(".errMsg").append("Erreur POST : " + target);
-            console.log(xhr.responseText);
         }
-    });
-    
-    let editedTitle = $("#titre_" + idBillet).text();
-    if (editedTitle === payload.titre) {
-        $("#edit_" + idBillet).hide();
-        return;
-    }
-    payload.titre = editedTitle;
-    let target = urlBillet;
-    $.ajax({
-        url: target,
-        type: 'PUT',
-        crossDomain: true,
-        data: payload,
-        xhrFields: { withCredentials: true },
-        headers: {
-            "Content-Type": "application/json"
-        },
-        success: function (data) {
+    }).done(function (data) {
+        let editedTitle = $("#titre_" + idBillet).text();
+        if (editedTitle === payload.titre) {
+            $("#edit_" + idBillet).hide();
+            return;
+        }
+        payload.titre = editedTitle;
+        let target = urlBillet;
+        $.ajax({
+            url: target,
+            type: 'PUT',
+            crossDomain: true,
+            data: payload,
+            xhrFields: { withCredentials: true },
+            headers: {
+                "Content-Type": "application/json"
+            }
+        }).done(function (data) {
             console.log("SUCCESS : " + target);
             join(localStorage.getItem(GROUPE));
-        },
-        error: function (xhr, textStatus, errorThrown) {
+        }).fail(function (xhr, textStatus, errorThrown) {
             $(".errMsg").append("Erreur POST : " + target);
             console.log(xhr.responseText);
-        }
+        });
+        $("#edit_" + idBillet).hide();
+    }).done(function (xhr, textStatus, errorThrown) {
+        $(".errMsg").append("Erreur POST : " + target);
+        console.log(xhr.responseText);
     });
 
-
-    $("#edit_" + idBillet).hide();
 }
 
 
@@ -235,15 +236,13 @@ function deleteBillet(url) {
         xhrFields: { withCredentials: true },
         headers: {
             "Content-Type": "application/json"
-        },
-        success: function (data) {
-            console.log("SUCCESS : " + url);
-            join(localStorage.getItem(GROUPE));
-        },
-        error: function (xhr, textStatus, errorThrown) {
-            $(".errMsg").append("Erreur POST : " + url);
-            console.log(xhr.responseText);
         }
+    }).done(function (data) {
+        console.log("SUCCESS : " + url);
+        groupe(localStorage.getItem(GROUPE));
+    }).fail(function (xhr, textStatus, errorThrown) {
+        $(".errMsg").append("Erreur POST : " + url);
+        console.log(xhr.responseText);
     });
 }
 
@@ -254,59 +253,38 @@ function deleteBillet(url) {
  */
 function billet(urlBillet) {
 
-    $.ajax({
-        url: urlBillet,
-        type: 'GET',
-        crossDomain: true,
-        xhrFields: { withCredentials: true },
-        headers: {
-            "Accept": "application/json"
-        },
-        success: function (data) {
+    var myHeaders = new Headers();
+    myHeaders.append('Accept', 'application/json');
+    var param = {
+        method: 'GET',
+        mode: 'cors',
+        headers: myHeaders,
+        credentials: 'include'
+    };
+
+    fetch(urlBillet, param)
+        .then(response => response.json())
+        .then(async data => {
             $("#bltAuteur").text(data.auteur);
             $("#bltTitre").text(data.titre);
             $("#bltContenu").text(data.contenu);
-            let template = $("#commentairesTemplate").html();
-            let text = Mustache.render(template, commentaires(data.commentaires));
-            $("#commentList").html(text);
-        },
-        error: function (xhr, textStatus, errorThrown) {
-            $(".errMsg").append("Erreur POST : " + target);
-            console.log(xhr.responseText);
-        }
-    });
-}
 
-/**
- * Télécharge les commentaires du tableau forunit
- * @param {String[]} urlTab Tableau d'url de commentaire
- * @returns Le tableau des commantaire téléchargé
- */
-function commentaires(urlTab) {
-    result = []
-    for (let url of urlTab) {
-        $.ajax({
-            url: url,
-            type: 'GET',
-            crossDomain: true,
-            xhrFields: { withCredentials: true },
-            async: false,
-            headers: {
-                "Accept": "application/json"
-            },
-            success: function (data) {
-                if (/^.*\/(.+)$/.test(url)) {
-                    result.push({ id: RegExp.$1, texte: data.texte, auteur: data.auteur });
-                }
-            },
-            error: function (xhr, textStatus, errorThrown) {
-                $(".errMsg").append("Erreur POST : " + target);
-                console.log(xhr.responseText);
+            var promises = data.commentaires.map(url => fetch(url, param));
+            const res = await Promise.all(promises);
+            const responses = res.map(response => response.json());
+            const responses_1 = await Promise.all(responses);
+            var results = [];
+            for (let resp of responses_1) {
+                var t = resp.auteur.split('/');
+                var name = t[t.length - 1];
+                results.push({ id: responses_1.indexOf(resp), texte: resp.texte, auteur: name, url: data.commentaires[responses_1.indexOf(resp)] });
             }
+            let template = $("#commentairesTemplate").html();
+            let text = Mustache.render(template, results);
+            $("#commentList").html(text);
+            return results;
         });
     }
-    return result;
-}
 
 /**
  * Upload la modification du commentaire
@@ -315,205 +293,214 @@ function commentaires(urlTab) {
  * @param {String} author auteur
  */
 function save_commentaire(urlCom, idCom, author) {
-    if (localStorage.getItem(PSEUDO) == author) {
-        let newText = $("text_" + idCom).text();
-        let comm = {"auteur": author , "text": newText};
-        $.ajax({
-            url: urlCom,
-            type: 'PUT',
-            crossDomain: true,
-            data: comm,
-            xhrFields: { withCredentials: true },
-            headers: {
-                "Content-Type": "application/json"
-            },
-            success: function (data) {
-                console.log("SUCCESS : " + target);
-            },
-            error: function (xhr, textStatus, errorThrown) {
-                $(".errMsg").append("Erreur POST : " + target);
-                console.log(xhr.responseText);
+                if (localStorage.getItem(PSEUDO) == author) {
+                    let newText = $("text_" + idCom).text();
+                    let comm = { "auteur": author, "text": newText };
+                    $.ajax({
+                        url: urlCom,
+                        type: 'PUT',
+                        crossDomain: true,
+                        data: comm,
+                        xhrFields: { withCredentials: true },
+                        headers: {
+                            "Content-Type": "application/json"
+                        }
+                    }).done(function (data) {
+                        console.log("SUCCESS : " + target);
+                    }).fail(function (xhr, textStatus, errorThrown) {
+                        $(".errMsg").append("Erreur POST : " + target);
+                        console.log(xhr.responseText);
+                    });
+                } else {
+                    $(".errMsg").append("Seul l'auteur d'un commentaire peut le modifier.");
+                }
+                $("#editC_" + idCom).hide();
             }
-        });    
-    } else {
-        $(".errMsg").append("Seul l'auteur d'un commentaire peut le modifier.");
-    }
-    $("#editC_" + idCom).hide();
-}
 
 /**
+ * Supprime un commentaire
+ * @param {String} url 
+ */
+function deleteCommentaire(url) {
+                $.ajax({
+                    url: url,
+                    type: 'DELETE',
+                    crossDomain: true,
+                    xhrFields: { withCredentials: true },
+                    headers: {
+                        "Content-Type": "application/json"
+                    }
+                }).done(function (data) {
+                    console.log("SUCCESS : " + url);
+                    billet(localStorage.getItem(BILLET));
+                }).fail(function (xhr, textStatus, errorThrown) {
+                    $(".errMsg").append("Erreur POST : " + url);
+                    console.log(xhr.responseText);
+                });
+            }/**
  * Télécharge et affiche la liste des utilisateur d'un groupe
  * @param {String} urlGroupe 
  */
 function users(urlGroupe) {
-    let target = "https://192.168.75.13/api/v2/users";
-    $.ajax({
-        url: target,
-        type: 'GET',
-        crossDomain: true,
-        xhrFields: { withCredentials: true },
-        async: false,
-        headers: {
-            "Accept": "application/json"
-        },
-        success: function (data) {
-            let users = [];
-            for (let user of data) {
-                name = user.split("/")[user.split("/").length - 1];
-                users.push(name);
+                let target = "https://192.168.75.13/api/v2/users";
+                $.ajax({
+                    url: target,
+                    type: 'GET',
+                    crossDomain: true,
+                    xhrFields: { withCredentials: true },
+                    headers: {
+                        "Accept": "application/json"
+                    }
+                }).done(function (data) {
+                    let users = [];
+                    for (let user of data) {
+                        name = user.split("/")[user.split("/").length - 1];
+                        users.push(name);
+                    }
+                    let template = $("#usersTemplate").html();
+                    let text = Mustache.render(template, users);
+                    $("#usersList").html(text);
+                });
             }
-            let template = $("#usersTemplate").html();
-            let text = Mustache.render(template, users );
-            $("#usersList").html(text);
-        }
-    });
-}
 
 
 /**
  * Chargement du dome
  */
 $(function () {
-    $('#pseudoForm').submit((event) => {
-        event.preventDefault();
-        let target = "https://192.168.75.13/api/v2/users/login";
-        let psd = $("#pseudo").val();
-        console.log(psd);
-        let requestData = JSON.stringify({ "pseudo": psd });
-        $.ajax({
-            url: target,
-            type: 'POST',
-            xhrFields: { withCredentials: true },
-            crossDomain: true,
-            data: requestData,
-            datatype: "json",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            success: function (data) {
-                console.log("SUCCESS : " + target);
-            },
-            error: function (xhr, textStatus, errorThrown) {
-                $(".errMsg").append("Erreur POST : " + target);
-                console.log(xhr.responseText);
-            }
-        }).done(function (data, textstatus, xhr) {
-            localStorage.setItem("pseudo", psd);
-            window.location = "#groupes";
-        });
-    });
+                $('#pseudoForm').submit((event) => {
+                    event.preventDefault();
+                    let target = "https://192.168.75.13/api/v2/users/login";
+                    let psd = $("#pseudo").val();
+                    console.log(psd);
+                    let requestData = JSON.stringify({ "pseudo": psd });
+                    $.ajax({
+                        url: target,
+                        type: 'POST',
+                        xhrFields: { withCredentials: true },
+                        crossDomain: true,
+                        data: requestData,
+                        datatype: "json",
+                        headers: {
+                            "Content-Type": "application/json",
+                        }
+                    }).done(function (data, textstatus, xhr) {
+                        console.log("SUCCESS : " + target);
+                        localStorage.setItem("pseudo", psd);
+                        window.location = "#groupes";
+                    }).fail(function (xhr, textStatus, errorThrown) {
+                        $(".errMsg").append("Erreur POST : " + target);
+                        console.log(xhr.responseText);
+                    });
+                });
 
-    $('#addgroupeForm').submit((event) => {
-        event.preventDefault();
-        let target = "https://192.168.75.13/api/v2/groupes";
-        let groupe = $("#groupeInput").val();
-        let requestData = JSON.stringify({ "nom": groupe });
-        $.ajax({
-            url: target,
-            type: 'POST',
-            crossDomain: true,
-            data: requestData,
-            datatype: "json",
-            xhrFields: { withCredentials: true },
-            headers: {
-                "Content-Type": "application/json"
-            },
-            success: function (data) {
-                console.log("SUCCESS : " + target);
-                console.log("groupe : " + groupe);
-                join(target + "/" + groupe);
-            },
-            error: function (xhr, textStatus, errorThrown) {
-                $(".errMsg").append("Erreur POST : " + target);
-                console.log(xhr.responseText);
-            }
-        });
-    });
+                $('#addgroupeForm').submit((event) => {
+                    event.preventDefault();
+                    let target = "https://192.168.75.13/api/v2/groupes";
+                    let groupe = $("#groupeInput").val();
+                    let requestData = JSON.stringify({ "nom": groupe });
+                    $.ajax({
+                        url: target,
+                        type: 'POST',
+                        crossDomain: true,
+                        data: requestData,
+                        datatype: "json",
+                        xhrFields: { withCredentials: true },
+                        headers: {
+                            "Content-Type": "application/json"
+                        }
+                    }).done(function (data) {
+                        console.log("SUCCESS : " + target);
+                        console.log("groupe : " + groupe);
+                        join(target + "/" + groupe);
+                    }).fail(function (xhr, textStatus, errorThrown) {
+                        $(".errMsg").append("Erreur POST : " + target);
+                        console.log(xhr.responseText);
+                    });
+                });
 
-    $('#newBilletForm').submit((event) => {
-        event.preventDefault();
-        let target = localStorage.getItem(GROUPE) + "/billets";
-        let titre = $("#titreBillet").val();
-        let text =  $("#contenuBilletInput").val();
-        let requestData = JSON.stringify({
-            "titre": titre,
-            "contenu": text,
-            "auteur": localStorage.getItem("pseudo"),
-            "commentaires": []
-        });
-        $.ajax({
-            url: target,
-            type: 'POST',
-            crossDomain: true,
-            data: requestData,
-            datatype: 'json',
-            xhrFields: { withCredentials: true },
-            headers: {
-                "Content-Type": "application/json"
-            },
-            success: function (data, status, xhr) {
-                console.log("SUCCESS : " + target);
-            },
-            error: function (xhr, textStatus, errorThrown) {
-                $(".errMsg").append("Erreur POST : " + target);
-                console.log(xhr.responseText);
-            }
-        });
-    });
+                $('#newBilletForm').submit((event) => {
+                    event.preventDefault();
+                    let target = localStorage.getItem(GROUPE) + "/billets";
+                    let titre = $("#titreBillet").val();
+                    let text = $("#contenuBilletInput").val();
+                    let requestData = JSON.stringify({
+                        "titre": titre,
+                        "contenu": text,
+                        "auteur": localStorage.getItem("pseudo"),
+                        "commentaires": []
+                    });
+                    $.ajax({
+                        url: target,
+                        type: 'POST',
+                        crossDomain: true,
+                        data: requestData,
+                        datatype: 'json',
+                        xhrFields: { withCredentials: true },
+                        headers: {
+                            "Content-Type": "application/json"
+                        }
+                    }).done(function (data, status, xhr) {
+                        console.log("SUCCESS : " + target);
+                        groupe(localStorage.getItem(GROUPE));
+                    }).fail(function (xhr, textStatus, errorThrown) {
+                        $(".errMsg").append("Erreur POST : " + target);
+                        console.log(xhr.responseText);
+                    });
+                });
 
-    $('#addCommentaireForm').submit((event) => {
-        event.preventDefault();
-        let target = localStorage.getItem(BILLET) + "/commentaires" ;
-        let text =  $("#commentaireInput").val();
-        let requestData = JSON.stringify({
-            "auteur": localStorage.getItem("pseudo"),
-            "texte": text,
-        });
-        $.ajax({
-            url: target,
-            type: 'POST',
-            crossDomain: true,
-            data: requestData,
-            datatype: 'json',
-            xhrFields: { withCredentials: true },
-            headers: {
-                "Content-Type": "application/json"
-            },
-            success: function (data) {
-                console.log("SUCCESS : " + target);
-                openBillet(localStorage.getItem(BILLET));
-            },
-            error: function (xhr, textStatus, errorThrown) {
-                $(".errMsg").append("Erreur POST : " + target);
-                console.log(xhr.responseText);
-            }
-        });
-    });
+                $('#addCommentaireForm').submit((event) => {
+                    event.preventDefault();
+                    let target = localStorage.getItem(BILLET) + "/commentaires";
+                    let text = $("#commentaireInput").val();
+                    let requestData = JSON.stringify({
+                        "auteur": localStorage.getItem("pseudo"),
+                        "texte": text,
+                    });
+                    $.ajax({
+                        url: target,
+                        type: 'POST',
+                        crossDomain: true,
+                        data: requestData,
+                        datatype: 'json',
+                        xhrFields: { withCredentials: true },
+                        headers: {
+                            "Content-Type": "application/json"
+                        }
+                    }).done(function (data) {
+                        console.log("SUCCESS : " + target);
+                        billet(localStorage.getItem(BILLET));
+                    }).fail(function (xhr, textStatus, errorThrown) {
+                        $(".errMsg").append("Erreur POST : " + target);
+                        console.log(xhr.responseText);
+                    });
+                });
 
-    $('#decoForm').submit((event) => {
-        event.preventDefault();
-        let target = "https://192.168.75.13/api/v2/users/logout";
-        //let del = $("#userCheckbox").val();
-        $.ajax({
-            url: target,
-            type: 'POST',
-            crossDomain: true,
-            datatype: 'json',
-            xhrFields: { withCredentials: true },
-            headers: {
-                "Content-Type": "application/json"
-            },
-            success: function (data) {
-                console.log("SUCCESS : " + target);
-                localStorage.setItem("pseudo", "");
-            },
-            error: function (xhr, textStatus, errorThrown) {
-                $(".errMsg").append("Erreur POST : " + target);
-                console.log(xhr.responseText);
-            }
-        });
-    });
+                $('#decoForm').submit((event) => {
+                    event.preventDefault();
+                    let target = "https://192.168.75.13/api/v2/users/logout";
+                    //let del = $("#userCheckbox").val();
+                    $.ajax({
+                        url: target,
+                        type: 'POST',
+                        crossDomain: true,
+                        datatype: 'json',
+                        xhrFields: { withCredentials: true },
+                        headers: {
+                            "Content-Type": "application/json"
+                        },
+                        success: function (data) {
+                            console.log("SUCCESS : " + target);
+                            localStorage.setItem("pseudo", "");
+                            location.hash = "#index";
+                        },
+                        error: function (xhr, textStatus, errorThrown) {
+                            $(".errMsg").append("Erreur POST : " + target);
+                            console.log(xhr.responseText);
+                        }
+                    });
+                });
 
-    init();
-    $(window).on("hashchange", init);
-});
+                init();
+                $(window).on("hashchange", init);
+            });
