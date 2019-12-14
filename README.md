@@ -10,9 +10,10 @@
 Pour la suite, on omettera de juger les résultats non significatif du à l'inconsistance du réseau (gain ou perte de l'ordre de quelques ms).
 
 ### Relevé de performance déploiement sur Tomcat 
-Temps de récupération de la page HTML :             50.15 ms
-Temps de chargement du CRP :                        212.15 ms
-Temps de chargement du appShell :                   250.58 ms
+||Temps|
+|Temps de récupération de la page HTML |50.15 ms|
+|Temps de chargement du CRP|212.15 ms|
+|Temps de chargement du appShell|250.58 ms|
 
 ### Relevé de performance avec déploiement sur nginx 
 
