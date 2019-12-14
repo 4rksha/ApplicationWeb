@@ -72,7 +72,10 @@ Pour finir l'audit de chrome (lighthouse) nous indique un score de performance d
 
 Les gains finaux réalisé sur notre application sont les suivants :
 
-Gain sur la récupération de la page HTML : 4.34%
-Gain sur le chargement du CRP : 23.93%
-Gain sur le chargement de l'appShell : 18.71%
+
+||Gain|
+| ------ | ------ |
+|Récupération de la page HTML | 4.34%|
+|Chargement du CRP | 23.93%|
+|Chargement de l'appShell | 18.71%|
 
