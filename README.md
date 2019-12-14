@@ -1,8 +1,8 @@
 # Projet TP2 et TP3 Conception d'applications Web
 
 ## URLs
-Url Tomcat client AJAX : https://192.168.75.87/client/
-Url Nginx client AJAX  : https://192.168.75.87/
+* Url Tomcat client AJAX : https://192.168.75.87/client/
+* Url Nginx client AJAX  : https://192.168.75.87/
 
 
 ## Relevé de performance
