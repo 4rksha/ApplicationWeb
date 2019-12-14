@@ -11,6 +11,7 @@ Pour la suite, on omettera de juger les résultats non significatif du à l'inco
 
 ### Relevé de performance déploiement sur Tomcat 
 ||Temps|
+|------|------|
 |Temps de récupération de la page HTML |50.15 ms|
 |Temps de chargement du CRP|212.15 ms|
 |Temps de chargement du appShell|250.58 ms|
