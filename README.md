@@ -103,7 +103,7 @@ Pour les requêtes modifiées voici des requêtes **cURL** d'exemple :
 
 *Tag du rendu du TP 4: [tag TP4](https://forge.univ-lyon1.fr/p1914433/m1if03-2019/-/tags/TP4)*
 
-## Section TP5 & TP7
+## TP5 & TP7
 ### Déploiement
 Url de l'application client: [https://192.168.75.87](https://192.168.75.87)
 ### Description
@@ -124,8 +124,7 @@ Url de l'application client: [https://192.168.75.87](https://192.168.75.87)
     * **POST** /users/login
     * **POST** /users/logout
 
-* Les éléments constituant l'app shell sont tous les éléments de la page index.html sans les contenus chargé par le javascript, c'est-à-dire que `groupesList`, `bltList`, `commentList`, `usersList` n'ont pas de contenu et que les titres sont vide. L'utilisateur voit seulement avec les elements de l'app shell l'élément `header` et l'élément `section #index`.
-* Les éléments constituant le CRP  
+* Les éléments constituant le CRP sont tous les éléments de la page index.html sans les contenus chargé par le javascript, c'est-à-dire que `groupesList`, `bltList`, `commentList`, `usersList` n'ont pas de contenu et que les titres sont vide. L'utilisateur voit seulement avec les elements du CRP l'élément `header` et l'élément `section #index` (*route.min.js* n'est pas asynchrone).
 
 *Tag du rendu du TP 5: [tag TP5](https://forge.univ-lyon1.fr/p1914433/m1if03-2019/-/tags/TP5)*
  
