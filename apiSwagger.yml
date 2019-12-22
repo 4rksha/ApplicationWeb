@@ -3,8 +3,8 @@ info:
   description: "Description de l'API de l'application de blog. Vous pouvez changer les valeurs de 'host' et 'basePath' pour l'adapter à votre machine. Les autres valeurs ne doivent pas être modofiées.\n\n\n\nLe token de constant pour tester l'api 'token.pour.swagger'\n "
   version: "1.0.0"
   title: "Mes Copains !"
-host: "192.168.75.87:8084"
-basePath: "/api/v2/"
+host: "192.168.75.87:8080"
+basePath: "/v2"
 tags:
   - name: "groupes"
     description: "Gestion des groupes"
@@ -46,7 +46,7 @@ paths:
     post:
       tags:
         - "groupes"
-      summary: "Créer un groupe"
+      summary: "Créer un groupe (modifiée)"
       description: "Crée un nouveau groupe"
       operationId: "addGroupe"
       consumes:
@@ -101,7 +101,7 @@ paths:
     put:
       tags:
         - "groupes"
-      summary: "Mettre à jour ou créer un groupe"
+      summary: "Mettre à jour ou créer un groupe (modifiée)"
       description: "Met à jour le groupe dont le nom est en paramètre s'il existe déjà ou le crée sinon"
       operationId: "updatePet"
       consumes:
@@ -193,7 +193,7 @@ paths:
     post:
       tags:
         - "billets"
-      summary: "Créer un billet"
+      summary: "Créer un billet (modifiée)"
       description: "Crée un nouveau billet dans le groupe"
       operationId: "addBillet"
       consumes:
@@ -263,7 +263,7 @@ paths:
     put:
       tags:
         - "billets"
-      summary: "Mettre à jour ou créer un billet"
+      summary: "Mettre à jour ou créer un billet (modifiée)"
       description: "Met à jour le billet dont le nom est en paramètre s'il existe déjà ou le crée sinon"
       operationId: "updateBillet"
       consumes:

@@ -61,7 +61,7 @@ public class Controleur extends HttpServlet {
         }
         
         // Traitement de la requête
-        if (request.getMethod().equals("POST") && chemin.equals("/v1/billets")) {
+        if (request.getMethod().equals("POST") && chemin.equals("/billets")) {
             if (request.getParameter("contenu") != null){
                 gBillet.add(
                     new Billet(
@@ -84,7 +84,7 @@ public class Controleur extends HttpServlet {
         }
         
         
-        if (chemin.equals("/v1/billets")) {
+        if (chemin.equals("/billets")) {
             request.getServletContext().setAttribute("Gbillets", gBillet);
             System.out.println(modele.keySet());
             request.getServletContext().setAttribute(
@@ -92,7 +92,7 @@ public class Controleur extends HttpServlet {
                     modele.keySet()
             );
             request.getRequestDispatcher("WEB-INF/jsp/billets.jsp").forward(request, response);
-        } else if (chemin.equals("/v1/billet")) {
+        } else if (chemin.equals("/billet")) {
             Billet billet = gBillet.getBillet(new Integer(request.getParameter("id")));
             if (billet == null) {
                 request.getServletContext().setAttribute("Gbillets",gBillet); 
